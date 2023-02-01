@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class BaseState
 {
+    private Transform WaypointsParent;
     protected Human Human;
+    protected Transform m_Target;
     public string StateName;
 
-    public BaseState(Human human, string name)
+    public BaseState(Human human, string name, Transform target, Transform waypoints)
     {
         Human = human;
         StateName = name;
+        m_Target = target;
+        WaypointsParent = waypoints;
     }
 
     public virtual void Enter()
@@ -21,6 +25,9 @@ public class BaseState
     {
         // TODO: calculate task queue
         //Debug.Log("base update logic");
+        // TODO: move target!!
+        m_Target.position = WaypointsParent.Find("Kitchen").position;
+
     }
     public virtual void Exit()
     {
@@ -30,7 +37,7 @@ public class BaseState
 
 public class Idle : BaseState
 {
-    public Idle(Human human) : base(human, "Idle") { }
+    public Idle(Human human, Transform target, Transform waypoints) : base(human, "Idle", target, waypoints) { }
 
     public override void Enter()
     {
@@ -47,19 +54,14 @@ public class Idle : BaseState
         // TODO: stop moving
         // TODO: check if should switch??
         Human.ChangeState(Human.MovingState);
-
     }
 }
 
 public class Moving : BaseState
 {
-    private Transform m_Target;
     private const float k_DistThreshold = 1.5f;
 
-    public Moving(Human human, Transform targetTx) : base(human, "Moving")
-    {
-        m_Target = targetTx;
-    }
+    public Moving(Human human, Transform target, Transform waypoints) : base(human, "Moving", target, waypoints) {}
 
     public override void Enter()
     {
@@ -80,23 +82,29 @@ public class Moving : BaseState
     }
 }
 
-public class Task : BaseState
+public class EatTask : BaseState
 {
-    public Task(Human human) : base(human, "Moving") { }
+    public EatTask(Human human, Transform target, Transform waypoints) : base(human, "Eat", target, waypoints) { }
 
     public override void Enter()
     {
         base.Enter();
         // TODO: animation
-        Debug.Log("enteirng TASK");
+        Debug.Log("enteirng EAT");
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        Debug.Log("update logic TASK");
+        Debug.Log("update logic EAT");
         // TODO: animation
         // TODO: task!
-        Human.ChangeState(Human.IdleState);
+        // if animation done?
+        Human.Continue = false;
+        Human.TestWait(5f);
+        if (Human.Continue)
+        {
+            Human.ChangeState(Human.IdleState);
+        }
     }
 }

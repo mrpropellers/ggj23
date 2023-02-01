@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Human", menuName = "ScriptableObjects/HumanDataScriptableObject")]
-public class HumanDataScriptableObject : ScriptableObject
+public class HumanDataScriptableObject : ScriptableObject, ISerializationCallbackReceiver
 {
     public int InitialHealth;
     public int Health;
@@ -12,4 +12,14 @@ public class HumanDataScriptableObject : ScriptableObject
     public int Hunger;
 
     public List<HumanTask> TaskList;
+
+    public void OnAfterDeserialize()
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    public void OnBeforeSerialize()
+    {
+        //throw new System.NotImplementedException();
+    }
 }
