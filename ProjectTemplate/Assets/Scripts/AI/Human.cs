@@ -5,12 +5,13 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Human : MonoBehaviour
 {
-    [SerializeField]
-    private HumanDataScriptableObject HumanData;
+    //[SerializeField]
+    // TODO: make private
+    //private HumanDataScriptableObject HumanData;
+    public HumanDataScriptableObject HumanData;
 
-    [SerializeField]
-    // TODO: remove for debug
-    private BaseState m_CurrentState;
+    // TODO: make private
+    public BaseState m_CurrentState;
 
     [SerializeField]
     private Transform m_TargetFollowPoint;
@@ -22,7 +23,8 @@ public class Human : MonoBehaviour
     public BaseState TaskState;
 
     private Transform WaypointsParent;
-    public bool Continue = false;
+    bool m_StartedWait = false;
+    public bool Continue;
     public HumanTask CurrentTask = HumanTask.None;
 
     private void Start()
@@ -72,15 +74,25 @@ public class Human : MonoBehaviour
 
     public void TestWait(float time)
     {
-        Debug.Log("Starting wait");
-        StartCoroutine(Wait(time));
+        if (!m_StartedWait)
+        {
+            //m_CurrentState.Wait(true);
+            Continue = false;
+            m_StartedWait = true;
+            Debug.Log("Starting wait");
+            StartCoroutine(Wait(time));
+        }
+
     }
 
     IEnumerator Wait(float time)
     {
         yield return new WaitForSeconds(time);
         Debug.Log("finished wait");
+        //m_CurrentState.Wait(false);
         Continue = true;
+        m_CurrentState.UpdateLogic();
+        m_StartedWait = false;
     }
 
     //public void UpdateNeed(HumanTask)

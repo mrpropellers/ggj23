@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BaseState
 {
-    private Transform WaypointsParent;
-    protected Human Human;
+    private Transform m_Waypoints;
+    protected Human m_Human;
+    protected NavMeshAgent m_Agent;
     protected Transform m_Target;
     public string StateName;
+    //protected bool m_IsWaiting = false;
 
     public BaseState(Human human, string name, Transform target, Transform waypoints)
     {
-        Human = human;
+        m_Human = human;
+        m_Agent = m_Human.GetComponent<NavMeshAgent>(); // TODO: clean this up
         StateName = name;
         m_Target = target;
-        WaypointsParent = waypoints;
+        m_Waypoints = waypoints;
     }
 
     public virtual void Enter()
@@ -23,16 +27,22 @@ public class BaseState
     }
     public virtual void UpdateLogic()
     {
+        // Debug.Log(m_IsWaiting);
         // TODO: calculate task queue
         //Debug.Log("base update logic");
         // TODO: move target!!
-        m_Target.position = WaypointsParent.Find("Kitchen").position;
+        m_Target.position = m_Waypoints.Find("Kitchen").position;
 
     }
     public virtual void Exit()
     {
         //Debug.Log("base exit");
     }
+
+    //public virtual void Wait(bool val)
+    //{
+    //    m_IsWaiting = val;
+    //}
 }
 
 public class Idle : BaseState
@@ -43,6 +53,7 @@ public class Idle : BaseState
     {
         base.Enter();
         Debug.Log("enteirng IDLE");
+         m_Agent.isStopped = true;
         // TODO: animation
     }
 
@@ -52,8 +63,15 @@ public class Idle : BaseState
         Debug.Log("update logic IDLE");
         // TODO: animation
         // TODO: stop moving
+        //m_Human.Continue = false;
+        m_Human.TestWait(2f);
+        //if (!m_IsWaiting)
+        if (m_Human.Continue)
+        {
+            Debug.Log("moving to moving state...");
+            m_Human.ChangeState(m_Human.MovingState);
+        }
         // TODO: check if should switch??
-        Human.ChangeState(Human.MovingState);
     }
 }
 
@@ -68,6 +86,7 @@ public class Moving : BaseState
         base.Enter();
         // TODO: animation
         Debug.Log("enteirng MOVING");
+         m_Agent.isStopped = false;
     }
 
     public override void UpdateLogic()
@@ -75,9 +94,9 @@ public class Moving : BaseState
         base.UpdateLogic();
         Debug.Log("update logic MOVING");
         // TODO: animation
-        if (Vector3.Distance(m_Target.position, Human.transform.position) < k_DistThreshold)
+        if (Vector3.Distance(m_Target.position, m_Human.transform.position) < k_DistThreshold)
         {
-            Human.ChangeState(Human.TaskState);
+            m_Human.ChangeState(m_Human.TaskState);
         }
     }
 }
@@ -91,6 +110,7 @@ public class EatTask : BaseState
         base.Enter();
         // TODO: animation
         Debug.Log("enteirng EAT");
+        m_Agent.isStopped = true;
     }
 
     public override void UpdateLogic()
@@ -100,11 +120,12 @@ public class EatTask : BaseState
         // TODO: animation
         // TODO: task!
         // if animation done?
-        Human.Continue = false;
-        Human.TestWait(5f);
-        if (Human.Continue)
+        //m_Human.Continue = false;
+        m_Human.TestWait(5f);
+        //if (!m_IsWaiting)
+        if (m_Human.Continue)
         {
-            Human.ChangeState(Human.IdleState);
+            m_Human.ChangeState(m_Human.IdleState);
         }
     }
 }

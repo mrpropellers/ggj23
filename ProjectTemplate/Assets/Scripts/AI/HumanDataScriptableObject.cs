@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Human", menuName = "ScriptableObjects/HumanDataScriptableObject")]
 public class HumanDataScriptableObject : ScriptableObject, ISerializationCallbackReceiver
 {
+    public string Name;
     public int InitialHealth;
     public int Health;
 
