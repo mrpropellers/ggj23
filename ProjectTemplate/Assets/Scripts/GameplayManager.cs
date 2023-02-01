@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
@@ -13,18 +12,10 @@ public class GameplayManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        StartCoroutine(TestFearMeter());
     }
 
-    private IEnumerator TestFearMeter()
+    private void FixedUpdate()
     {
-        yield return new WaitForSeconds(2f);
-        m_FearEnergy = 50f;
-        yield return new WaitForSeconds(2f);
-        m_FearEnergy = 0f;
-        yield return new WaitForSeconds(2f);
-        m_FearEnergy = 100f;
-        yield return new WaitForSeconds(2f);
-        m_FearEnergy = 0f;
+        m_FearEnergy += 0.1f;
     }
 }
