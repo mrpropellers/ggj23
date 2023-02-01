@@ -20,6 +20,10 @@ fmod_editor.log
 /Assets/FMODAssets/*
 /Assets/FMODStudioCache.meta
 
+# Prefab Brush (Jaden's asset)
+/Assets/Prefab Brush/*
+/Assets/Prefab Brush.meta
+
 # Unity Git Setup
 /[Ll]ibrary/
 /[Tt]emp/
