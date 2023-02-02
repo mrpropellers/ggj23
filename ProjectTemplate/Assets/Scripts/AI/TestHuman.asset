@@ -15,14 +15,22 @@ MonoBehaviour:
   Name: Tester
   InitialHealth: 10
   Health: 10
-  Needs:
+  NeedStatus:
   - NeedType: 0
     MaxValue: 100
     CurrentValue: 100
     InitialRate: 0.05
     CurrentRate: 0.05
+    PauseDecrement: 0
   - NeedType: 1
     MaxValue: 100
     CurrentValue: 100
-    InitialRate: 0.1
-    CurrentRate: 0.1
+    InitialRate: 0.07
+    CurrentRate: 0.07
+    PauseDecrement: 0
+  - NeedType: 2
+    MaxValue: 100
+    CurrentValue: 100
+    InitialRate: 0.01
+    CurrentRate: 0.01
+    PauseDecrement: 0
