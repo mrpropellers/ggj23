@@ -24,7 +24,7 @@ namespace Humans
         public BaseState MovingState;
         public BaseState TaskState;
 
-        public HumanNeed LowestNeed;
+        public HumanNeed CurrentTask;
 
         // TODO: fix all these
         private Transform WaypointsParent;
@@ -38,7 +38,7 @@ namespace Humans
             WaypointsParent = GameObject.Find("House/Waypoints").GetComponent<Transform>();
             m_NeedsRoomTx.Add(HumanNeed.Hunger, WaypointsParent.Find("Kitchen"));
             m_NeedsRoomTx.Add(HumanNeed.Bathroom, WaypointsParent.Find("Bathroom"));
-            m_NeedsRoomTx.Add(HumanNeed.Sleep, WaypointsParent.Find("Couch"));
+            m_NeedsRoomTx.Add(HumanNeed.Sleep, WaypointsParent.Find("Bed"));
 
             IdleState = new Idle(this, m_TargetFollowPoint, WaypointsParent);
             MovingState = new Moving(this, m_TargetFollowPoint, WaypointsParent);
@@ -67,8 +67,8 @@ namespace Humans
         public void CalculateNextTask()
         {
             // TODO: move this
-            LowestNeed = m_HumanData.GetCurrentNeed();
-            m_TargetFollowPoint.position = m_NeedsRoomTx[LowestNeed].position;
+            CurrentTask = m_HumanData.GetCurrentNeed();
+            m_TargetFollowPoint.position = m_NeedsRoomTx[CurrentTask].position;
         }
 
         public void ChangeState(BaseState newState)
@@ -104,12 +104,12 @@ namespace Humans
 
         public void PauseNeed(bool pause)
         {
-            m_HumanData.PauseNeed(LowestNeed, pause);
+            m_HumanData.PauseNeed(CurrentTask, pause);
         }
 
         public void RefillNeed()
         {
-            m_HumanData.RefillNeed(LowestNeed);
+            m_HumanData.RefillNeed(CurrentTask);
         }
 
         // DEBUG
@@ -141,7 +141,7 @@ namespace Humans
                 Gizmos.color = Color.green;
                 Gizmos.DrawSphere(m_TargetFollowPoint.position + Vector3.up, 1f);
 #if UNITY_EDITOR
-                Handles.Label(m_TargetFollowPoint.position + Vector3.up * 2, m_NeedsRoomTx[LowestNeed].gameObject.name);
+                Handles.Label(m_TargetFollowPoint.position + Vector3.up * 2, m_NeedsRoomTx[CurrentTask].gameObject.name);
 #endif
             }
         }

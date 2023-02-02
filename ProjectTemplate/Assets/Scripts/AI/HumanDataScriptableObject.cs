@@ -26,8 +26,8 @@ namespace Humans
     public class HumanDataScriptableObject : ScriptableObject, ISerializationCallbackReceiver
     {
         public string Name;
-        public float InitialHealth;
-        public float Health;
+        public float InitialFear;
+        public float CurrentFear;
 
         // TODO: switch to something more searchable and serializable?
         public List<Need> NeedStatus;
@@ -54,6 +54,19 @@ namespace Humans
         {
             return NeedStatus.OrderBy(i => i.CurrentValue).First().NeedType;
         }
+
+        //public void QueueTasks(HumanNeed current)
+        //{
+        //    // TODO: ignore the current task? clear ?? what am i doing
+        //    var ordered = NeedStatus.OrderBy(i => i.CurrentValue).ToList();
+        //    foreach (var need in ordered)
+        //    {
+        //        if (need.NeedType != current)
+        //        {
+        //            TaskList.Enqueue(need, 10);
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Decrement all needs
