@@ -1634,8 +1634,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3655a9a1c2b811f4a8bc3152700c69bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HumanData: {fileID: 11400000, guid: 2d6302459fa0a4efb95325cfb50b3426, type: 2}
+  m_HumanData: {fileID: 11400000, guid: 2d6302459fa0a4efb95325cfb50b3426, type: 2}
   m_TargetFollowPoint: {fileID: 1728562248}
+  LowestNeed: 0
+  Continue: 0
 --- !u!195 &1453956205
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1828,6 +1830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1728562248}
+  - component: {fileID: 1728562249}
   m_Layer: 0
   m_Name: HumanTargetPoint
   m_TagString: Untagged
@@ -1850,6 +1853,18 @@ Transform:
   m_Father: {fileID: 1990767270}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1728562249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728562247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc0547bd0ceb54c5787bca44e93c9938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1823688464
 GameObject:
   m_ObjectHideFlags: 0
@@ -2060,6 +2075,37 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!1 &1898567325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1898567326}
+  m_Layer: 0
+  m_Name: Bathroom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1898567326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898567325}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.64, y: 0, z: -9.32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2095809463}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1960241983
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,6 +2407,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 225127726}
+  - {fileID: 1898567326}
   m_Father: {fileID: 1960241984}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
