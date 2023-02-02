@@ -41,6 +41,7 @@ public class TreeGoblinController : MonoBehaviour
             m_LookingInside = true;
             m_LookCam = m_CurrentWindow.GetComponentInChildren<CinemachineVirtualCamera>(true);
             m_LookCam.gameObject.SetActive(true);
+            m_DollyCart.m_Speed = 0f;
             UIManager.Instance.SetVignetteIntensity(0.52f, 2f);
         }
 
