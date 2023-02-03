@@ -1,10 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 [RequireComponent(typeof(Camera))]
-[ExecuteInEditMode]
 public class PalutteEffect : MonoBehaviour {
+    public class PalutteCustomPass : CustomPass
+    {
+        internal PalutteEffect Effect;
+
+        protected override void Execute(CustomPassContext ctx)
+        {
+            Effect.DoEffect(ctx.cameraColorBuffer.rt, null);
+        }
+    }
 
 	public Material material;
 
@@ -31,10 +41,20 @@ public class PalutteEffect : MonoBehaviour {
 
 	public bool jaggiesAreGood = true;
 
+    CustomPassInjectionPoint m_InjectionPoint = CustomPassInjectionPoint.AfterPostProcess;
+    CustomPassVolume m_Volume;
+    PalutteCustomPass m_Pass;
 	private Camera cam;
 
-	void OnRenderImage (RenderTexture source, RenderTexture destination) {
-		
+    void Start()
+    {
+        m_Volume = gameObject.AddComponent<CustomPassVolume>();
+        m_Volume.injectionPoint = m_InjectionPoint;
+        var pass = m_Volume.AddPassOfType(typeof(PalutteCustomPass)) as PalutteCustomPass;
+        pass.Effect = this;
+    }
+	internal void DoEffect(RenderTexture source, RenderTexture destination) {
+
 		if (autoSetWidth) {
 			if (cam == null) cam = GetComponent<Camera>();
 			float bestFraction = (float)pixelsHeight / (float)cam.pixelHeight;
