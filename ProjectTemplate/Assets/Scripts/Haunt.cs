@@ -37,7 +37,7 @@ public class Haunt : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("AI"))
+        if (other.CompareTag("AI"))
         {
             m_HauntableHumans.Add(other.gameObject);
         }
@@ -45,7 +45,7 @@ public class Haunt : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("AI"))
+        if (other.CompareTag("AI"))
         {
             m_HauntableHumans.Remove(other.gameObject);
         }

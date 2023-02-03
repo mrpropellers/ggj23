@@ -20,16 +20,13 @@ namespace Humans
         public BaseState(Human human, StateType name, Transform target)
         {
             m_Human = human;
-            m_Agent = m_Human.GetComponent<NavMeshAgent>(); // TODO: clean this up
+            m_Agent = m_Human.GetComponent<NavMeshAgent>();
             StateType = name;
             m_Target = target;
         }
 
         public virtual void Enter() { }
-        public virtual void UpdateLogic()
-        {
-            // TODO: calculate task queue
-        }
+        public virtual void UpdateLogic() { }
         public virtual void Exit(bool isHaunted) { }
     }
 
@@ -48,13 +45,11 @@ namespace Humans
         {
             base.UpdateLogic();
             // TODO: animation
-            // TODO: stop moving
             m_Human.TestWait(2f);
             if (m_Human.Continue)
             {
                 m_Human.ChangeState(m_Human.MovingState, false);
             }
-            // TODO: check if should switch??
         }
     }
 
@@ -95,8 +90,6 @@ namespace Humans
             base.Enter();
             // TODO: animation
             m_Agent.isStopped = true;
-
-            // TODO: stop decrementing this need
             m_Human.PauseNeed(true);
         }
 
@@ -142,7 +135,6 @@ namespace Humans
             // TODO: animation
             // TODO: task!
             m_Human.TestWait(3f);
-            // TODO: uhhh go back to normal i guess 
             if (m_Human.Continue)
             {
                 m_Human.ChangeState(m_Human.IdleState, false);
@@ -152,8 +144,6 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
-            //m_Human.PauseAllNeeds(false);
-            //m_Human.CalculateNextTask(true);
         }
     }
 

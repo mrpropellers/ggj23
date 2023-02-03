@@ -11,6 +11,8 @@ public class WaypointsDict
     public Transform BathroomWaypoint;
     public Transform KitchenWaypoint;
     public Transform BedWaypoint;
+    public Transform LivingRoomWaypoint;
+    public Transform[] EscapeWaypoints;
 }
 
 public class HumanInitializer : MonoBehaviour

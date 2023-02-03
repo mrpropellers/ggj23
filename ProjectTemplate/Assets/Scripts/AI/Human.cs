@@ -9,7 +9,6 @@ using UnityEditor;
 
 namespace Humans
 {
-    // TEMP
     public enum HauntType
     {
         Bathroom, Bedroom, Kitchen, LivingRoom
@@ -19,6 +18,7 @@ namespace Humans
     public class Human : MonoBehaviour
     {
         private Dictionary<HumanNeed, Transform> m_NeedsRoomTx = new();
+        private List<Transform> m_Escapes = new();
         [SerializeField]
         private HumanDataScriptableObject m_HumanData;
 
@@ -59,14 +59,19 @@ namespace Humans
             m_NeedsRoomTx.Add(HumanNeed.Hunger, waypoints.KitchenWaypoint);
             m_NeedsRoomTx.Add(HumanNeed.Bathroom,waypoints.BathroomWaypoint);
             m_NeedsRoomTx.Add(HumanNeed.Sleep, waypoints.BedWaypoint);
+            m_NeedsRoomTx.Add(HumanNeed.Curious, waypoints.LivingRoomWaypoint);
             m_NeedsRoomTx.Add(HumanNeed.Haunted, waypoints.HallwayWaypoint);
+
+            foreach (var e in waypoints.EscapeWaypoints)
+            {
+                m_Escapes.Add(e);
+            }
         }
 
         private void Update()
         {
             // Needs fulfilment
             m_HumanData.UpdateNeeds();
-            //m_HumanData.GetCurrentNeed(false, m_CurrentState.StateType);
 
             // State machine logic
             if (m_CurrentState != null)
@@ -82,7 +87,6 @@ namespace Humans
         /// <param name="onStart">Was this called in MonoBehaviour Start()?</param>
         public void CalculateNextTask(bool wasHaunted, bool onStart = false)
         {
-            // TODO: do something else if haunted
             CurrentTask = m_HumanData.GetCurrentNeed(onStart, wasHaunted, m_CurrentState.StateType);
             m_TargetFollowPoint.position = m_NeedsRoomTx[CurrentTask].position;
         }
@@ -102,17 +106,38 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
-            // TODO: stop current task
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
             CurrentTask = HumanNeed.Haunted;
             ChangeState(HauntedState, true);
-            // TODO: fear calc
-            m_HumanData.GetHaunted(amount, haunt);
-            // TODO: move to hallway
-            // TODO: wait for time in hallway ("fear task"?)
-            // TODO: decrease need decrement
-            // TODO: start secondary task
+            var haunted = m_HumanData.GetHaunted(amount, haunt);
+            if (haunted)
+            {
+                BeginEscape();
+                PauseAllNeeds(false); // TODO ?
+            }
+        }
 
+        public void BeginEscape()
+        {
+            Transform closestEscape = m_Escapes[0];
+            NavMeshPath temp = new NavMeshPath();
+            float minDist = Int32.MaxValue; 
+            foreach (var e in m_Escapes)
+            {
+                NavMesh.CalculatePath(transform.position, e.position, NavMesh.AllAreas, temp);
+                float length = 0;
+                for (int i = 1; i < temp.corners.Length; i++)
+                {
+                    length += Vector3.Distance(temp.corners[i - 1], temp.corners[i]);
+                }
+                if (length < minDist)
+                {
+                    closestEscape = e;
+                    minDist = length;
+                }
+            }
+            m_TargetFollowPoint.position = closestEscape.position;
+            ChangeState(MovingState, true);
         }
 
         public void TestWait(float time)
@@ -125,6 +150,7 @@ namespace Humans
             }
         }
 
+        // TEMP
         IEnumerator Wait(float time)
         {
             yield return new WaitForSeconds(time);

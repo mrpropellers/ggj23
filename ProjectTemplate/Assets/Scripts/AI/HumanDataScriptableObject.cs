@@ -8,7 +8,7 @@ namespace Humans
 {
     public enum HumanNeed
     {
-        Hunger, Bathroom, Sleep, Haunted, Error
+        Hunger, Bathroom, Sleep, Curious, Haunted, Error
     }
 
     [Serializable]
@@ -25,22 +25,17 @@ namespace Humans
     [CreateAssetMenu(fileName = "Human", menuName = "ScriptableObjects/HumanDataScriptableObject")]
     public class HumanDataScriptableObject : ScriptableObject, ISerializationCallbackReceiver
     {
-        // TODO: just everything is public
+        // TODO: just everything is public for now
         public string Name;
+        public HumanNeed FirstNeed;
         public const float MaxFear = 100f;
         public float CurrentFear;
         public HumanNeed LastHaunted;
-        public Dictionary<HauntType, float> FearPerRoom = new()
-        {
-            { HauntType.Bathroom, 0 }, { HauntType.Bedroom, 0 },
-            { HauntType.Kitchen, 0 }, { HauntType.LivingRoom, 0 },
-        };
-        // TODO: did i already make this somewhere
-        // TODO: living room need?
+        public Dictionary<HauntType, float> FearPerRoom;
         private static Dictionary<HauntType, HumanNeed> m_HauntToNeed = new()
         {
             { HauntType.Bathroom, HumanNeed.Bathroom }, { HauntType.Bedroom, HumanNeed.Sleep },
-            { HauntType.Kitchen, HumanNeed.Hunger }, { HauntType.LivingRoom, HumanNeed.Error },
+            { HauntType.Kitchen, HumanNeed.Hunger }, { HauntType.LivingRoom, HumanNeed.Curious },
         };
 
         public List<Need> NeedStatus;
@@ -50,6 +45,11 @@ namespace Humans
         {
             // Reset values
             CurrentFear = 0;
+            FearPerRoom = new()
+            {
+                { HauntType.Bathroom, 0 }, { HauntType.Bedroom, 0 },
+                { HauntType.Kitchen, 0 }, { HauntType.LivingRoom, 0 },
+            };
             foreach (var need in NeedStatus)
             {
                 need.CurrentValue = need.MaxValue;
@@ -67,8 +67,7 @@ namespace Humans
         {
             if (onStart)
             {
-                // TODO: shuffle this for each AI
-                return (HumanNeed)UnityEngine.Random.Range(0, Enum.GetNames(typeof(HumanNeed)).Length);
+                return FirstNeed;
             }
 
             // TEMP
@@ -103,21 +102,24 @@ namespace Humans
             }
         }
 
-        public void GetHaunted(float amount, HauntType haunt)
+        /// <returns>True if fear is maxed!</returns>
+        public bool GetHaunted(float amount, HauntType haunt)
         {
             LastHaunted = m_HauntToNeed[haunt];
             CurrentFear += amount;
-            FearPerRoom[haunt] += 1;
+            FearPerRoom[haunt] += amount;
 
-            // TODO: slow down rates
+            // TODO: slow down rates?
             //var need = NeedStatus.Find(x => x.NeedType == m_HauntToNeed[haunt]);
             //need.CurrentRate *= 0.5f;
 
             if (CurrentFear >= MaxFear)
             {
-                // TODO:
                 Debug.Log($"{Name} is fully spooked!");
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -125,13 +127,11 @@ namespace Humans
         /// </summary>
         public void RefillNeed(HumanNeed need)
         {
-            // TODO: what am i doing 
             if (need != HumanNeed.Haunted)
             {
                 var req = NeedStatus.Find(x => x.NeedType == need);
                 req.CurrentValue = req.MaxValue;
             }
-            //req.CurrentValue += amount;
         }
 
         /// <summary>
@@ -139,7 +139,6 @@ namespace Humans
         /// </summary>
         public void PauseNeed(HumanNeed need, bool paused)
         {
-            // TODO: what am i doing 
             if (need != HumanNeed.Haunted)
             {
                 var req = NeedStatus.Find(x => x.NeedType == need);
