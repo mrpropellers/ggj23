@@ -30,6 +30,7 @@ namespace Humans
         public BaseState IdleState;
         public BaseState MovingState;
         public BaseState TaskState;
+        public BaseState HauntedState;
 
         public HumanNeed CurrentTask;
 
@@ -43,6 +44,7 @@ namespace Humans
             IdleState = new Idle(this, m_TargetFollowPoint);
             MovingState = new Moving(this, m_TargetFollowPoint);
             TaskState = new Task(this, m_TargetFollowPoint);
+            HauntedState = new Haunted(this, m_TargetFollowPoint);
 
             m_CurrentState = GetInitialState();
             if (m_CurrentState != null)
@@ -57,6 +59,7 @@ namespace Humans
             m_NeedsRoomTx.Add(HumanNeed.Hunger, waypoints.KitchenWaypoint);
             m_NeedsRoomTx.Add(HumanNeed.Bathroom,waypoints.BathroomWaypoint);
             m_NeedsRoomTx.Add(HumanNeed.Sleep, waypoints.BedWaypoint);
+            m_NeedsRoomTx.Add(HumanNeed.Haunted, waypoints.HallwayWaypoint);
         }
 
         private void Update()
@@ -72,16 +75,21 @@ namespace Humans
             }
         }
 
-        public void CalculateNextTask(bool onStart = false)
+        /// <summary>
+        /// Sets the new CurrentTask based on needs values and sets the NavMesh waypoint
+        /// </summary>
+        /// <param name="wasHaunted">Is this calculation being called after being Haunted?</param>
+        /// <param name="onStart">Was this called in MonoBehaviour Start()?</param>
+        public void CalculateNextTask(bool wasHaunted, bool onStart = false)
         {
-            // TODO: move this
-            CurrentTask = m_HumanData.GetCurrentNeed(onStart, m_CurrentState.StateType);
+            // TODO: do something else if haunted
+            CurrentTask = m_HumanData.GetCurrentNeed(onStart, wasHaunted, m_CurrentState.StateType);
             m_TargetFollowPoint.position = m_NeedsRoomTx[CurrentTask].position;
         }
 
-        public void ChangeState(BaseState newState)
+        public void ChangeState(BaseState newState, bool isHaunted)
         {
-            m_CurrentState.Exit();
+            m_CurrentState.Exit(isHaunted);
 
             m_CurrentState = newState;
             m_CurrentState.Enter();
@@ -92,12 +100,13 @@ namespace Humans
             return IdleState;
         }
 
-        public void BeginHaunt(float amount)
+        public void BeginHaunt(float amount, HauntType haunt)
         {
             // TODO: stop current task
-            // TODO: animate getting haunted
+            m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
+            ChangeState(HauntedState, true);
             // TODO: fear calc
-            m_HumanData.GetHaunted(amount);
+            m_HumanData.GetHaunted(amount, haunt);
             // TODO: move to hallway
             // TODO: wait for time in hallway ("fear task"?)
             // TODO: decrease need decrement
@@ -126,6 +135,11 @@ namespace Humans
         public void PauseNeed(bool pause)
         {
             m_HumanData.PauseNeed(CurrentTask, pause);
+        }
+
+        public void PauseAllNeeds(bool pause)
+        {
+            m_HumanData.PauseAllNeeds(pause);
         }
 
         public void RefillNeed()

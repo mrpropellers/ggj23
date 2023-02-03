@@ -7,6 +7,7 @@ using Humans;
 [Serializable]
 public class WaypointsDict
 {
+    public Transform HallwayWaypoint;
     public Transform BathroomWaypoint;
     public Transform KitchenWaypoint;
     public Transform BedWaypoint;

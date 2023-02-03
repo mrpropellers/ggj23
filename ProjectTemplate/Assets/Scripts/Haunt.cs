@@ -31,7 +31,7 @@ public class Haunt : MonoBehaviour
     {
         foreach (var human in m_HauntableHumans)
         {
-            human.GetComponent<Human>().BeginHaunt(amount);
+            human.GetComponent<Human>().BeginHaunt(amount, m_HauntType);
         }
     }
 

@@ -30,7 +30,7 @@ namespace Humans
         {
             // TODO: calculate task queue
         }
-        public virtual void Exit() { }
+        public virtual void Exit(bool isHaunted) { }
     }
 
     public class Idle : BaseState
@@ -52,7 +52,7 @@ namespace Humans
             m_Human.TestWait(2f);
             if (m_Human.Continue)
             {
-                m_Human.ChangeState(m_Human.MovingState);
+                m_Human.ChangeState(m_Human.MovingState, false);
             }
             // TODO: check if should switch??
         }
@@ -81,7 +81,7 @@ namespace Humans
             // TODO: animation
             if (Vector3.Distance(m_Target.position, m_Human.transform.position) < k_DistThreshold)
             {
-                m_Human.ChangeState(m_Human.TaskState);
+                m_Human.ChangeState(m_Human.TaskState, false);
             }
         }
     }
@@ -108,16 +108,52 @@ namespace Humans
             m_Human.TestWait(2f);
             if (m_Human.Continue)
             {
-                m_Human.ChangeState(m_Human.IdleState);
+                m_Human.ChangeState(m_Human.IdleState, false);
             }
         }
 
-        public override void Exit()
+        public override void Exit(bool isHaunted)
         {
-            base.Exit();
-            m_Human.RefillNeed();
+            base.Exit(isHaunted);
+            if (!isHaunted)
+            {
+                m_Human.RefillNeed();
+                m_Human.CalculateNextTask(false);
+            }
             m_Human.PauseNeed(false);
-            m_Human.CalculateNextTask();
+        }
+    }
+
+    public class Haunted : BaseState
+    {
+        public Haunted(Human human, Transform target) : base(human, StateType.Task, target) { }
+
+        public override void Enter()
+        {
+            base.Enter();
+            // TODO: animation
+            m_Agent.isStopped = true;
+            m_Human.PauseAllNeeds(true);
+        }
+
+        public override void UpdateLogic()
+        {
+            base.UpdateLogic();
+            // TODO: animation
+            // TODO: task!
+            m_Human.TestWait(2f);
+            // TODO: uhhh go back to normal i guess 
+            if (m_Human.Continue)
+            {
+                m_Human.ChangeState(m_Human.IdleState, false);
+            }
+        }
+
+        public override void Exit(bool isHaunted)
+        {
+            base.Exit(isHaunted);
+            m_Human.PauseAllNeeds(false);
+            //m_Human.CalculateNextTask(true);
         }
     }
 

@@ -8,7 +8,7 @@ namespace Humans
 {
     public enum HumanNeed
     {
-        Hunger, Bathroom, Sleep, Error
+        Hunger, Bathroom, Sleep, Haunted, Error
     }
 
     [Serializable]
@@ -27,9 +27,13 @@ namespace Humans
     {
         // TODO: just everything is public
         public string Name;
-        public float MaxFear = 100f;
+        public const float MaxFear = 100f;
         public float CurrentFear;
-        public Dictionary<HauntType, float> FearPerRoom = new();
+        public Dictionary<HauntType, float> FearPerRoom = new()
+        {
+            { HauntType.Bathroom, 0 }, { HauntType.Bedroom, 0 },
+            { HauntType.Kitchen, 0 }, { HauntType.LivingRoom, 0 },
+        };
 
         // TODO: switch to something more searchable and serializable?
         public List<Need> NeedStatus;
@@ -38,6 +42,7 @@ namespace Humans
         public void OnAfterDeserialize()
         {
             // Reset values
+            CurrentFear = 0;
             foreach (var need in NeedStatus)
             {
                 need.CurrentValue = need.MaxValue;
@@ -51,7 +56,7 @@ namespace Humans
         /// <summary>
         /// Grabs lowest value
         /// </summary>
-        public HumanNeed GetCurrentNeed(bool onStart, StateType state)
+        public HumanNeed GetCurrentNeed(bool onStart, bool wasHaunted, StateType state)
         {
             if (onStart)
             {
@@ -97,6 +102,11 @@ namespace Humans
                 TaskList.Enqueue(need.NeedType, need.CurrentValue);
             }
 
+            if (wasHaunted)
+            {
+                // TODO: Ignore greatest need? check this
+                TaskList.Dequeue();
+            }
             return TaskList.Peek();
             //return NeedStatus.OrderBy(i => i.CurrentValue).First().NeedType;
         }
@@ -157,6 +167,14 @@ namespace Humans
         {
             var req = NeedStatus.Find(x => x.NeedType == need);
             req.PauseDecrement = paused;
+        }
+
+        public void PauseAllNeeds(bool paused)
+        {
+            foreach (var need in NeedStatus)
+            {
+                need.PauseDecrement = paused;
+            }
         }
     }
 
