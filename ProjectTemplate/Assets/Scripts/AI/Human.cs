@@ -104,6 +104,7 @@ namespace Humans
         {
             // TODO: stop current task
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
+            CurrentTask = HumanNeed.Haunted;
             ChangeState(HauntedState, true);
             // TODO: fear calc
             m_HumanData.GetHaunted(amount, haunt);

@@ -155,8 +155,12 @@ namespace Humans
         /// </summary>
         public void RefillNeed(HumanNeed need)
         {
-            var req = NeedStatus.Find(x => x.NeedType == need);
-            req.CurrentValue = req.MaxValue;
+            // TODO: what am i doing 
+            if (need != HumanNeed.Haunted)
+            {
+                var req = NeedStatus.Find(x => x.NeedType == need);
+                req.CurrentValue = req.MaxValue;
+            }
             //req.CurrentValue += amount;
         }
 
@@ -165,15 +169,22 @@ namespace Humans
         /// </summary>
         public void PauseNeed(HumanNeed need, bool paused)
         {
-            var req = NeedStatus.Find(x => x.NeedType == need);
-            req.PauseDecrement = paused;
+            // TODO: what am i doing 
+            if (need != HumanNeed.Haunted)
+            {
+                var req = NeedStatus.Find(x => x.NeedType == need);
+                req.PauseDecrement = paused;
+            }
         }
 
         public void PauseAllNeeds(bool paused)
         {
             foreach (var need in NeedStatus)
             {
-                need.PauseDecrement = paused;
+                if (need.NeedType != HumanNeed.Haunted)
+                {
+                    need.PauseDecrement = paused;
+                }
             }
         }
     }

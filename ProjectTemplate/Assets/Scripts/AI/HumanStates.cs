@@ -120,7 +120,8 @@ namespace Humans
                 m_Human.RefillNeed();
                 m_Human.CalculateNextTask(false);
             }
-            m_Human.PauseNeed(false);
+            //m_Human.PauseNeed(false);
+            m_Human.PauseAllNeeds(false);
         }
     }
 
