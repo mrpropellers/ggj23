@@ -1,96 +1,84 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Rendering;
+﻿using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 
 [RequireComponent(typeof(Camera))]
-public class PalutteEffect : MonoBehaviour {
-    public class PalutteCustomPass : CustomPass
-    {
-        internal PalutteEffect Effect;
+public class PalutteEffect : MonoBehaviour
+{
+    public Material material;
 
-        protected override void Execute(CustomPassContext ctx)
-        {
-            Effect.DoEffect(ctx.cameraColorBuffer.rt, null);
-        }
-    }
+    public Texture LUTTexture;
 
-	public Material material;
+    public int gridWidth = 16;
+    public int gridHeight = 16;
 
-	public Texture LUTTexture;
+    public int pixelsWidth = 200;
+    public int pixelsHeight = 150;
 
-	public int gridWidth = 16;
-	public int gridHeight = 16;
+    private int activeWidth = 200;
+    private int activeHeight = 200;
 
-	public int pixelsWidth = 200;
-	public int pixelsHeight = 150;
+    public bool autoSetWidth = false;
+    public bool autoSetHeight = false;
+    public bool matchCamSize = false;
 
-	private int activeWidth = 200;
-	private int activeHeight = 200;
+    [Range(0f, 0.5f)]
+    public float ditherAmount = 0.1f;
 
-	public bool autoSetWidth = false;
-	public bool autoSetHeight = false;
-	public bool matchCamSize = false;
+    [Range(0.5f, 2f)]
+    public float pixelStretch = 1f;
 
-	[Range(0f, 0.5f)]
-	public float ditherAmount = 0.1f;
-
-	[Range(0.5f, 2f)]
-	public float pixelStretch = 1f;
-
-	public bool jaggiesAreGood = true;
+    public bool jaggiesAreGood = true;
 
     CustomPassInjectionPoint m_InjectionPoint = CustomPassInjectionPoint.AfterPostProcess;
     CustomPassVolume m_Volume;
     PalutteCustomPass m_Pass;
-	private Camera cam;
+    private Camera cam;
 
-    void Start()
+    void DoEffect(RenderTexture source, RenderTexture destination)
     {
-        m_Volume = gameObject.AddComponent<CustomPassVolume>();
-        m_Volume.injectionPoint = m_InjectionPoint;
-        var pass = m_Volume.AddPassOfType(typeof(PalutteCustomPass)) as PalutteCustomPass;
-        pass.Effect = this;
+        if (autoSetWidth)
+        {
+            if (cam == null) cam = GetComponent<Camera>();
+            float bestFraction = (float)pixelsHeight / (float)cam.pixelHeight;
+            pixelsWidth = Mathf.RoundToInt(cam.pixelWidth * bestFraction * pixelStretch);
+        }
+        else if (autoSetHeight)
+        {
+            if (cam == null) cam = GetComponent<Camera>();
+            float bestFraction = (float)pixelsWidth / (float)cam.pixelWidth;
+            pixelsHeight = Mathf.RoundToInt(cam.pixelHeight * bestFraction * pixelStretch);
+        }
+
+        activeWidth = pixelsWidth;
+        activeHeight = pixelsHeight;
+
+        if (matchCamSize)
+        {
+            if (cam == null) cam = GetComponent<Camera>();
+            activeWidth = cam.pixelWidth;
+            activeHeight = cam.pixelHeight;
+        }
+
+        if (LUTTexture == null)
+        {
+            Graphics.Blit(source, destination);
+            return;
+        }
+
+        material.SetFloat("_PWidth", activeWidth);
+        material.SetFloat("_PHeight", activeHeight);
+        material.SetFloat("_DitherRange", ditherAmount);
+        material.SetTexture("_LUTTex", LUTTexture);
+        material.SetFloat("_LUTBlueTilesX", gridWidth);
+        material.SetFloat("_LUTBlueTilesY", gridHeight);
+        material.SetFloat("_GridFractionX", 1f / (float)gridWidth);
+        material.SetFloat("_GridFractionY", 1f / (float)gridHeight);
+
+        if (jaggiesAreGood)
+        {
+            source.filterMode = FilterMode.Point;
+        }
+
+        Graphics.Blit(source, destination, material);
     }
-	internal void DoEffect(RenderTexture source, RenderTexture destination) {
-
-		if (autoSetWidth) {
-			if (cam == null) cam = GetComponent<Camera>();
-			float bestFraction = (float)pixelsHeight / (float)cam.pixelHeight;
-			pixelsWidth = Mathf.RoundToInt(cam.pixelWidth * bestFraction * pixelStretch);
-		}else if (autoSetHeight) {
-			if (cam == null) cam = GetComponent<Camera>();
-			float bestFraction = (float)pixelsWidth / (float)cam.pixelWidth;
-			pixelsHeight = Mathf.RoundToInt(cam.pixelHeight * bestFraction * pixelStretch);
-		}
-		activeWidth = pixelsWidth;
-		activeHeight = pixelsHeight;
-
-		if (matchCamSize) {
-			if (cam == null) cam = GetComponent<Camera>();
-			activeWidth = cam.pixelWidth;
-			activeHeight = cam.pixelHeight;
-		}
-
-		if (LUTTexture == null) {
-			Graphics.Blit(source, destination);
-			return;
-		}
-
-		material.SetFloat("_PWidth", activeWidth);
-		material.SetFloat("_PHeight", activeHeight);
-		material.SetFloat("_DitherRange", ditherAmount);
-		material.SetTexture("_LUTTex", LUTTexture);
-		material.SetFloat("_LUTBlueTilesX", gridWidth);
-		material.SetFloat("_LUTBlueTilesY", gridHeight);
-		material.SetFloat("_GridFractionX", 1f / (float)gridWidth);
-		material.SetFloat("_GridFractionY", 1f / (float)gridHeight);
-
-		if (jaggiesAreGood) {
-			source.filterMode = FilterMode.Point;
-		}
-
-		Graphics.Blit(source, destination, material);
-	}
 }

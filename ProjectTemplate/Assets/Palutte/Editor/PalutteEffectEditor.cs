@@ -10,10 +10,10 @@ public class PalutteEffectEditor : Editor {
 		PalutteEffect effect = (PalutteEffect)target;
 
 		EditorGUI.BeginChangeCheck();
-		
+
 
 		//Palutte material
-		effect.material = (Material)EditorGUILayout.ObjectField("Material:", effect.material, typeof(Material));
+		// effect.material = (Material)EditorGUILayout.ObjectField("Material:", effect.material, typeof(Material));
 
 		//LUT texture
 		EditorGUILayout.BeginHorizontal();
@@ -28,13 +28,13 @@ public class PalutteEffectEditor : Editor {
 		effect.gridHeight = EditorGUILayout.IntField(effect.gridHeight);
 		EditorGUILayout.EndHorizontal();
 
-		
+
 		EditorGUILayout.LabelField("________________________________________________________________________");
 		EditorGUILayout.Space();
-		
+
 
 		effect.matchCamSize = EditorGUILayout.Toggle("Match Camera:", effect.matchCamSize);
-		
+
 
 		if (!effect.matchCamSize) {
 			EditorGUILayout.Space();
@@ -45,7 +45,7 @@ public class PalutteEffectEditor : Editor {
 			effect.autoSetWidth = EditorGUILayout.Toggle(effect.autoSetWidth);
 			if (effect.autoSetWidth) effect.autoSetHeight = false;
 			EditorGUILayout.EndVertical();
-			
+
 			//set width
 			if (effect.autoSetWidth) {
 				effect.pixelStretch = EditorGUILayout.Slider("Auto-Width:",effect.pixelStretch, 0.5f, 2f);
@@ -54,7 +54,7 @@ public class PalutteEffectEditor : Editor {
 			}
 			EditorGUILayout.EndHorizontal();
 
-			
+
 			EditorGUILayout.BeginHorizontal();
 			//toggle auto height
 			EditorGUILayout.BeginVertical(GUILayout.Width(20));
@@ -71,8 +71,8 @@ public class PalutteEffectEditor : Editor {
 
 
 		}
-		
-		
+
+
 		EditorGUILayout.LabelField("________________________________________________________________________");
 		EditorGUILayout.Space();
 
