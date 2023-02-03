@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
-using UnityEngine.UIElements;
 
 public class PalutteCustomPass : CustomPass
 {
@@ -10,18 +10,9 @@ public class PalutteCustomPass : CustomPass
     static readonly int k_PWidth = Shader.PropertyToID("_PWidth");
     static readonly int k_PHeight = Shader.PropertyToID("_PHeight");
     static readonly int k_DitherRange = Shader.PropertyToID("_DitherRange");
-    static readonly int k_LutBlueTilesX = Shader.PropertyToID("_LUTBlueTilesX");
-    static readonly int k_LutBlueTilesY = Shader.PropertyToID("_LUTBlueTilesY");
-    static readonly int k_GridFractionX = Shader.PropertyToID("_GridFractionX");
-    static readonly int k_GridFractionY = Shader.PropertyToID("_GridFractionY");
     static readonly int k_ColorSpaceCompressionFactor = Shader.PropertyToID("_ColorSpaceCompressionFactor");
-    static readonly int k_LutTex = Shader.PropertyToID("_LUTTex");
     static readonly int k_DitherTex = Shader.PropertyToID("_DitherTex");
     static Material s_Material;
-
-    public Texture LUTTexture;
-    public int gridWidth = 16;
-    public int gridHeight = 16;
 
     public bool matchCamSize;
     public int pixelsWidth = 200;
@@ -44,9 +35,6 @@ public class PalutteCustomPass : CustomPass
 
     protected override void Execute(CustomPassContext ctx)
     {
-        if (LUTTexture == null)
-            return;
-
         var cam = ctx.hdCamera.camera;
         var colorBuffer = ctx.cameraColorBuffer;
         var cmd = ctx.cmd;
@@ -65,15 +53,10 @@ public class PalutteCustomPass : CustomPass
         s_Material.SetFloat(k_PWidth, activeWidth);
         s_Material.SetFloat(k_PHeight, activeHeight);
         s_Material.SetFloat(k_DitherRange, ditherAmount);
-        s_Material.SetFloat(k_LutBlueTilesX, gridWidth);
-        s_Material.SetFloat(k_LutBlueTilesY, gridHeight);
-        s_Material.SetFloat(k_GridFractionX, 1f / gridWidth);
-        s_Material.SetFloat(k_GridFractionY, 1f / gridHeight);
         s_Material.SetFloat(k_ColorSpaceCompressionFactor, Mathf.Pow(2, colorSpaceCompressionPower));
-        s_Material.SetTexture(k_LutTex, LUTTexture);
         s_Material.SetTexture(k_DitherTex, ditherMatrix);
 
-        cmd.GetTemporaryRT(s_TempColorBuffer1, activeWidth, activeHeight, 0, filterMode, colorBuffer.rt.graphicsFormat);
+        cmd.GetTemporaryRT(s_TempColorBuffer1, activeWidth, activeHeight, 0, filterMode, GraphicsFormat.R8G8B8A8_SRGB);
         cmd.GetTemporaryRT(s_TempColorBuffer2, activeWidth, activeHeight, 0, filterMode, colorBuffer.rt.graphicsFormat);
 
         var scale = RTHandles.rtHandleProperties.rtHandleScale;

@@ -5,16 +5,7 @@
 		//the image we're gonna make into a pretty dithered paletteified thingy
 		_MainTex ("Texture", 2D) = "grey" {}
 
-		//lookup texture, this shader takes linear LUTs only
-		_LUTTex("LUT", 2D) = "white" {}
-
-		//how many tiles wide is the lookup texture
-		_LUTBlueTilesX("LUT grid width", Float) = 16.0
-		_LUTBlueTilesY("LUT grid height", Float) = 16.0
-		_GridFractionX("LUT grid fraction X", Float) = 0.0625
-		_GridFractionY("LUT grid fraction Y", Float) = 0.0625
-
-		//4x4 texture to determine the dither pattern
+        //4x4 texture to determine the dither pattern
 		_DitherTex("Dither Matrix", 2D) = "grey" {}
 
 		//just how much dither do we ditherrrrrrr
@@ -42,7 +33,6 @@
 			sampler2D _MainTex;
 			//float4 _MainTex_ST;
 
-			sampler2D _LUTTex;
 			sampler2D _DitherTex;
 
 			float _DitherRange;
@@ -58,25 +48,7 @@
 			float _PHeight;
 
 
-			fixed4 DoLUT(fixed4 c) {
-				//float gridFractionX = 1.0 / _LUTBlueTilesX;
-				//float gridFractionY = 1.0 / _LUTBlueTilesY;
-				//float gridFraction = 0.0625;
-
-				c.r = clamp(0.001, 0.99, c.r);
-				c.g = clamp(0.001, 0.99, c.g);
-
-				// float2 lutuv;
-				//
-				// lutuv.x = c.r * _GridFractionX + floor(c.b*_LUTBlueTilesX)*_GridFractionX;
-				// //lutuv.x = c.r * 0.0625 + floor(c.b*16)*0.0625;
-				//
-				// //lutuv.y = 1.0 - c.g;
-				// lutuv.y = c.g * _GridFractionY + floor(c.b*_LUTBlueTilesY)*_GridFractionY;
-				// lutuv.y = 1.0 - lutuv.y;
-				//
-				// return  tex2D(_LUTTex, lutuv);
-
+			fixed4 CompressColor(fixed4 c) {
 			    float factor = 256.0f / _ColorSpaceCompressionFactor;
                 const int r = (int)(c.r * factor);
 			    c.r = r / factor;
@@ -106,7 +78,7 @@
 				col += _DitherRange * (tex2D(_DitherTex, ditherUV) - 0.5);
 
 				// get final colour by sampling the Lookup Texture
-				col = DoLUT(col);
+				col = CompressColor(col);
 
 				return col;
 			}

@@ -21,11 +21,6 @@ public class PalutteCustomPassDrawer : CustomPassDrawer
 
     protected override void Initialize(SerializedProperty customPass)
     {
-        m_LutTexture = customPass.FindPropertyRelative(nameof(PalutteCustomPass.LUTTexture));
-
-        m_GridWidth = customPass.FindPropertyRelative(nameof(PalutteCustomPass.gridWidth));
-        m_GridHeight = customPass.FindPropertyRelative(nameof(PalutteCustomPass.gridHeight));
-
         m_MatchCamSize = customPass.FindPropertyRelative(nameof(PalutteCustomPass.matchCamSize));
 
         m_PixelsWidth = customPass.FindPropertyRelative(nameof(PalutteCustomPass.pixelsWidth));
@@ -43,11 +38,6 @@ public class PalutteCustomPassDrawer : CustomPassDrawer
     {
         m_Lines = 0;
         rect.height = EditorGUIUtility.singleLineHeight;
-        AddPropertyField(m_LutTexture, ref rect);
-        AddPropertyField(m_GridWidth, ref rect);
-        AddPropertyField(m_GridHeight, ref rect);
-        AddDividingLine(ref rect);
-
         AddPropertyField(m_MatchCamSize, ref rect);
         if (!m_MatchCamSize.boolValue)
         {
