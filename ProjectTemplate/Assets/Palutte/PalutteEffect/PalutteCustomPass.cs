@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.UIElements;
 
 public class PalutteCustomPass : CustomPass
 {
-    static int s_TempColorBuffer = Shader.PropertyToID("PalutteTempColorBuffer");
+    static int s_TempColorBuffer1 = Shader.PropertyToID("PalutteTempColorBuffer1");
+    static int s_TempColorBuffer2 = Shader.PropertyToID("PalutteTempColorBuffer2");
     static readonly int k_PWidth = Shader.PropertyToID("_PWidth");
     static readonly int k_PHeight = Shader.PropertyToID("_PHeight");
     static readonly int k_DitherRange = Shader.PropertyToID("_DitherRange");
@@ -71,10 +73,16 @@ public class PalutteCustomPass : CustomPass
         s_Material.SetTexture(k_LutTex, LUTTexture);
         s_Material.SetTexture(k_DitherTex, ditherMatrix);
 
-        cmd.GetTemporaryRT(s_TempColorBuffer, activeWidth, activeHeight, 0, filterMode, colorBuffer.rt.graphicsFormat);
+        cmd.GetTemporaryRT(s_TempColorBuffer1, activeWidth, activeHeight, 0, filterMode, colorBuffer.rt.graphicsFormat);
+        cmd.GetTemporaryRT(s_TempColorBuffer2, activeWidth, activeHeight, 0, filterMode, colorBuffer.rt.graphicsFormat);
+
         var scale = RTHandles.rtHandleProperties.rtHandleScale;
-        cmd.Blit(colorBuffer, s_TempColorBuffer, new Vector2(scale.x, scale.y), Vector2.zero, 0, 0);
-        cmd.Blit(s_TempColorBuffer, colorBuffer, s_Material);
-        cmd.ReleaseTemporaryRT(s_TempColorBuffer);
+
+        cmd.Blit(colorBuffer, s_TempColorBuffer1, new Vector2(scale.x, scale.y), Vector2.zero, 0, 0);
+        cmd.Blit(s_TempColorBuffer1, s_TempColorBuffer2, s_Material);
+        cmd.Blit(s_TempColorBuffer2, colorBuffer, new Vector2(1f / scale.x, 1f / scale.y), Vector2.zero, 0, 0);
+
+        cmd.ReleaseTemporaryRT(s_TempColorBuffer1);
+        cmd.ReleaseTemporaryRT(s_TempColorBuffer2);
     }
 }
