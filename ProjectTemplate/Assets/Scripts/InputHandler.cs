@@ -8,6 +8,7 @@ public class InputHandler : MonoBehaviour
 
     public Window CurrentWindow { get; set; }
     public bool LookingInside { get; private set; }
+    public Hauntable CurrentHauntableObject { get; set; }
 
     [SerializeField]
     private float m_CameraHorizontalLook = 1f;
@@ -31,6 +32,11 @@ public class InputHandler : MonoBehaviour
             if (LookingInside)
             {
                 // Controls for window mode
+                if (Input.GetMouseButtonDown(0) && CurrentHauntableObject != null)
+                {
+                    CurrentHauntableObject.Haunt();
+                }
+
                 if (Input.GetMouseButtonDown(1))
                 {
                     LookingInside = false;

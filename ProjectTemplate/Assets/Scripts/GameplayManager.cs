@@ -22,7 +22,7 @@ public class GameplayManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        m_FearEnergy += 0.1f;
+        m_FearEnergy += 0.2f;
     }
 
     public bool SpendFearJuice(float juiceToSpend)

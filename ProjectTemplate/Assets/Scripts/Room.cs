@@ -3,23 +3,21 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     [SerializeField]
-    private GrowingRoot[] m_Roots;
-
-    private float m_RootsFilled;
+    private Hauntable[] m_Hauntables;
 
     private bool m_Growing;
 
     private void FixedUpdate()
     {
-        if (m_Growing && GameplayManager.Instance.SpendFearJuice(GameplayManager.Instance.GrowRootSpeed))
+        if (m_Growing && GameplayManager.Instance.SpendFearJuice(GameplayManager.Instance.GrowRootSpeed) && !m_Hauntables[^1].Unlocked)
         {
-            m_RootsFilled += GameplayManager.Instance.GrowRootSpeed;
-            foreach (GrowingRoot root in m_Roots)
+            for (int i = 0; i < m_Hauntables.Length; i++)
             {
-                root.m_GrowthAmount = m_RootsFilled / 100f;
+                if (i == 0 || m_Hauntables[i - 1].RootGrowthAmount > 75f)
+                {
+                    m_Hauntables[i].GrowRoots(GameplayManager.Instance.GrowRootSpeed);
+                }
             }
-
-            Debug.Log($"Roots filled {m_RootsFilled}% !!");
         }
     }
 

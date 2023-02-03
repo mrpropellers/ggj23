@@ -23,9 +23,6 @@ public class GrowingRoot : MonoBehaviour
     [SerializeField]
     private float m_StartScale = 1f;
 
-    [SerializeField]
-    private float m_DurationInSeconds;
-
     private GameObject m_Generated;
     private Spline m_Spline;
     private MeshBender m_MeshBender;
@@ -74,7 +71,7 @@ public class GrowingRoot : MonoBehaviour
         foreach (SplineNode n in m_Spline.nodes)
         {
             float nodeDistanceRate = nodeDistance / m_Spline.Length;
-            float nodeScale = m_StartScale * (m_GrowthAmount - nodeDistanceRate);
+            float nodeScale = m_StartScale * (m_GrowthAmount - nodeDistanceRate) + 0.1f;
             n.Scale = new Vector2(nodeScale, nodeScale);
 
             if (i < m_Spline.curves.Count)
