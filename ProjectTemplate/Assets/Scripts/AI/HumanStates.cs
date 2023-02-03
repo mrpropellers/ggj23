@@ -5,21 +5,24 @@ using UnityEngine.AI;
 
 namespace Humans
 {
-    public class BaseState
+    public enum StateType
     {
-        private Transform m_Waypoints;
+        Idle, Moving, Task
+    }
+
+    public abstract class BaseState
+    {
         protected Human m_Human;
         protected NavMeshAgent m_Agent;
         protected Transform m_Target;
-        public string StateName;
+        public StateType StateType;
 
-        public BaseState(Human human, string name, Transform target, Transform waypoints)
+        public BaseState(Human human, StateType name, Transform target)
         {
             m_Human = human;
             m_Agent = m_Human.GetComponent<NavMeshAgent>(); // TODO: clean this up
-            StateName = name;
+            StateType = name;
             m_Target = target;
-            m_Waypoints = waypoints;
         }
 
         public virtual void Enter() { }
@@ -32,7 +35,7 @@ namespace Humans
 
     public class Idle : BaseState
     {
-        public Idle(Human human, Transform target, Transform waypoints) : base(human, "Idle", target, waypoints) { }
+        public Idle(Human human, Transform target) : base(human, StateType.Idle, target) { }
 
         public override void Enter()
         {
@@ -59,7 +62,7 @@ namespace Humans
     {
         private const float k_DistThreshold = 1.5f;
 
-        public Moving(Human human, Transform target, Transform waypoints) : base(human, "Moving", target, waypoints) { }
+        public Moving(Human human, Transform target) : base(human, StateType.Moving, target) { }
 
         public override void Enter()
         {
@@ -85,7 +88,7 @@ namespace Humans
 
     public class Task : BaseState
     {
-        public Task(Human human, Transform target, Transform waypoints) : base(human, "Task", target, waypoints) { }
+        public Task(Human human, Transform target) : base(human, StateType.Task, target) { }
 
         public override void Enter()
         {

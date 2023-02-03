@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 #if UNITY_EDITOR // for Handles.Label debugging
 using UnityEditor;
 #endif
 
 namespace Humans
 {
+    // TEMP
+    public enum HauntType
+    {
+        Bathroom, Bedroom, Kitchen, LivingRoom
+    }
+
     [RequireComponent(typeof(NavMeshAgent))]
     public class Human : MonoBehaviour
     {
@@ -27,35 +34,36 @@ namespace Humans
         public HumanNeed CurrentTask;
 
         // TODO: fix all these
-        private Transform WaypointsParent;
         bool m_StartedWait = false;
         [HideInInspector]
         public bool Continue;
 
         private void Start()
         {
-            // TODO: clean this up
-            WaypointsParent = GameObject.Find("House/Waypoints").GetComponent<Transform>();
-            m_NeedsRoomTx.Add(HumanNeed.Hunger, WaypointsParent.Find("Kitchen"));
-            m_NeedsRoomTx.Add(HumanNeed.Bathroom, WaypointsParent.Find("Bathroom"));
-            m_NeedsRoomTx.Add(HumanNeed.Sleep, WaypointsParent.Find("Bed"));
-
-            IdleState = new Idle(this, m_TargetFollowPoint, WaypointsParent);
-            MovingState = new Moving(this, m_TargetFollowPoint, WaypointsParent);
-            TaskState = new Task(this, m_TargetFollowPoint, WaypointsParent);
+            IdleState = new Idle(this, m_TargetFollowPoint);
+            MovingState = new Moving(this, m_TargetFollowPoint);
+            TaskState = new Task(this, m_TargetFollowPoint);
 
             m_CurrentState = GetInitialState();
-            CalculateNextTask();
             if (m_CurrentState != null)
             {
                 m_CurrentState.Enter();
             }
+            CalculateNextTask(true);
+        }
+
+        public void Initialize(WaypointsDict waypoints)
+        {
+            m_NeedsRoomTx.Add(HumanNeed.Hunger, waypoints.KitchenWaypoint);
+            m_NeedsRoomTx.Add(HumanNeed.Bathroom,waypoints.BathroomWaypoint);
+            m_NeedsRoomTx.Add(HumanNeed.Sleep, waypoints.BedWaypoint);
         }
 
         private void Update()
         {
             // Needs fulfilment
             m_HumanData.UpdateNeeds();
+            //m_HumanData.GetCurrentNeed(false, m_CurrentState.StateType);
 
             // State machine logic
             if (m_CurrentState != null)
@@ -64,10 +72,10 @@ namespace Humans
             }
         }
 
-        public void CalculateNextTask()
+        public void CalculateNextTask(bool onStart = false)
         {
             // TODO: move this
-            CurrentTask = m_HumanData.GetCurrentNeed();
+            CurrentTask = m_HumanData.GetCurrentNeed(onStart, m_CurrentState.StateType);
             m_TargetFollowPoint.position = m_NeedsRoomTx[CurrentTask].position;
         }
 
@@ -82,6 +90,19 @@ namespace Humans
         private BaseState GetInitialState()
         {
             return IdleState;
+        }
+
+        public void BeginHaunt(float amount)
+        {
+            // TODO: stop current task
+            // TODO: animate getting haunted
+            // TODO: fear calc
+            m_HumanData.GetHaunted(amount);
+            // TODO: move to hallway
+            // TODO: wait for time in hallway ("fear task"?)
+            // TODO: decrease need decrement
+            // TODO: start secondary task
+
         }
 
         public void TestWait(float time)
@@ -113,28 +134,33 @@ namespace Humans
         }
 
         // DEBUG
-        private readonly Dictionary<string, Color> m_StateToColor = new()
+        private readonly Dictionary<StateType, Color> m_StateToColor = new()
         {
-            { "Idle", Color.gray },
-            { "Moving", Color.blue },
-            { "Task", Color.yellow }
+            { StateType.Idle, Color.gray },
+            { StateType.Moving, Color.blue },
+            { StateType.Task, Color.yellow }
         };
 
         private void OnDrawGizmos()
         {
             if (m_CurrentState != null)
             {
-                Gizmos.color = m_StateToColor[m_CurrentState.StateName];
+                Gizmos.color = m_StateToColor[m_CurrentState.StateType];
                 Gizmos.DrawCube(transform.position + new Vector3(0, 1.5f, 0), Vector3.one);
 
 #if UNITY_EDITOR
                 Handles.color = Color.white;
                 var val = "";
+                val += $"Haunt: {m_HumanData.CurrentFear}\n";
+                if (m_HumanData.TaskList.Count > 0)
+                {
+                    val += $"Peek task: {m_HumanData.TaskList.Peek()}\n";
+                }
                 foreach (var i in m_HumanData.NeedStatus)
                 {
                     val += $"{i.NeedType}=>{i.CurrentValue}\n";
                 }
-                Handles.Label(transform.position + Vector3.up * 2, val);
+                Handles.Label(transform.position + Vector3.up * 3, val);
 #endif
 
                 // Target
