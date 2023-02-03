@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EventFolder" id="{cd67a09b-84e9-4b37-8914-2cfc1cf307f3}">
+		<property name="name">
+			<value>NPCNoises</value>
+		</property>
+		<relationship name="folder">
+			<destination>{5e637d74-a2a7-4156-8f89-ecb770df83a6}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{86ab412c-19f5-4259-a7c6-43a50dfa578d}">
+		<property name="note" />
 		<property name="assetPath">
 			<value>DeadEvil.aif</value>
 		</property>

@@ -1,4 +1,2 @@
-.user/
-.cache/
-.unsaved/
+.*
 *.bank
