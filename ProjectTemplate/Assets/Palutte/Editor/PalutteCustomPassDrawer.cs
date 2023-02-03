@@ -14,6 +14,7 @@ public class PalutteCustomPassDrawer : CustomPassDrawer
     SerializedProperty m_PixelsHeight;
     SerializedProperty m_DitherMatrix;
     SerializedProperty m_DitherAmount;
+    SerializedProperty m_ColorSpaceCompressionFactor;
     SerializedProperty m_JaggiesAreGood;
 
     protected override PassUIFlag commonPassUIFlags => PassUIFlag.Name;
@@ -32,6 +33,8 @@ public class PalutteCustomPassDrawer : CustomPassDrawer
 
         m_DitherMatrix = customPass.FindPropertyRelative(nameof(PalutteCustomPass.ditherMatrix));
         m_DitherAmount = customPass.FindPropertyRelative(nameof(PalutteCustomPass.ditherAmount));
+
+        m_ColorSpaceCompressionFactor = customPass.FindPropertyRelative(nameof(PalutteCustomPass.colorSpaceCompressionPower));
 
         m_JaggiesAreGood = customPass.FindPropertyRelative(nameof(PalutteCustomPass.jaggiesAreGood));
     }
@@ -55,6 +58,9 @@ public class PalutteCustomPassDrawer : CustomPassDrawer
 
         AddPropertyField(m_DitherMatrix, ref rect);
         AddPropertyField(m_DitherAmount, ref rect);
+        AddDividingLine(ref rect);
+
+        AddPropertyField(m_ColorSpaceCompressionFactor, ref rect);
         AddDividingLine(ref rect);
 
         AddPropertyField(m_JaggiesAreGood, ref rect);

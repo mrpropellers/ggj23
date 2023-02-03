@@ -19,7 +19,7 @@
 
 		//just how much dither do we ditherrrrrrr
 		_DitherRange("Dither Range", Range(0,0.5)) = 0.1
-		
+
 		//how many pixels wide/tall we divide the render into
 		_PWidth("PixelsWide", Float) = 200
 		_PHeight("PixelsTall", Float) = 150
@@ -28,14 +28,14 @@
 	{
 		//Tags { "RenderType"="Opaque" }
 		//LOD 100
-			
+
 
 		Pass
 		{
 			CGPROGRAM
 			#pragma vertex vert_img
 			#pragma fragment frag
-			
+
 			#include "UnityCG.cginc"
 
 
@@ -52,6 +52,8 @@
 			float _GridFractionX;
 			float _GridFractionY;
 
+			float _ColorSpaceCompressionFactor;
+
 			float _PWidth;
 			float _PHeight;
 
@@ -64,19 +66,30 @@
 				c.r = clamp(0.001, 0.99, c.r);
 				c.g = clamp(0.001, 0.99, c.g);
 
-				float2 lutuv;
+				// float2 lutuv;
+				//
+				// lutuv.x = c.r * _GridFractionX + floor(c.b*_LUTBlueTilesX)*_GridFractionX;
+				// //lutuv.x = c.r * 0.0625 + floor(c.b*16)*0.0625;
+				//
+				// //lutuv.y = 1.0 - c.g;
+				// lutuv.y = c.g * _GridFractionY + floor(c.b*_LUTBlueTilesY)*_GridFractionY;
+				// lutuv.y = 1.0 - lutuv.y;
+				//
+				// return  tex2D(_LUTTex, lutuv);
 
+			    float factor = 256.0f / _ColorSpaceCompressionFactor;
+                const int r = (int)(c.r * factor);
+			    c.r = r / factor;
 
-				lutuv.x = c.r * _GridFractionX + floor(c.b*_LUTBlueTilesX)*_GridFractionX;
-				//lutuv.x = c.r * 0.0625 + floor(c.b*16)*0.0625;
-				
-				//lutuv.y = 1.0 - c.g;
-				lutuv.y = c.g * _GridFractionY + floor(c.b*_LUTBlueTilesY)*_GridFractionY;
-				lutuv.y = 1.0 - lutuv.y;
+			    const int g = (int)(c.g * factor);
+			    c.g = g / factor;
 
-				return  tex2D(_LUTTex, lutuv);
+			    const int b = (int)(c.b * factor);
+			    c.b = b / factor;
+
+			    return c;
 			}
-			
+
 			fixed4 frag (v2f_img i) : SV_Target {
 
 				// sample the texture based on pixel width/height

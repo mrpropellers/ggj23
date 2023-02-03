@@ -12,6 +12,7 @@ public class PalutteCustomPass : CustomPass
     static readonly int k_LutBlueTilesY = Shader.PropertyToID("_LUTBlueTilesY");
     static readonly int k_GridFractionX = Shader.PropertyToID("_GridFractionX");
     static readonly int k_GridFractionY = Shader.PropertyToID("_GridFractionY");
+    static readonly int k_ColorSpaceCompressionFactor = Shader.PropertyToID("_ColorSpaceCompressionFactor");
     static readonly int k_LutTex = Shader.PropertyToID("_LUTTex");
     static readonly int k_DitherTex = Shader.PropertyToID("_DitherTex");
     static Material s_Material;
@@ -27,6 +28,9 @@ public class PalutteCustomPass : CustomPass
     public Texture ditherMatrix;
     [Range(0f, 0.5f)]
     public float ditherAmount = 0.1f;
+
+    [Range(0, 8)]
+    public float colorSpaceCompressionPower = 0;
 
     public bool jaggiesAreGood = true;
 
@@ -63,6 +67,7 @@ public class PalutteCustomPass : CustomPass
         s_Material.SetFloat(k_LutBlueTilesY, gridHeight);
         s_Material.SetFloat(k_GridFractionX, 1f / gridWidth);
         s_Material.SetFloat(k_GridFractionY, 1f / gridHeight);
+        s_Material.SetFloat(k_ColorSpaceCompressionFactor, Mathf.Pow(2, colorSpaceCompressionPower));
         s_Material.SetTexture(k_LutTex, LUTTexture);
         s_Material.SetTexture(k_DitherTex, ditherMatrix);
 
