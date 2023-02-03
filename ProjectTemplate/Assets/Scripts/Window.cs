@@ -43,22 +43,24 @@ public class Window : MonoBehaviour
             m_LookCam.m_Lens.Dutch = Mathf.Lerp(-9f, 9f,
                 Quaternion.Angle(Quaternion.Euler(0f, -50f, 0f), Quaternion.Euler(0f, currHorDeg, 0f)) / 100f);
 
-            if (Physics.Raycast(m_LookCam.transform.position, m_LookCam.transform.forward, out RaycastHit hit, 100f,
-                m_HauntableLayerMask))
-            {
-                InputHandler.Instance.CurrentHauntableObject = hit.collider.GetComponent<Hauntable>();
-                InputHandler.Instance.CurrentHauntableObject.Hover();
-            }
-            else
-            {
-                InputHandler.Instance.CurrentHauntableObject = null;
-            }
+            // Old mouse controls. Re-enable later if wanted? Seems like it would be annoying to integrate with the keyboard controls
+            // if (Physics.Raycast(m_LookCam.transform.position, m_LookCam.transform.forward, out RaycastHit hit, 100f,
+            //     m_HauntableLayerMask))
+            // {
+            //     InputHandler.Instance.CurrentHauntableObject = hit.collider.GetComponent<Hauntable>();
+            //     InputHandler.Instance.CurrentHauntableObject.Hover();
+            // }
+            // else
+            // {
+            //     InputHandler.Instance.CurrentHauntableObject = null;
+            // }
         }
     }
 
     public void LookInside()
     {
         m_Viewing = true;
+        Room.LookingInRoom = true;
         m_LookCam.gameObject.SetActive(true);
         UIManager.Instance.SetVignetteIntensity(0.52f, 2f);
     }
@@ -66,6 +68,7 @@ public class Window : MonoBehaviour
     public void StopLooking()
     {
         m_Viewing = false;
+        Room.LookingInRoom = false;
         m_LookCam.gameObject.SetActive(false);
         UIManager.Instance.SetVignetteIntensity(0f, 2f, true);
     }

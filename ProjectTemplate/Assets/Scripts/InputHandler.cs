@@ -9,6 +9,7 @@ public class InputHandler : MonoBehaviour
     public Window CurrentWindow { get; set; }
     public bool LookingInside { get; private set; }
     public Hauntable CurrentHauntableObject { get; set; }
+    public bool FreezeControls { get; set; }
 
     [SerializeField]
     private float m_CameraHorizontalLook = 1f;
@@ -23,6 +24,8 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
+        if (FreezeControls) return;
+
         MovementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         m_MouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
@@ -32,9 +35,20 @@ public class InputHandler : MonoBehaviour
             if (LookingInside)
             {
                 // Controls for window mode
-                if (Input.GetMouseButtonDown(0) && CurrentHauntableObject != null)
+                if (CurrentHauntableObject != null)
                 {
-                    CurrentHauntableObject.Haunt();
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        CurrentHauntableObject.Haunt();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.D))
+                    {
+                        CurrentWindow.Room.SelectNextHauntableRight();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.A))
+                    {
+                        CurrentWindow.Room.SelectNextHauntableLeft();
+                    }
                 }
 
                 if (Input.GetMouseButtonDown(1))
