@@ -29,13 +29,20 @@ namespace Humans
         public string Name;
         public const float MaxFear = 100f;
         public float CurrentFear;
+        public HumanNeed LastHaunted;
         public Dictionary<HauntType, float> FearPerRoom = new()
         {
             { HauntType.Bathroom, 0 }, { HauntType.Bedroom, 0 },
             { HauntType.Kitchen, 0 }, { HauntType.LivingRoom, 0 },
         };
+        // TODO: did i already make this somewhere
+        // TODO: living room need?
+        private static Dictionary<HauntType, HumanNeed> m_HauntToNeed = new()
+        {
+            { HauntType.Bathroom, HumanNeed.Bathroom }, { HauntType.Bedroom, HumanNeed.Sleep },
+            { HauntType.Kitchen, HumanNeed.Hunger }, { HauntType.LivingRoom, HumanNeed.Error },
+        };
 
-        // TODO: switch to something more searchable and serializable?
         public List<Need> NeedStatus;
         public PriorityQueue<HumanNeed, float> TaskList = new();
 
@@ -64,37 +71,6 @@ namespace Humans
                 return (HumanNeed)UnityEngine.Random.Range(0, Enum.GetNames(typeof(HumanNeed)).Length);
             }
 
-            //bool skipState = false;
-            //var skipNeed = HumanNeed.Error;
-
-            //// TODO: if IDLE or MOVING, recalculate ALL tasks; if TASK, recalculate OTHER tasks
-            //switch (state)
-            //{
-            //    case StateType.Idle:
-            //    case StateType.Moving:
-            //        TaskList.Clear();
-            //        break;
-            //    case StateType.Task:
-            //        skipState = true;
-            //        // TODO: recalculate ALL BUT CURRENT
-            //        if (TaskList.TryPeek(out var need, out var pri))
-            //        {
-            //            TaskList.Clear();
-            //            TaskList.Enqueue(need, 0);
-            //        }
-            //        break;
-            //    default:
-            //        break;         
-            //}
-            //foreach (var need in NeedStatus)
-            //{
-            //    if (skipState && need.NeedType == skipNeed)
-            //    {
-            //        continue;
-            //    }
-            //    TaskList.Enqueue(need.NeedType, need.CurrentValue);
-            //}
-
             // TEMP
             TaskList.Clear();
             foreach (var need in NeedStatus)
@@ -102,27 +78,16 @@ namespace Humans
                 TaskList.Enqueue(need.NeedType, need.CurrentValue);
             }
 
-            if (wasHaunted)
+            if (LastHaunted != HumanNeed.Error)
             {
-                // TODO: Ignore greatest need? check this
-                TaskList.Dequeue();
+                while (TaskList.Peek() == LastHaunted)
+                {
+                    TaskList.Dequeue();
+                }
+                LastHaunted = HumanNeed.Error;
             }
             return TaskList.Peek();
-            //return NeedStatus.OrderBy(i => i.CurrentValue).First().NeedType;
         }
-
-        //public void QueueTasks(HumanNeed current)
-        //{
-        //    // TODO: ignore the current task? clear ?? what am i doing
-        //    var ordered = NeedStatus.OrderBy(i => i.CurrentValue).ToList();
-        //    foreach (var need in ordered)
-        //    {
-        //        if (need.NeedType != current)
-        //        {
-        //            TaskList.Enqueue(need, 10);
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Decrement all needs
@@ -140,8 +105,13 @@ namespace Humans
 
         public void GetHaunted(float amount, HauntType haunt)
         {
+            LastHaunted = m_HauntToNeed[haunt];
             CurrentFear += amount;
             FearPerRoom[haunt] += 1;
+
+            // TODO: slow down rates
+            //var need = NeedStatus.Find(x => x.NeedType == m_HauntToNeed[haunt]);
+            //need.CurrentRate *= 0.5f;
 
             if (CurrentFear >= MaxFear)
             {

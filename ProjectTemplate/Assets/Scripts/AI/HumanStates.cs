@@ -7,7 +7,7 @@ namespace Humans
 {
     public enum StateType
     {
-        Idle, Moving, Task
+        Idle, Moving, Task, Haunted
     }
 
     public abstract class BaseState
@@ -120,14 +120,13 @@ namespace Humans
                 m_Human.RefillNeed();
                 m_Human.CalculateNextTask(false);
             }
-            //m_Human.PauseNeed(false);
             m_Human.PauseAllNeeds(false);
         }
     }
 
     public class Haunted : BaseState
     {
-        public Haunted(Human human, Transform target) : base(human, StateType.Task, target) { }
+        public Haunted(Human human, Transform target) : base(human, StateType.Haunted, target) { }
 
         public override void Enter()
         {
@@ -142,7 +141,7 @@ namespace Humans
             base.UpdateLogic();
             // TODO: animation
             // TODO: task!
-            m_Human.TestWait(2f);
+            m_Human.TestWait(3f);
             // TODO: uhhh go back to normal i guess 
             if (m_Human.Continue)
             {
@@ -153,7 +152,7 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
-            m_Human.PauseAllNeeds(false);
+            //m_Human.PauseAllNeeds(false);
             //m_Human.CalculateNextTask(true);
         }
     }

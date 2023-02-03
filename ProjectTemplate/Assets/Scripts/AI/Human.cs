@@ -153,7 +153,8 @@ namespace Humans
         {
             { StateType.Idle, Color.gray },
             { StateType.Moving, Color.blue },
-            { StateType.Task, Color.yellow }
+            { StateType.Task, Color.yellow },
+            { StateType.Haunted, Color.red },
         };
 
         private void OnDrawGizmos()
