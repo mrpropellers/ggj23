@@ -28,8 +28,7 @@ public class HumanManager : MonoBehaviour
     [SerializeField]
     private WaypointsDict m_Waypoints;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         var humans = transform.GetComponentsInChildren<Human>();
         foreach (var child in humans)
