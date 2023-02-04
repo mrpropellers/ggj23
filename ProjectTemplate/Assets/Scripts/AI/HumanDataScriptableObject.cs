@@ -45,6 +45,7 @@ namespace Humans
         {
             // Reset values
             CurrentFear = 0;
+            LastHaunted = HumanNeed.Error;
             FearPerRoom = new()
             {
                 { HauntType.Bathroom, 0 }, { HauntType.Bedroom, 0 },
@@ -85,6 +86,8 @@ namespace Humans
                 }
                 LastHaunted = HumanNeed.Error;
             }
+
+            HumanManager.NextFreeTask(TaskList);
             return TaskList.Peek();
         }
 
