@@ -32,7 +32,7 @@ namespace Humans
         public BaseState TaskState;
         public BaseState HauntedState;
 
-        public HumanNeed CurrentTask;
+        public HumanNeed CurrentTask = HumanNeed.Error;
 
         // TODO: fix all these
         bool m_StartedWait = false;
@@ -47,11 +47,11 @@ namespace Humans
             HauntedState = new Haunted(this, m_TargetFollowPoint);
 
             m_CurrentState = GetInitialState();
+            CalculateNextTask(false, onStart: true);
             if (m_CurrentState != null)
             {
                 m_CurrentState.Enter();
             }
-            CalculateNextTask(true);
         }
 
         public void Initialize(WaypointsDict waypoints)
@@ -87,7 +87,9 @@ namespace Humans
         /// <param name="onStart">Was this called in MonoBehaviour Start()?</param>
         public void CalculateNextTask(bool wasHaunted, bool onStart = false)
         {
+            HumanManager.UpdateOccupancy(CurrentTask, false);
             CurrentTask = m_HumanData.GetCurrentNeed(onStart, wasHaunted, m_CurrentState.StateType);
+            HumanManager.UpdateOccupancy(CurrentTask, true);
             m_TargetFollowPoint.position = m_NeedsRoomTx[CurrentTask].position;
         }
 
