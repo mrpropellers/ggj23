@@ -34,6 +34,9 @@ namespace Humans
 
         public HumanNeed CurrentTask = HumanNeed.Error;
 
+        public bool Escaped { get; set; }
+        public bool Killed { get; private set; }
+
         // TODO: fix all these
         bool m_StartedWait = false;
         [HideInInspector]
@@ -175,6 +178,12 @@ namespace Humans
         public void RefillNeed()
         {
             m_HumanData.RefillNeed(CurrentTask);
+        }
+
+        public void Kill()
+        {
+            Killed = true;
+            HumanManager.Instance.CheckGameOver();
         }
 
         // DEBUG

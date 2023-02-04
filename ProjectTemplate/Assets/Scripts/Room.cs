@@ -105,6 +105,28 @@ public class Room : MonoBehaviour
         }
     }
 
+    public void BeginKillMoveHaunt(Transform hauntable)
+    {
+        float minDistance = Mathf.Infinity;
+        GameObject closestHuman = null;
+
+        foreach (var human in m_HauntableHumans)
+        {
+            float dist = Vector3.Distance(hauntable.position, human.transform.position);
+
+            if (dist <= minDistance)
+            {
+                minDistance = dist;
+                closestHuman = human;
+            }
+        }
+
+        if (closestHuman != null)
+        {
+            closestHuman.GetComponent<Human>().Kill();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("AI"))

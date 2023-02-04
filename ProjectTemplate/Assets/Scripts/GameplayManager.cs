@@ -38,4 +38,9 @@ public class GameplayManager : MonoBehaviour
 
         return false;
     }
+
+    public void GameOver(int killed, int escaped)
+    {
+        Debug.Log($"GAME OVER LOSER!!!! {killed} humans killed, {escaped} humans escaped");
+    }
 }

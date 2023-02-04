@@ -23,7 +23,8 @@ public class Hauntable : MonoBehaviour
     [SerializeField]
     private float m_FramingCamHauntDuration;
 
-    [SerializeField] private HauntType m_HauntType;
+    [SerializeField]
+    private bool m_IsKillMove;
 
     private Animation m_Animation;
 
@@ -99,7 +100,15 @@ public class Hauntable : MonoBehaviour
 
         // Wait for camera to get to its place
         yield return new WaitForSeconds(1f);
-        InputHandler.Instance.CurrentWindow.Room.BeginHaunt(Spookiness);
+
+        if (m_IsKillMove)
+        {
+            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(transform);
+        }
+        else
+        {
+            InputHandler.Instance.CurrentWindow.Room.BeginHaunt(Spookiness);
+        }
         m_Animation.Play();
 
         yield return new WaitForSeconds(dur);
