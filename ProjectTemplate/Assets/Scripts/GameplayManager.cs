@@ -9,6 +9,9 @@ public class GameplayManager : MonoBehaviour
     [field: SerializeField]
     public float GrowRootSpeed { get; private set; } = 1f;
 
+    [field: SerializeField]
+    public GameObject NPCFollowCam { get; private set; }
+
     private float m_FearEnergy;
     public float FearEnergyNormalized => m_FearEnergy / k_FearEnergyTotal;
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Humans;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -9,11 +10,16 @@ public class Room : MonoBehaviour
     [SerializeField, Tooltip("All hauntable objects, in visual order from left to right")]
     private Hauntable[] m_Hauntables;
 
+    [SerializeField]
+    private HauntType m_HauntType;
+
     // All hauntables, but in order that you should unlock them
     private Hauntable[] m_HauntablesUnlockOrder;
 
     // The list of hauntables currently unlocked, in left to right visual order
     private List<Hauntable> m_UnlockedHauntables = new List<Hauntable>();
+
+    private List<GameObject> m_HauntableHumans = new();
 
     private bool m_Growing;
     private int m_SelectedHauntable;
@@ -89,5 +95,29 @@ public class Room : MonoBehaviour
         m_SelectedHauntable--;
         if (m_SelectedHauntable < 0)
             m_SelectedHauntable = 0;
+    }
+
+    public void BeginHaunt(float amount)
+    {
+        foreach (var human in m_HauntableHumans)
+        {
+            human.GetComponent<Human>().BeginHaunt(amount, m_HauntType);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("AI"))
+        {
+            m_HauntableHumans.Add(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("AI"))
+        {
+            m_HauntableHumans.Remove(other.gameObject);
+        }
     }
 }

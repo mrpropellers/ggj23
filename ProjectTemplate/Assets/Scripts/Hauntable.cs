@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Humans;
 using UnityEngine;
 
 public class Hauntable : MonoBehaviour
 {
-    [field: SerializeField, Range(0.01f, 1.00f)]
+    [field: SerializeField, Range(0.01f, 100.00f)]
     public float Spookiness { get; private set; }
 
     public bool Unlocked { get; private set; }
@@ -21,6 +22,8 @@ public class Hauntable : MonoBehaviour
 
     [SerializeField]
     private float m_FramingCamHauntDuration;
+
+    [SerializeField] private HauntType m_HauntType;
 
     private Animation m_Animation;
 
@@ -96,6 +99,7 @@ public class Hauntable : MonoBehaviour
 
         // Wait for camera to get to its place
         yield return new WaitForSeconds(1f);
+        InputHandler.Instance.CurrentWindow.Room.BeginHaunt(Spookiness);
         m_Animation.Play();
 
         yield return new WaitForSeconds(dur);

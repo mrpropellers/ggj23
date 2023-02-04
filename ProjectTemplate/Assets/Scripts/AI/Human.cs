@@ -119,9 +119,10 @@ namespace Humans
 
         public void BeginEscape()
         {
+            StartCoroutine(RunAwayCamera());
             Transform closestEscape = m_Escapes[0];
             NavMeshPath temp = new NavMeshPath();
-            float minDist = Int32.MaxValue; 
+            float minDist = Int32.MaxValue;
             foreach (var e in m_Escapes)
             {
                 NavMesh.CalculatePath(transform.position, e.position, NavMesh.AllAreas, temp);
@@ -213,7 +214,13 @@ namespace Humans
 #endif
             }
         }
+
+        private IEnumerator RunAwayCamera()
+        {
+            yield return new WaitForSeconds(3f);
+            GameplayManager.Instance.NPCFollowCam.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            GameplayManager.Instance.NPCFollowCam.SetActive(false);
+        }
     }
-
-
 }
