@@ -108,6 +108,7 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
+            HumanManager.UpdateOccupancy(CurrentTask, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
             CurrentTask = HumanNeed.Haunted;
             ChangeState(HauntedState, true);
