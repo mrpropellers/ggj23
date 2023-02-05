@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: f97a92ab6660891439b20f64cceaf145
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Argent Pixel CF
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 04f8a6e0cee3eec418cdc41de74c361c, type: 3}
+  - {fileID: 12800000, guid: ee869dc7ba0145e4fbfa1f9c039ef34d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 2
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
