@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 10e8f162ccdcf1247ababdc3c8911116
+guid: fb08757c5445f4c88b9372af3117e290
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: walk
-      takeName: walk
-      internalID: -3419257869308726280
-      firstFrame: 0
-      lastFrame: 32
+      name: eat
+      takeName: eat
+      internalID: -3824078280368627652
+      firstFrame: 390
+      lastFrame: 420
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -60,11 +60,11 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 390
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 2.75
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -117,7 +117,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.0275
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

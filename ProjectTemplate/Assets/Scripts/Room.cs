@@ -10,6 +10,10 @@ public class Room : MonoBehaviour
     [SerializeField, Tooltip("All hauntable objects, in visual order from left to right")]
     private Hauntable[] m_Hauntables;
 
+    // TODO: killanim
+    [SerializeField]
+    private KillAnimationHelper m_KillHelper;
+
     [SerializeField]
     private HauntType m_HauntType;
 
@@ -123,6 +127,7 @@ public class Room : MonoBehaviour
 
         if (closestHuman != null)
         {
+            m_KillHelper.TriggerKill();
             closestHuman.GetComponent<Human>().Kill();
         }
     }

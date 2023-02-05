@@ -14,9 +14,12 @@ namespace Humans
         Bathroom, Bedroom, Kitchen, LivingRoom
     }
 
-    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Human : MonoBehaviour
     {
+        public readonly static float WalkSpeed = 2f;
+        public readonly static float RunSpeed = 4f;
+
         private Dictionary<HumanNeed, Transform> m_NeedsRoomTx = new();
         private List<Transform> m_Escapes = new();
         [SerializeField]
@@ -27,20 +30,27 @@ namespace Humans
         [SerializeField]
         private Transform m_TargetFollowPoint;
 
+        [HideInInspector]
+        public Animator Animator;
         public BaseState IdleState;
         public BaseState MovingState;
         public BaseState TaskState;
         public BaseState HauntedState;
 
         public HumanNeed CurrentTask = HumanNeed.Error;
+        public HumanNeed TaskBeforeHaunt = HumanNeed.Error;
 
         public bool Escaped { get; set; }
         public bool Killed { get; private set; }
 
-        // TODO: fix all these
         bool m_StartedWait = false;
         [HideInInspector]
         public bool Continue;
+
+        private void Awake()
+        {
+            Animator = GetComponent<Animator>();
+        }
 
         private void Start()
         {
@@ -53,7 +63,7 @@ namespace Humans
             CalculateNextTask(false, onStart: true);
             if (m_CurrentState != null)
             {
-                m_CurrentState.Enter();
+                m_CurrentState.Enter(isEscaping: false);
             }
         }
 
@@ -90,18 +100,21 @@ namespace Humans
         /// <param name="onStart">Was this called in MonoBehaviour Start()?</param>
         public void CalculateNextTask(bool wasHaunted, bool onStart = false)
         {
-            HumanManager.UpdateOccupancy(CurrentTask, false);
+            if (!onStart)
+            {
+                HumanManager.UpdateOccupancy(CurrentTask, false);
+            }
             CurrentTask = m_HumanData.GetCurrentNeed(onStart, wasHaunted, m_CurrentState.StateType);
             HumanManager.UpdateOccupancy(CurrentTask, true);
             m_TargetFollowPoint.position = m_NeedsRoomTx[CurrentTask].position;
         }
 
-        public void ChangeState(BaseState newState, bool isHaunted)
+        public void ChangeState(BaseState newState, bool isHaunted, bool isEscaping = false)
         {
             m_CurrentState.Exit(isHaunted);
 
             m_CurrentState = newState;
-            m_CurrentState.Enter();
+            m_CurrentState.Enter(isEscaping);
         }
 
         private BaseState GetInitialState()
@@ -113,13 +126,15 @@ namespace Humans
         {
             HumanManager.UpdateOccupancy(CurrentTask, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
+            TaskBeforeHaunt = CurrentTask;
             CurrentTask = HumanNeed.Haunted;
             ChangeState(HauntedState, true);
             var haunted = m_HumanData.GetHaunted(amount, haunt);
+            Animator.SetFloat("fear", Animator.GetFloat("fear") + amount); // TODO: cleanup
             if (haunted)
             {
                 BeginEscape();
-                PauseAllNeeds(false); // TODO ?
+                PauseAllNeeds(false);
             }
         }
 
@@ -144,7 +159,7 @@ namespace Humans
                 }
             }
             m_TargetFollowPoint.position = closestEscape.position;
-            ChangeState(MovingState, true);
+            ChangeState(MovingState, isHaunted: true, isEscaping: true);
         }
 
         public void TestWait(float time)
@@ -201,7 +216,7 @@ namespace Humans
             if (m_CurrentState != null)
             {
                 Gizmos.color = m_StateToColor[m_CurrentState.StateType];
-                Gizmos.DrawCube(transform.position + new Vector3(0, 1.5f, 0), Vector3.one);
+                Gizmos.DrawWireCube(transform.position + new Vector3(0, 1.5f, 0), Vector3.one);
 
 #if UNITY_EDITOR
                 Handles.color = Color.white;
@@ -219,8 +234,8 @@ namespace Humans
 #endif
 
                 // Target
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(m_TargetFollowPoint.position + Vector3.up, 1f);
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawWireSphere(m_TargetFollowPoint.position + Vector3.up, 1f);
 #if UNITY_EDITOR
                 Handles.Label(m_TargetFollowPoint.position + Vector3.up * 2, m_NeedsRoomTx[CurrentTask].gameObject.name);
 #endif
