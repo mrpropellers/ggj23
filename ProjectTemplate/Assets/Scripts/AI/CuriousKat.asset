@@ -15,29 +15,28 @@ MonoBehaviour:
   Name: Curious Kat
   FirstNeed: 3
   CurrentFear: 0
-  LastHaunted: 5
   NeedStatus:
   - NeedType: 0
     MaxValue: 100
     CurrentValue: 100
-    InitialRate: 0.05
-    CurrentRate: 0.05
+    InitialRate: 0.002
+    CurrentRate: 0.002
     PauseDecrement: 0
   - NeedType: 1
     MaxValue: 100
     CurrentValue: 100
-    InitialRate: 0.03
-    CurrentRate: 0.03
+    InitialRate: 0.003
+    CurrentRate: 0.003
     PauseDecrement: 0
   - NeedType: 2
     MaxValue: 100
     CurrentValue: 100
-    InitialRate: 0.04
-    CurrentRate: 0.04
+    InitialRate: 0.004
+    CurrentRate: 0.004
     PauseDecrement: 0
   - NeedType: 3
     MaxValue: 100
     CurrentValue: 100
-    InitialRate: 0.02
-    CurrentRate: 0.02
+    InitialRate: 0.005
+    CurrentRate: 0.005
     PauseDecrement: 0
