@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
-	<object class="AudioFile" id="{1e70d44f-9385-4ac4-8706-3232d4fae883}">
+	<object class="AudioFile" id="{95afd6e2-1fa6-40e4-813b-8ad2cd8f73ff}">
 		<property name="assetPath">
-			<value>BGDiagetic/Radio_Song_Drums.wav</value>
+			<value>BGDiagetic/Radio_Song Melody.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
