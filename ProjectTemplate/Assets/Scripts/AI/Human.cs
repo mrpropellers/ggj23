@@ -14,7 +14,7 @@ namespace Humans
         Bathroom, Bedroom, Kitchen, LivingRoom
     }
 
-    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Human : MonoBehaviour
     {
         private Dictionary<HumanNeed, Transform> m_NeedsRoomTx = new();
@@ -27,6 +27,7 @@ namespace Humans
         [SerializeField]
         private Transform m_TargetFollowPoint;
 
+        public Animator Animator;
         public BaseState IdleState;
         public BaseState MovingState;
         public BaseState TaskState;
@@ -38,6 +39,11 @@ namespace Humans
         bool m_StartedWait = false;
         [HideInInspector]
         public bool Continue;
+
+        private void Awake()
+        {
+            Animator = GetComponent<Animator>();
+        }
 
         private void Start()
         {
@@ -209,8 +215,8 @@ namespace Humans
 #endif
 
                 // Target
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(m_TargetFollowPoint.position + Vector3.up, 1f);
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawWireSphere(m_TargetFollowPoint.position + Vector3.up, 1f);
 #if UNITY_EDITOR
                 Handles.Label(m_TargetFollowPoint.position + Vector3.up * 2, m_NeedsRoomTx[CurrentTask].gameObject.name);
 #endif
