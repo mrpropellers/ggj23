@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Humans;
 using UnityEngine;
 
 public class Hauntable : MonoBehaviour
@@ -26,6 +25,15 @@ public class Hauntable : MonoBehaviour
     [SerializeField]
     private bool m_IsKillMove;
 
+    [SerializeField]
+    private bool m_ApplyScreenShake;
+
+    [SerializeField]
+    private Material[] m_MatsToSwap;
+
+    [SerializeField]
+    private Renderer[] m_RenderersToSwapMatsOn;
+
     private Animation m_Animation;
 
     private List<Material> m_Mats = new List<Material>();
@@ -42,6 +50,11 @@ public class Hauntable : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameplayManager.Instance.ScreenShake();
+        }
+
         if (m_Hovering && Unlocked)
         {
             foreach (Material mat in m_Mats)
@@ -93,6 +106,14 @@ public class Hauntable : MonoBehaviour
         StartCoroutine(EnableFramingCamForDuration(m_FramingCamHauntDuration));
     }
 
+    public void SwapMats()
+    {
+        for (int i = 0; i < m_MatsToSwap.Length; i++)
+        {
+            m_RenderersToSwapMatsOn[i].material = m_MatsToSwap[i];
+        }
+    }
+
     private IEnumerator EnableFramingCamForDuration(float dur)
     {
         m_FramingCam.SetActive(true);
@@ -110,6 +131,12 @@ public class Hauntable : MonoBehaviour
             InputHandler.Instance.CurrentWindow.Room.BeginHaunt(Spookiness);
         }
         m_Animation.Play();
+
+        if (m_ApplyScreenShake)
+        {
+            yield return new WaitForSeconds(2f);
+            GameplayManager.Instance.ScreenShake();
+        }
 
         yield return new WaitForSeconds(dur);
 

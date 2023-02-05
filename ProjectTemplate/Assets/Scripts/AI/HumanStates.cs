@@ -12,6 +12,12 @@ namespace Humans
 
     public abstract class BaseState
     {
+        public static Dictionary<HumanNeed, string> NeedToAnimName = new()
+        {
+            { HumanNeed.Bathroom, "toilet" }, { HumanNeed.Curious, "read" },
+            { HumanNeed.Hunger, "eat" }, { HumanNeed.Sleep, "sleep" },
+            { HumanNeed.Haunted, "jump" }, { HumanNeed.Error, string.Empty }
+        };
         protected Human m_Human;
         protected NavMeshAgent m_Agent;
         protected Transform m_Target;
@@ -25,7 +31,7 @@ namespace Humans
             m_Target = target;
         }
 
-        public virtual void Enter() { }
+        public virtual void Enter(bool isEscaping) { }
         public virtual void UpdateLogic() { }
         public virtual void Exit(bool isHaunted) { }
     }
@@ -34,18 +40,17 @@ namespace Humans
     {
         public Idle(Human human, Transform target) : base(human, StateType.Idle, target) { }
 
-        public override void Enter()
+        public override void Enter(bool isEscaping)
         {
-            base.Enter();
+            base.Enter(isEscaping);
             m_Agent.isStopped = true;
-            // TODO: animation
+            m_Human.Animator.SetBool("walking", false);
         }
 
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // TODO: animation
-            m_Human.TestWait(2f);
+            m_Human.TestWait(3f);
             if (m_Human.Continue)
             {
                 m_Human.ChangeState(m_Human.MovingState, false);
@@ -55,29 +60,42 @@ namespace Humans
 
     public class Moving : BaseState
     {
-        private const float k_DistThreshold = 1.5f;
+        // TODO: tune this
+        private const float k_DistThreshold = 1f;
 
         public Moving(Human human, Transform target) : base(human, StateType.Moving, target) { }
 
-        public override void Enter()
+        public override void Enter(bool isEscaping)
         {
-            base.Enter();
+            base.Enter(isEscaping);
             if (m_Target != null)
             {
                 m_Agent.destination = m_Target.position;
             }
-            // TODO: animation
+
+            m_Agent.speed = m_Human.Animator.GetBool(NeedToAnimName[HumanNeed.Haunted]) ? m_Agent.speed = Human.RunSpeed : m_Agent.speed = Human.WalkSpeed;
+
             m_Agent.isStopped = false;
+            m_Human.Animator.SetBool("walking", true);
+            if (isEscaping) // Set to "scared" anim
+            {
+                m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], true); 
+            }
         }
 
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // TODO: animation
             if (Vector3.Distance(m_Target.position, m_Human.transform.position) < k_DistThreshold)
             {
                 m_Human.ChangeState(m_Human.TaskState, false);
             }
+        }
+
+        public override void Exit(bool isHaunted)
+        {
+            base.Exit(isHaunted);
+            m_Human.Animator.SetBool("walking", false);
         }
     }
 
@@ -85,20 +103,19 @@ namespace Humans
     {
         public Task(Human human, Transform target) : base(human, StateType.Task, target) { }
 
-        public override void Enter()
+        public override void Enter(bool isEscaping)
         {
-            base.Enter();
-            // TODO: animation
+            base.Enter(isEscaping);
             m_Agent.isStopped = true;
             m_Human.PauseNeed(true);
+            m_Human.Animator.SetBool("walking", false);
+            m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], true);
         }
 
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // TODO: animation
-            // TODO: task!
-            m_Human.TestWait(2f);
+            m_Human.TestWait(Random.Range(4f, 10f));
             if (m_Human.Continue)
             {
                 m_Human.ChangeState(m_Human.IdleState, false);
@@ -108,10 +125,17 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
+            // TODO: if haunted, current task is haunted!! need to save previous one?
             if (!isHaunted)
             {
+                m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], false);
+                m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], false);
                 m_Human.RefillNeed();
                 m_Human.CalculateNextTask(false);
+            }
+            else
+            {
+                m_Human.Animator.SetBool(NeedToAnimName[m_Human.TaskBeforeHaunt], false);
             }
             m_Human.PauseAllNeeds(false);
         }
@@ -121,10 +145,10 @@ namespace Humans
     {
         public Haunted(Human human, Transform target) : base(human, StateType.Haunted, target) { }
 
-        public override void Enter()
+        public override void Enter(bool isEscaping)
         {
-            base.Enter();
-            // TODO: animation
+            base.Enter(isEscaping);
+            m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], true);
             m_Agent.isStopped = true;
             m_Human.PauseAllNeeds(true);
         }
@@ -132,8 +156,6 @@ namespace Humans
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // TODO: animation
-            // TODO: task!
             m_Human.TestWait(3f);
             if (m_Human.Continue)
             {
@@ -144,6 +166,8 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
+            // Don't set "jump" to false until after moving!
+            //m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], false);
         }
     }
 

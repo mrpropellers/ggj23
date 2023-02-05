@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
@@ -12,6 +13,12 @@ public class GameplayManager : MonoBehaviour
     [field: SerializeField]
     public GameObject NPCFollowCam { get; private set; }
 
+    [SerializeField]
+    private float m_PassiveEnergyGain = 0.2f;
+
+    [SerializeField]
+    private CinemachineImpulseSource m_ImpulseSource;
+
     private float m_FearEnergy;
     public float FearEnergyNormalized => m_FearEnergy / k_FearEnergyTotal;
 
@@ -25,7 +32,7 @@ public class GameplayManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        m_FearEnergy += 0.2f;
+        m_FearEnergy += m_PassiveEnergyGain;
     }
 
     public bool SpendFearJuice(float juiceToSpend)
@@ -43,5 +50,10 @@ public class GameplayManager : MonoBehaviour
     {
         UIManager.Instance.ShowNewspaper(killed, escaped);
         Debug.Log($"GAME OVER LOSER!!!! {killed} humans killed, {escaped} humans escaped");
+    }
+
+    public void ScreenShake()
+    {
+        m_ImpulseSource.GenerateImpulse();
     }
 }
