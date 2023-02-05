@@ -14,30 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Sleepyhead
   FirstNeed: 2
-  CurrentFear: 100
-  LastHaunted: 1
+  CurrentFear: 0
   NeedStatus:
   - NeedType: 0
     MaxValue: 100
-    CurrentValue: 66.49136
-    InitialRate: 0.03
-    CurrentRate: 0.03
+    CurrentValue: 100
+    InitialRate: 0.003
+    CurrentRate: 0.003
     PauseDecrement: 0
   - NeedType: 1
     MaxValue: 100
-    CurrentValue: 55.318977
-    InitialRate: 0.04
-    CurrentRate: 0.04
+    CurrentValue: 100
+    InitialRate: 0.004
+    CurrentRate: 0.004
     PauseDecrement: 0
   - NeedType: 2
     MaxValue: 100
-    CurrentValue: 44.14811
-    InitialRate: 0.05
-    CurrentRate: 0.05
+    CurrentValue: 100
+    InitialRate: 0.005
+    CurrentRate: 0.005
     PauseDecrement: 0
   - NeedType: 3
     MaxValue: 100
-    CurrentValue: 77.66375
-    InitialRate: 0.02
-    CurrentRate: 0.02
+    CurrentValue: 100
+    InitialRate: 0.002
+    CurrentRate: 0.002
     PauseDecrement: 0

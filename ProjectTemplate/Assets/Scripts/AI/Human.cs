@@ -27,6 +27,7 @@ namespace Humans
         [SerializeField]
         private Transform m_TargetFollowPoint;
 
+        [HideInInspector]
         public Animator Animator;
         public BaseState IdleState;
         public BaseState MovingState;
@@ -92,7 +93,10 @@ namespace Humans
         /// <param name="onStart">Was this called in MonoBehaviour Start()?</param>
         public void CalculateNextTask(bool wasHaunted, bool onStart = false)
         {
-            HumanManager.UpdateOccupancy(CurrentTask, false);
+            if (!onStart)
+            {
+                HumanManager.UpdateOccupancy(CurrentTask, false);
+            }
             CurrentTask = m_HumanData.GetCurrentNeed(onStart, wasHaunted, m_CurrentState.StateType);
             HumanManager.UpdateOccupancy(CurrentTask, true);
             m_TargetFollowPoint.position = m_NeedsRoomTx[CurrentTask].position;
