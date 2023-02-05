@@ -17,6 +17,9 @@ namespace Humans
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Human : MonoBehaviour
     {
+        public readonly static float WalkSpeed = 2f;
+        public readonly static float RunSpeed = 4f;
+
         private Dictionary<HumanNeed, Transform> m_NeedsRoomTx = new();
         private List<Transform> m_Escapes = new();
         [SerializeField]

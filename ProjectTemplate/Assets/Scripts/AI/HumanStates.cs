@@ -72,13 +72,15 @@ namespace Humans
             {
                 m_Agent.destination = m_Target.position;
             }
+
+            m_Agent.speed = m_Human.Animator.GetBool(NeedToAnimName[HumanNeed.Haunted]) ? m_Agent.speed = Human.RunSpeed : m_Agent.speed = Human.WalkSpeed;
+
             m_Agent.isStopped = false;
             m_Human.Animator.SetBool("walking", true);
             if (isEscaping) // Set to "scared" anim
             {
                 m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], true); 
             }
-            // TODO: set speed to higher if running
         }
 
         public override void UpdateLogic()

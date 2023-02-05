@@ -15122,7 +15122,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31074
+  m_Name: pb_Mesh31048
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -26565,6 +26565,7 @@ MonoBehaviour:
   m_TargetFollowPoint: {fileID: 1728562248}
   Animator: {fileID: 0}
   CurrentTask: 0
+  TaskBeforeHaunt: 5
   Continue: 0
 --- !u!195 &1453956205
 NavMeshAgent:
@@ -29174,7 +29175,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh32072
+  m_Name: pb_Mesh32014
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -35883,6 +35884,96 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8746978890357457685, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890357457685, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890357457685, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890357457687, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890357457687, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890357457687, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890385348761, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890385348761, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890385348761, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890385348762, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890385348762, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978890385348762, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978891286668146, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978891286668146, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978891286668146, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978891286668147, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978891286668147, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746978891286668147, guid: 27910dd5770874519938ea2ea06b6cca,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8746978891293895061, guid: 27910dd5770874519938ea2ea06b6cca,
         type: 3}
       propertyPath: m_Waypoints.BedWaypoint
