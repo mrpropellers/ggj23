@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Door : MonoBehaviour
 {
-    private Animation m_animation;
+    [SerializeField]
+    private Animator m_animator = null;
+
+    private int m_npcCount = 0;
+    //private Animation m_animation;
+
     // Start is called before the first frame update
     void Awake()
     {
-        m_animation = GetComponent<Animation>();
+        //m_animation = GetComponent<Animation>();
     }
 
     // Update is called once per frame
@@ -21,7 +27,11 @@ public class Door : MonoBehaviour
     {
         if (other.CompareTag("AI"))
         {
-            m_animation.Play("DoorOpen");
+            if (m_npcCount == 0){
+                m_animator.Play("DoorOpen", 0, 0.0f);
+            }
+            
+            m_npcCount++;
         }
     }
 
@@ -29,7 +39,11 @@ public class Door : MonoBehaviour
     {
         if (other.CompareTag("AI"))
         {
-            m_animation.Play("DoorClose");
+            if (m_npcCount <= 1){
+                m_animator.Play("DoorClose", 0, 0.0f);
+            }
+
+            m_npcCount--;
         }
     }
 }
