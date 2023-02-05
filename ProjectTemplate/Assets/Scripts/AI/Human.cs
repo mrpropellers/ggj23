@@ -35,6 +35,7 @@ namespace Humans
         public BaseState HauntedState;
 
         public HumanNeed CurrentTask = HumanNeed.Error;
+        public HumanNeed TaskBeforeHaunt = HumanNeed.Error;
 
         bool m_StartedWait = false;
         [HideInInspector]
@@ -119,6 +120,7 @@ namespace Humans
         {
             HumanManager.UpdateOccupancy(CurrentTask, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
+            TaskBeforeHaunt = CurrentTask;
             CurrentTask = HumanNeed.Haunted;
             ChangeState(HauntedState, true);
             var haunted = m_HumanData.GetHaunted(amount, haunt);

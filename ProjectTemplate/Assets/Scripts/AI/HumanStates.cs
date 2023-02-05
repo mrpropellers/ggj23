@@ -123,12 +123,17 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
-            m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], false);
-            m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], false);
+            // TODO: if haunted, current task is haunted!! need to save previous one?
             if (!isHaunted)
             {
+                m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], false);
+                m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], false);
                 m_Human.RefillNeed();
                 m_Human.CalculateNextTask(false);
+            }
+            else
+            {
+                m_Human.Animator.SetBool(NeedToAnimName[m_Human.TaskBeforeHaunt], false);
             }
             m_Human.PauseAllNeeds(false);
         }

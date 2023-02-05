@@ -322,6 +322,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gourmando_Rig
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 48d33231476fc457bb0c863796525d5a,
+        type: 3}
+      propertyPath: m_TagString
+      value: AI
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48d33231476fc457bb0c863796525d5a, type: 3}
 --- !u!1 &8476595992636292683 stripped
@@ -380,23 +385,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &8746978890357457688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8476595992636292683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3655a9a1c2b811f4a8bc3152700c69bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HumanData: {fileID: 11400000, guid: fc51ee81bc6174a71ad40bf65f935162, type: 2}
-  m_TargetFollowPoint: {fileID: 5022604369666169814}
-  Animator: {fileID: 0}
-  CurrentTask: 0
-  Continue: 0
 --- !u!195 &8746978890357457687
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -419,6 +407,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8746978890357457688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8476595992636292683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3655a9a1c2b811f4a8bc3152700c69bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HumanData: {fileID: 11400000, guid: fc51ee81bc6174a71ad40bf65f935162, type: 2}
+  m_TargetFollowPoint: {fileID: 5022604369666169814}
+  Animator: {fileID: 0}
+  CurrentTask: 0
+  Continue: 0
 --- !u!4 &9144905975518831857 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 48d33231476fc457bb0c863796525d5a,
@@ -575,23 +580,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &8746978890385348763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8476595992665220559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3655a9a1c2b811f4a8bc3152700c69bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HumanData: {fileID: 11400000, guid: 2d6302459fa0a4efb95325cfb50b3426, type: 2}
-  m_TargetFollowPoint: {fileID: 8746978890139464585}
-  Animator: {fileID: 0}
-  CurrentTask: 0
-  Continue: 0
 --- !u!195 &8746978890385348762
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -614,6 +602,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8746978890385348763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8476595992665220559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3655a9a1c2b811f4a8bc3152700c69bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HumanData: {fileID: 11400000, guid: 2d6302459fa0a4efb95325cfb50b3426, type: 2}
+  m_TargetFollowPoint: {fileID: 8746978890139464585}
+  Animator: {fileID: 0}
+  CurrentTask: 0
+  Continue: 0
 --- !u!4 &9144905975499538293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ffaac015580b74c41936d7ff3abb75e1,
@@ -692,6 +697,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kat_Rig
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 21df60d98076647c6b26d1f6876ce2de,
+        type: 3}
+      propertyPath: m_TagString
+      value: AI
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21df60d98076647c6b26d1f6876ce2de, type: 3}
 --- !u!1 &8476595991417871911 stripped
@@ -750,6 +760,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &8746978891286668144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8476595991417871911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3655a9a1c2b811f4a8bc3152700c69bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HumanData: {fileID: 11400000, guid: 15c1bb2ebca6b4fe0a90046e5e92a209, type: 2}
+  m_TargetFollowPoint: {fileID: 5022604370212686619}
+  Animator: {fileID: 0}
+  CurrentTask: 0
+  Continue: 0
 --- !u!195 &8746978891286668146
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -772,23 +799,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8746978891286668144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8476595991417871911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3655a9a1c2b811f4a8bc3152700c69bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HumanData: {fileID: 11400000, guid: 15c1bb2ebca6b4fe0a90046e5e92a209, type: 2}
-  m_TargetFollowPoint: {fileID: 5022604370212686619}
-  Animator: {fileID: 0}
-  CurrentTask: 0
-  Continue: 0
 --- !u!4 &9144905974564652189 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 21df60d98076647c6b26d1f6876ce2de,
