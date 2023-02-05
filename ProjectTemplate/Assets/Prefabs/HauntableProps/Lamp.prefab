@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 7307826808999844609}
   - component: {fileID: 7307826808999844608}
   - component: {fileID: 7307826808999844615}
+  - component: {fileID: 1645535374}
   m_Layer: 0
   m_Name: Lamp
   m_TagString: Untagged
@@ -290,11 +291,27 @@ MonoBehaviour:
   m_Roots:
   - {fileID: 7307826809833318851}
   m_FramingCam: {fileID: 7307826808951787813}
-  m_FramingCamHauntDuration: 0
+  m_FramingCamHauntDuration: 6
   m_IsKillMove: 0
   m_ApplyScreenShake: 0
   m_MatsToSwap: []
   m_RenderersToSwapMatsOn: []
+--- !u!111 &1645535374
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7307826808999844610}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: f58d7a5f2c9bb524eaac284cb2257b9c, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: f58d7a5f2c9bb524eaac284cb2257b9c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &7307826809833318861
 GameObject:
   m_ObjectHideFlags: 0
