@@ -25,13 +25,19 @@ public class HumanManager : MonoBehaviour
         { HumanNeed.Haunted, false }, { HumanNeed.Error, false }
     };
 
+    public static HumanManager Instance { get; private set; }
+
     [SerializeField]
     private WaypointsDict m_Waypoints;
 
+    private Human[] m_Humans;
+
     void Awake()
     {
-        var humans = transform.GetComponentsInChildren<Human>();
-        foreach (var child in humans)
+        Instance = this;
+
+        m_Humans = transform.GetComponentsInChildren<Human>();
+        foreach (var child in m_Humans)
         {
             child.Initialize(m_Waypoints);
         }
@@ -55,5 +61,26 @@ public class HumanManager : MonoBehaviour
         {
             NeedOccupancy[need] = occupied;
         }
+    }
+
+    public void CheckGameOver()
+    {
+        int killed = 0;
+        int escaped = 0;
+
+        foreach (Human human in m_Humans)
+        {
+            if (human.Killed)
+            {
+                killed++;
+            }
+            else if (human.Escaped)
+            {
+                escaped++;
+            }
+        }
+
+        if (killed + escaped == m_Humans.Length)
+            GameplayManager.Instance.GameOver(killed, escaped);
     }
 }
