@@ -28,6 +28,12 @@ public class Hauntable : MonoBehaviour
     [SerializeField]
     private bool m_ApplyScreenShake;
 
+    [SerializeField]
+    private Material[] m_MatsToSwap;
+
+    [SerializeField]
+    private Renderer[] m_RenderersToSwapMatsOn;
+
     private Animation m_Animation;
 
     private List<Material> m_Mats = new List<Material>();
@@ -98,6 +104,14 @@ public class Hauntable : MonoBehaviour
         HauntCompleted = true;
         InputHandler.Instance.CurrentWindow.Room.RemoveHauntable(this);
         StartCoroutine(EnableFramingCamForDuration(m_FramingCamHauntDuration));
+    }
+
+    public void SwapMats()
+    {
+        for (int i = 0; i < m_MatsToSwap.Length; i++)
+        {
+            m_RenderersToSwapMatsOn[i].material = m_MatsToSwap[i];
+        }
     }
 
     private IEnumerator EnableFramingCamForDuration(float dur)
