@@ -75,9 +75,9 @@ namespace Humans
             {
                 m_Agent.destination = m_Target.position;
             }
-            // TODO: animation
             m_Agent.isStopped = false;
             m_Human.Animator.SetBool("walking", true);
+            // TODO: set speed to higher if scared
         }
 
         public override void UpdateLogic()
@@ -88,6 +88,12 @@ namespace Humans
             {
                 m_Human.ChangeState(m_Human.TaskState, false);
             }
+        }
+
+        public override void Exit(bool isHaunted)
+        {
+            base.Exit(isHaunted);
+            m_Human.Animator.SetBool("walking", false);
         }
     }
 
@@ -121,6 +127,7 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
+            m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], false);
             m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], false);
             if (!isHaunted)
             {
@@ -139,7 +146,6 @@ namespace Humans
         public override void Enter()
         {
             base.Enter();
-            // TODO: animation
             m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], true);
             m_Agent.isStopped = true;
             m_Human.PauseAllNeeds(true);
@@ -160,7 +166,8 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
-            m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], false);
+            // Don't set "jump" to false until after moving!
+            //m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], false);
         }
     }
 

@@ -197,7 +197,7 @@ namespace Humans
             if (m_CurrentState != null)
             {
                 Gizmos.color = m_StateToColor[m_CurrentState.StateType];
-                Gizmos.DrawCube(transform.position + new Vector3(0, 1.5f, 0), Vector3.one);
+                Gizmos.DrawWireCube(transform.position + new Vector3(0, 1.5f, 0), Vector3.one);
 
 #if UNITY_EDITOR
                 Handles.color = Color.white;

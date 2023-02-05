@@ -23,6 +23,7 @@ public class Haunt : MonoBehaviour
         // TEMP
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log($"pushing space for haunt");
             BeginHaunt(10f);
         }
     }
