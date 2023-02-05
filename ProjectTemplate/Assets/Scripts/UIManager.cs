@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
@@ -8,12 +10,21 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    private readonly Dictionary<int, string> k_Nums = new()
+    {
+        { 0, "ZERO" },
+        { 1, "ONE" },
+        { 2, "TWO" },
+        { 3, "THREE" }
+    };
+
     [SerializeField]
     private Volume m_Volume;
 
     [SerializeField, Range(1f, 100f)]
     private float m_FearMeterSmoothSpeed = 10f;
 
+    private Animation m_Animation;
     private Vignette m_Vignette;
     private Image m_FearMeter;
 
@@ -35,6 +46,7 @@ public class UIManager : MonoBehaviour
         }
 
         m_FearMeter = transform.Find("FearMeter/FearMeterBar").GetComponent<Image>();
+        m_Animation = GetComponent<Animation>();
     }
 
     private void Update()
@@ -46,6 +58,58 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         m_Vignette.intensity.value = 0.43f;
+    }
+
+    public void ShowNewspaper(int killed, int escaped)
+    {
+        string headline = "";
+        string subheading = "When Will the Murders End?";
+        string body = "";
+
+        if (killed == 0)
+        {
+            // All escaped
+            headline = "TEENS NARROWLY ESCAPE FOREST DEMON";
+            subheading = "Suspect At Large";
+            body = "For years, the woods of Rootville have been haunted by a mysterious force that " +
+                   "has claimed the lives of hundreds of teenagers. In a cabin deep in the woods, 3 teens were " +
+                   "chased around by what they described as an evil tree stump. These claims are yet to be " +
+                   "verified. The investigation is still ongoing and lorem ipsum dolor!";
+        }
+        else if (escaped == 0)
+        {
+            // None escaped
+            headline = "FOREST DEMON KILLS THREE TEENS";
+            body = "For years, the woods of Rootville have been haunted by a mysterious force that " +
+                       "has claimed the lives of hundreds of teenagers. In a cabin deep in the woods, a search " +
+                       $"party recovered the bodies of 3 teenagers who appeared to suffer gruesome deaths, similar " +
+                       "to ones the town has seen before. The investigation is still ongoing and ";
+        }
+        else
+        {
+            // Some escaped, some killed
+            headline = $"FOREST DEMON KILLS {k_Nums[killed]}, WOUNDS {k_Nums[escaped]}";
+            if (killed == 1)
+            {
+                body = "For years, the woods of Rootville have been haunted by a mysterious force that " +
+                       "has claimed the lives of hundreds of teenagers. In a cabin deep in the woods, a search " +
+                       $"party recovered the bodies of 1 teenager who appeared to suffer a gruesome death, similar " +
+                       "to ones the town has seen before. The investigation is still ongoing and ";
+            }
+            else
+            {
+                body = "For years, the woods of Rootville have been haunted by a mysterious force that " +
+                       "has claimed the lives of hundreds of teenagers. In a cabin deep in the woods, a search " +
+                       $"party recovered the bodies of {killed} teenagers who appeared to suffer gruesome deaths, similar " +
+                       "to ones the town has seen before. The investigation is still ongoing and ";
+            }
+        }
+
+        transform.Find("Newspaper/Headline").GetComponent<TextMeshProUGUI>().SetText(headline);
+        transform.Find("Newspaper/Subheading").GetComponent<TextMeshProUGUI>().SetText(subheading);
+        transform.Find("Newspaper/ArticleBody").GetComponent<TextMeshProUGUI>().SetText(body);
+
+        m_Animation.Play("NewspaperIn");
     }
 
     public void SetVignetteIntensity(float intensity, float dur, bool fadeToOriginal=false)

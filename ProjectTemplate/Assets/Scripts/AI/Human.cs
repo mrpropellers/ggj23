@@ -34,6 +34,9 @@ namespace Humans
 
         public HumanNeed CurrentTask = HumanNeed.Error;
 
+        public bool Escaped { get; set; }
+        public bool Killed { get; private set; }
+
         // TODO: fix all these
         bool m_StartedWait = false;
         [HideInInspector]
@@ -122,9 +125,10 @@ namespace Humans
 
         public void BeginEscape()
         {
+            StartCoroutine(RunAwayCamera());
             Transform closestEscape = m_Escapes[0];
             NavMeshPath temp = new NavMeshPath();
-            float minDist = Int32.MaxValue; 
+            float minDist = Int32.MaxValue;
             foreach (var e in m_Escapes)
             {
                 NavMesh.CalculatePath(transform.position, e.position, NavMesh.AllAreas, temp);
@@ -177,6 +181,12 @@ namespace Humans
             m_HumanData.RefillNeed(CurrentTask);
         }
 
+        public void Kill()
+        {
+            Killed = true;
+            HumanManager.Instance.CheckGameOver();
+        }
+
         // DEBUG
         private readonly Dictionary<StateType, Color> m_StateToColor = new()
         {
@@ -216,7 +226,13 @@ namespace Humans
 #endif
             }
         }
+
+        private IEnumerator RunAwayCamera()
+        {
+            yield return new WaitForSeconds(3f);
+            GameplayManager.Instance.NPCFollowCam.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            GameplayManager.Instance.NPCFollowCam.SetActive(false);
+        }
     }
-
-
 }

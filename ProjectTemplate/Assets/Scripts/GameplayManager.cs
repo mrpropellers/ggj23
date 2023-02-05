@@ -9,6 +9,9 @@ public class GameplayManager : MonoBehaviour
     [field: SerializeField]
     public float GrowRootSpeed { get; private set; } = 1f;
 
+    [field: SerializeField]
+    public GameObject NPCFollowCam { get; private set; }
+
     private float m_FearEnergy;
     public float FearEnergyNormalized => m_FearEnergy / k_FearEnergyTotal;
 
@@ -34,5 +37,11 @@ public class GameplayManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void GameOver(int killed, int escaped)
+    {
+        UIManager.Instance.ShowNewspaper(killed, escaped);
+        Debug.Log($"GAME OVER LOSER!!!! {killed} humans killed, {escaped} humans escaped");
     }
 }
