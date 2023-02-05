@@ -24,11 +24,36 @@ public class TreeGoblinController : MonoBehaviour
 
     private void Update()
     {
-        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        m_DollyCart.m_Speed = Mathf.Lerp(m_DollyCart.m_Speed, m_MoveSpeedMax * input.x,
-            Time.deltaTime * m_AccelerationRate);
-        m_DollyCam.m_PathPosition = m_DollyCart.m_Position;
+        if (InputHandler.Instance.LookingInside)
+        {
+            m_DollyCart.m_Speed = 0f;
+        }
+    }
 
-        transform.position = m_DollyCart.transform.position + Vector3.up;
+    private void FixedUpdate()
+    {
+        if (!InputHandler.Instance.LookingInside)
+        {
+            m_DollyCart.m_Speed = Mathf.Lerp(m_DollyCart.m_Speed, m_MoveSpeedMax * InputHandler.Instance.MovementInput.x,m_AccelerationRate);
+            m_DollyCam.m_PathPosition = m_DollyCart.m_Position;
+
+            transform.position = m_DollyCart.transform.position + Vector3.up;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Window"))
+        {
+            InputHandler.Instance.CurrentWindow = other.GetComponent<Window>();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Window"))
+        {
+            InputHandler.Instance.CurrentWindow = null;
+        }
     }
 }
