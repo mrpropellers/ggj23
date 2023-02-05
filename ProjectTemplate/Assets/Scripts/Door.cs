@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Door : MonoBehaviour
 {
@@ -9,19 +8,6 @@ public class Door : MonoBehaviour
     private Animator m_animator = null;
 
     private int m_npcCount = 0;
-    //private Animation m_animation;
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        //m_animation = GetComponent<Animation>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
