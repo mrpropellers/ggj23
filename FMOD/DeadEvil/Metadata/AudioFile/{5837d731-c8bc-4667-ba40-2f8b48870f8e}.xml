@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5837d731-c8bc-4667-ba40-2f8b48870f8e}">
+		<property name="assetPath">
+			<value>Living Room/TV Station.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>7.6464583333333334</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e81c544c-066f-481d-8ae5-39195a859350}</destination>
+		</relationship>
+	</object>
+</objects>

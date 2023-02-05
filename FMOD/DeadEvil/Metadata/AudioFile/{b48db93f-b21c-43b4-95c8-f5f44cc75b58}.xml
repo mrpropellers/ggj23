@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{b48db93f-b21c-43b4-95c8-f5f44cc75b58}">
+		<property name="assetPath">
+			<value>Footsteps/Shoe 2/Outside/Footstep2 - Outside (d).wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.20704166666666668</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e81c544c-066f-481d-8ae5-39195a859350}</destination>
+		</relationship>
+	</object>
+</objects>
