@@ -41,7 +41,7 @@ public class Window : MonoBehaviour
             m_VerticalRotation -= InputHandler.Instance.MouseInputWithSensitivity.y * Time.deltaTime;
             m_VerticalRotation = Mathf.Clamp(m_VerticalRotation, -30f, 30f);
 
-            m_LookCam.transform.eulerAngles =
+            m_LookCam.transform.localEulerAngles =
                 new Vector3(m_VerticalRotation, newHorRot, 0f);
 
             m_LookCam.m_Lens.Dutch = Mathf.Lerp(-9f, 9f,
