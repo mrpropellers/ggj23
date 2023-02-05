@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: 6e83ca369024b8a46b62f8c9b66aa7c4
+guid: 851ee9bdb5714054eb5aad762c1907e6
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: shampoosprite
-    second: {fileID: 2100000, guid: defce2e6200e74746a1eb8c1a003071b, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -3,7 +3,12 @@ guid: b3c759bbdd335d440a72fb7de514f04f
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bathroomsinksprite
+    second: {fileID: 2100000, guid: d5dccf7504f01de46bc2549e59b96aef, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
