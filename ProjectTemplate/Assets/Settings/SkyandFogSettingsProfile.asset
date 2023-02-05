@@ -434,10 +434,10 @@ MonoBehaviour:
     m_Value: 0
   top:
     m_OverrideState: 1
-    m_Value: {r: 0, g: 0.06625769, b: 0.254717, a: 1}
+    m_Value: {r: 0.2917707, g: 0.32314324, b: 0.46778384, a: 1}
   middle:
     m_OverrideState: 1
-    m_Value: {r: 0.016420437, g: 0.084905684, b: 0.04586286, a: 1}
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
   bottom:
     m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
@@ -459,7 +459,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 0
   meteringMode:
     m_OverrideState: 0
     m_Value: 2
