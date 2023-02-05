@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{1f75fc4e-43db-442f-b89e-8b56e040ec07}">
 		<property name="name">
-			<value>Roots Choke</value>
+			<value>Roots Under Bed</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -92,7 +92,7 @@
 	</object>
 	<object class="MultiSound" id="{31e4b6c5-06d4-45f6-be41-e459767e2ff6}">
 		<relationship name="sounds">
-			<destination>{9a8d7281-6465-4e89-b02d-62a7187beb6d}</destination>
+			<destination>{9cce351f-112e-4591-b783-240f5c1b6dd1}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusEffectChain" id="{7534463a-3032-4634-97b3-8ac92537e03c}">
@@ -122,9 +122,9 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{1a3f5614-9707-4d2a-9ccf-87f270abd0cb}" />
-	<object class="SingleSound" id="{9a8d7281-6465-4e89-b02d-62a7187beb6d}">
+	<object class="SingleSound" id="{9cce351f-112e-4591-b783-240f5c1b6dd1}">
 		<relationship name="audioFile">
-			<destination>{89ec2fd8-b644-4657-af3f-e9b0e314900f}</destination>
+			<destination>{27ed105e-433c-4f15-8c85-491a81161c50}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{16f01ac8-65d1-4bd2-8b04-75d8239275b8}" />
