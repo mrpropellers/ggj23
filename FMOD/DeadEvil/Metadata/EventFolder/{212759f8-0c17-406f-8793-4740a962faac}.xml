@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EventFolder" id="{212759f8-0c17-406f-8793-4740a962faac}">
+		<property name="name">
+			<value>Sleepyhead</value>
+		</property>
+		<relationship name="folder">
+			<destination>{ca693bb9-cab3-4f3d-908f-639605b75d7c}</destination>
+		</relationship>
+	</object>
+</objects>
