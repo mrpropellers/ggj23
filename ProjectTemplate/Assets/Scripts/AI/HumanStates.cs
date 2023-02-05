@@ -113,7 +113,7 @@ namespace Humans
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            m_Human.TestWait(5f);
+            m_Human.TestWait(Random.Range(4f, 10f));
             if (m_Human.Continue)
             {
                 m_Human.ChangeState(m_Human.IdleState, false);
