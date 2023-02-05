@@ -36,7 +36,6 @@ public class MenuHandler : MonoBehaviour
         MainMenuUi.SetActive(false);
         GameStateText.text = "Resume";
         Time.timeScale = 1f;
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     void Resume ()
