@@ -2,14 +2,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class MainMenu : MonoBehaviour
+public class MenuHandler : MonoBehaviour
 {
     public static bool IsGamePaused = false;
 
     public GameObject MainMenuUi;
-    //public GameObject PauseMenuUi;
 
     public TextMeshProUGUI GameStateText;
+
+    private static bool IsDitheringEnabled = true;
 
     private void Awake()
     {
@@ -20,7 +21,6 @@ public class MainMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("Escape pressed");
             if (IsGamePaused){
                 Resume();
             }
@@ -35,6 +35,7 @@ public class MainMenu : MonoBehaviour
         IsGamePaused = false;
         MainMenuUi.SetActive(false);
         GameStateText.text = "Resume";
+        Time.timeScale = 1f;
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -47,7 +48,6 @@ public class MainMenu : MonoBehaviour
 
     void Pause ()
     {
-        Debug.Log("Pausing");
         if (!MainMenuUi.activeSelf){
             MainMenuUi.SetActive(true);
             
@@ -61,4 +61,20 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Exiting Game!");
         Application.Quit();
     }
+
+
+    #region OptionMenuRegion
+
+    public void SetVolume (float volume)
+    {
+        Debug.Log(volume);
+    }
+
+    public void ToggleDithering ()
+    {
+        IsDitheringEnabled = !IsDitheringEnabled;
+        Debug.Log($"Dithering: {IsDitheringEnabled}");
+    }
+
+    #endregion
 }
