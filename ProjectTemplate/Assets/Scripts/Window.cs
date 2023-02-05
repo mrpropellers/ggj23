@@ -11,6 +11,7 @@ public class Window : MonoBehaviour
 
     private CinemachineVirtualCamera m_LookCam;
     private bool m_Viewing;
+    private float m_VerticalRotation;
 
     private void Start()
     {
@@ -21,27 +22,30 @@ public class Window : MonoBehaviour
     {
         if (m_Viewing)
         {
+            Quaternion currentRot = m_LookCam.transform.localRotation;
+
             // Horizontal look
-            Quaternion newHorRotation = Quaternion.AngleAxis(InputHandler.Instance.MouseInputWithSensitivity.x * Time.deltaTime,
-                                         Vector3.up);
-            float currHorDeg = newHorRotation.eulerAngles.y;
+            float horizontalRotation = InputHandler.Instance.MouseInputWithSensitivity.x * Time.deltaTime;
+            float newHorRot = horizontalRotation + currentRot.eulerAngles.y;
 
-            if (currHorDeg < 50f || currHorDeg > 310f)
+            // Clamp horizontal looking
+            if (newHorRot > 50f && newHorRot < 310f)
             {
-                m_LookCam.transform.localRotation *= newHorRotation;
+                float snapToRight = Mathf.Abs(newHorRot - 50f);
+                float snapToLeft = Mathf.Abs(newHorRot - 310);
+                bool right = snapToRight < snapToLeft;
+
+                newHorRot = right ? 50f : 310f;
             }
 
-            Quaternion newVerRotation = Quaternion.AngleAxis(-InputHandler.Instance.MouseInputWithSensitivity.y * Time.deltaTime,
-                                            Vector3.right);
-            float currVerDeg = newVerRotation.eulerAngles.y;
+            m_VerticalRotation -= InputHandler.Instance.MouseInputWithSensitivity.y * Time.deltaTime;
+            m_VerticalRotation = Mathf.Clamp(m_VerticalRotation, -30f, 30f);
 
-            if (currVerDeg < 50f || currVerDeg > 310f)
-            {
-                m_LookCam.transform.localRotation *= newVerRotation;
-            }
+            m_LookCam.transform.eulerAngles =
+                new Vector3(m_VerticalRotation, newHorRot, 0f);
 
             m_LookCam.m_Lens.Dutch = Mathf.Lerp(-9f, 9f,
-                Quaternion.Angle(Quaternion.Euler(0f, -50f, 0f), Quaternion.Euler(0f, currHorDeg, 0f)) / 100f);
+                Quaternion.Angle(Quaternion.Euler(0f, -50f, 0f), Quaternion.Euler(0f, newHorRot, 0f)) / 100f);
 
             // Old mouse controls. Re-enable later if wanted? Seems like it would be annoying to integrate with the keyboard controls
             // if (Physics.Raycast(m_LookCam.transform.position, m_LookCam.transform.forward, out RaycastHit hit, 100f,

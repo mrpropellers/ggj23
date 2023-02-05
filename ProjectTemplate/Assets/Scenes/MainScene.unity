@@ -17092,7 +17092,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 954665796}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &665488465
 BoxCollider:
@@ -23777,7 +23777,6 @@ GameObject:
   m_Component:
   - component: {fileID: 859094926}
   - component: {fileID: 859094925}
-  - component: {fileID: 859094927}
   m_Layer: 0
   m_Name: DitheringShader
   m_TagString: Untagged
@@ -23840,19 +23839,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &859094927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 859094924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dd34322edb3e5048bb8f0c2d3b4d8ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 0}
 --- !u!1 &862413004
 GameObject:
   m_ObjectHideFlags: 0
@@ -25294,9 +25280,9 @@ Transform:
   - {fileID: 46049568}
   - {fileID: 1695084487}
   - {fileID: 280724888}
-  - {fileID: 1719784843}
   - {fileID: 665488464}
   - {fileID: 2008592237}
+  - {fileID: 1719784843}
   - {fileID: 771733436}
   - {fileID: 512238871}
   - {fileID: 698253889}
@@ -53776,7 +53762,7 @@ Transform:
   - {fileID: 684167160}
   - {fileID: 1972801416}
   m_Father: {fileID: 954665796}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2013410473
 GameObject:
