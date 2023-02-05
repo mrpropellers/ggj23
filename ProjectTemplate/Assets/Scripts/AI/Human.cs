@@ -35,7 +35,6 @@ namespace Humans
 
         public HumanNeed CurrentTask = HumanNeed.Error;
 
-        // TODO: fix all these
         bool m_StartedWait = false;
         [HideInInspector]
         public bool Continue;
@@ -56,7 +55,7 @@ namespace Humans
             CalculateNextTask(false, onStart: true);
             if (m_CurrentState != null)
             {
-                m_CurrentState.Enter();
+                m_CurrentState.Enter(isEscaping: false);
             }
         }
 
@@ -99,12 +98,12 @@ namespace Humans
             m_TargetFollowPoint.position = m_NeedsRoomTx[CurrentTask].position;
         }
 
-        public void ChangeState(BaseState newState, bool isHaunted)
+        public void ChangeState(BaseState newState, bool isHaunted, bool isEscaping = false)
         {
             m_CurrentState.Exit(isHaunted);
 
             m_CurrentState = newState;
-            m_CurrentState.Enter();
+            m_CurrentState.Enter(isEscaping);
         }
 
         private BaseState GetInitialState()
@@ -119,10 +118,11 @@ namespace Humans
             CurrentTask = HumanNeed.Haunted;
             ChangeState(HauntedState, true);
             var haunted = m_HumanData.GetHaunted(amount, haunt);
+            Animator.SetFloat("fear", Animator.GetFloat("fear") + amount); // TODO: cleanup
             if (haunted)
             {
                 BeginEscape();
-                PauseAllNeeds(false); // TODO ?
+                PauseAllNeeds(false);
             }
         }
 
@@ -146,7 +146,7 @@ namespace Humans
                 }
             }
             m_TargetFollowPoint.position = closestEscape.position;
-            ChangeState(MovingState, true);
+            ChangeState(MovingState, isHaunted: true, isEscaping: true);
         }
 
         public void TestWait(float time)

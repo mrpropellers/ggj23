@@ -25,13 +25,12 @@ namespace Humans
     [CreateAssetMenu(fileName = "Human", menuName = "ScriptableObjects/HumanDataScriptableObject")]
     public class HumanDataScriptableObject : ScriptableObject, ISerializationCallbackReceiver
     {
-        // TODO: just everything is public for now
         public string Name;
         public HumanNeed FirstNeed;
         public const float MaxFear = 100f;
         public float CurrentFear;
-        public HumanNeed LastHaunted;
-        public Dictionary<HauntType, float> FearPerRoom;
+        private HumanNeed m_LastHaunted;
+        private Dictionary<HauntType, float> m_FearPerRoom;
         private static Dictionary<HauntType, HumanNeed> m_HauntToNeed = new()
         {
             { HauntType.Bathroom, HumanNeed.Bathroom }, { HauntType.Bedroom, HumanNeed.Sleep },
@@ -45,8 +44,8 @@ namespace Humans
         {
             // Reset values
             CurrentFear = 0;
-            LastHaunted = HumanNeed.Error;
-            FearPerRoom = new()
+            m_LastHaunted = HumanNeed.Error;
+            m_FearPerRoom = new()
             {
                 { HauntType.Bathroom, 0 }, { HauntType.Bedroom, 0 },
                 { HauntType.Kitchen, 0 }, { HauntType.LivingRoom, 0 },
@@ -78,13 +77,13 @@ namespace Humans
                 TaskList.Enqueue(need.NeedType, need.CurrentValue);
             }
 
-            if (LastHaunted != HumanNeed.Error)
+            if (m_LastHaunted != HumanNeed.Error)
             {
-                while (TaskList.Peek() == LastHaunted)
+                while (TaskList.Peek() == m_LastHaunted)
                 {
                     TaskList.Dequeue();
                 }
-                LastHaunted = HumanNeed.Error;
+                m_LastHaunted = HumanNeed.Error;
             }
 
             HumanManager.NextFreeTask(TaskList);
@@ -108,9 +107,9 @@ namespace Humans
         /// <returns>True if fear is maxed!</returns>
         public bool GetHaunted(float amount, HauntType haunt)
         {
-            LastHaunted = m_HauntToNeed[haunt];
+            m_LastHaunted = m_HauntToNeed[haunt];
             CurrentFear += amount;
-            FearPerRoom[haunt] += amount;
+            m_FearPerRoom[haunt] += amount;
 
             // TODO: slow down rates?
             //var need = NeedStatus.Find(x => x.NeedType == m_HauntToNeed[haunt]);

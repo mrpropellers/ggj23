@@ -12,7 +12,6 @@ namespace Humans
 
     public abstract class BaseState
     {
-        // TODO: haunted
         public static Dictionary<HumanNeed, string> NeedToAnimName = new()
         {
             { HumanNeed.Bathroom, "toilet" }, { HumanNeed.Curious, "read" },
@@ -32,7 +31,7 @@ namespace Humans
             m_Target = target;
         }
 
-        public virtual void Enter() { }
+        public virtual void Enter(bool isEscaping) { }
         public virtual void UpdateLogic() { }
         public virtual void Exit(bool isHaunted) { }
     }
@@ -41,18 +40,16 @@ namespace Humans
     {
         public Idle(Human human, Transform target) : base(human, StateType.Idle, target) { }
 
-        public override void Enter()
+        public override void Enter(bool isEscaping)
         {
-            base.Enter();
+            base.Enter(isEscaping);
             m_Agent.isStopped = true;
-            // TODO: animation
             m_Human.Animator.SetBool("walking", false);
         }
 
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // TODO: animation
             m_Human.TestWait(3f);
             if (m_Human.Continue)
             {
@@ -68,22 +65,25 @@ namespace Humans
 
         public Moving(Human human, Transform target) : base(human, StateType.Moving, target) { }
 
-        public override void Enter()
+        public override void Enter(bool isEscaping)
         {
-            base.Enter();
+            base.Enter(isEscaping);
             if (m_Target != null)
             {
                 m_Agent.destination = m_Target.position;
             }
             m_Agent.isStopped = false;
             m_Human.Animator.SetBool("walking", true);
-            // TODO: set speed to higher if scared
+            if (isEscaping) // Set to "scared" anim
+            {
+                m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], true); 
+            }
+            // TODO: set speed to higher if running
         }
 
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // TODO: animation
             if (Vector3.Distance(m_Target.position, m_Human.transform.position) < k_DistThreshold)
             {
                 m_Human.ChangeState(m_Human.TaskState, false);
@@ -101,22 +101,18 @@ namespace Humans
     {
         public Task(Human human, Transform target) : base(human, StateType.Task, target) { }
 
-        public override void Enter()
+        public override void Enter(bool isEscaping)
         {
-            base.Enter();
-            // TODO: animation
+            base.Enter(isEscaping);
             m_Agent.isStopped = true;
             m_Human.PauseNeed(true);
             m_Human.Animator.SetBool("walking", false);
-            // TODO: get task name => animation bool
             m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], true);
         }
 
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // TODO: animation
-            // TODO: task!
             m_Human.TestWait(5f);
             if (m_Human.Continue)
             {
@@ -135,7 +131,6 @@ namespace Humans
                 m_Human.CalculateNextTask(false);
             }
             m_Human.PauseAllNeeds(false);
-            // TODO: get task name => animation bool
         }
     }
 
@@ -143,9 +138,9 @@ namespace Humans
     {
         public Haunted(Human human, Transform target) : base(human, StateType.Haunted, target) { }
 
-        public override void Enter()
+        public override void Enter(bool isEscaping)
         {
-            base.Enter();
+            base.Enter(isEscaping);
             m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], true);
             m_Agent.isStopped = true;
             m_Human.PauseAllNeeds(true);
@@ -154,8 +149,6 @@ namespace Humans
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // TODO: animation
-            // TODO: task!
             m_Human.TestWait(3f);
             if (m_Human.Continue)
             {
