@@ -18,6 +18,14 @@ namespace Humans
             { HumanNeed.Hunger, "eat" }, { HumanNeed.Sleep, "sleep" },
             { HumanNeed.Haunted, "jump" }, { HumanNeed.Error, string.Empty }
         };
+
+        // TODO: assign these values after placements
+        public static Dictionary<HumanNeed, Vector3> NeedToHardcodeRotation = new()
+        {
+            { HumanNeed.Bathroom, new Vector3(0, 270, 0) }, { HumanNeed.Sleep, new Vector3(0, 180, 0) },
+            { HumanNeed.Curious, new Vector3(0, 180, 0) }, { HumanNeed.Hunger, new Vector3(0, 270, 0) },
+        };
+
         protected Human m_Human;
         protected NavMeshAgent m_Agent;
         protected Transform m_Target;
@@ -61,7 +69,7 @@ namespace Humans
     public class Moving : BaseState
     {
         // TODO: tune this
-        private const float k_DistThreshold = 1f;
+        private const float k_DistThreshold = 0.6f;
 
         public Moving(Human human, Transform target) : base(human, StateType.Moving, target) { }
 
@@ -88,6 +96,7 @@ namespace Humans
             base.UpdateLogic();
             if (Vector3.Distance(m_Target.position, m_Human.transform.position) < k_DistThreshold)
             {
+                m_Human.transform.position = m_Target.position;
                 m_Human.ChangeState(m_Human.TaskState, false);
             }
         }
@@ -108,6 +117,13 @@ namespace Humans
             base.Enter(isEscaping);
             m_Agent.isStopped = true;
             m_Human.PauseNeed(true);
+
+            // Rotate towards task
+            if (NeedToHardcodeRotation.TryGetValue(m_Human.CurrentTask, out var rot))
+            {
+                m_Human.transform.rotation = Quaternion.Euler(rot);
+            }
+
             m_Human.Animator.SetBool("walking", false);
             m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], true);
         }
