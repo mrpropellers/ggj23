@@ -105,6 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4052906667908469473}
   - component: {fileID: 4052906667908469502}
+  - component: {fileID: 3659939417563892902}
+  - component: {fileID: 743968735311354165}
   m_Layer: 0
   m_Name: Radio
   m_TagString: Untagged
@@ -151,6 +153,52 @@ MonoBehaviour:
   m_ApplyScreenShake: 0
   m_MatsToSwap: []
   m_RenderersToSwapMatsOn: []
+--- !u!114 &3659939417563892902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4052906667908469472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -322545919
+      Data2: 1208139704
+      Data3: 715063179
+      Data4: 388474407
+    Path: event:/BGM/Diagetic
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 1
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 40
+--- !u!111 &743968735311354165
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4052906667908469472}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 7ff45db5d4e93cd469e5f8af2afea3cb, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 7ff45db5d4e93cd469e5f8af2afea3cb, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &4052906667912527634
 GameObject:
   m_ObjectHideFlags: 0

@@ -129,14 +129,19 @@ public class Hauntable : MonoBehaviour
     IEnumerator EnableFramingCamForDuration(float dur)
     {
         m_FramingCam.SetActive(true);
-        if (m_FmodPlayer == null && !TryGetComponent<FMODUnity.StudioEventEmitter>(out _))
+        if (m_FmodPlayer == null)
         {
-            Debug.LogWarning($"{name} doesn't have any sound effects!", this);
+            if (TryGetComponent<FMODUnity.StudioEventEmitter>(out var emitter))
+            {
+                Debug.Log("Playing sound effect from emitter.", this);
+                emitter.Play();
+            }
+            else
+                Debug.LogWarning($"{name} doesn't have any sound effects!", this);
+
         }
         else
-        {
             m_FmodPlayer.PlayNextFmodCue();
-        }
         InputHandler.Instance.FreezeControls = true;
 
         // Wait for camera to get to its place
