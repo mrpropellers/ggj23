@@ -23,15 +23,22 @@ public class HauntableTester : MonoBehaviour
     {
         var targets = GetComponentsInChildren<Hauntable>();
         m_Hauntables = new List<TestableHaunt>();
+        var numDisabled = 0;
         foreach (var t in targets)
         {
+            if (!t.gameObject.activeInHierarchy)
+            {
+                numDisabled++;
+                continue;
+            }
             m_Hauntables.Add(new TestableHaunt()
             {
                 TestMe = false,
                 ToTest = t,
             });
         }
-        Debug.Log($"{m_Hauntables.Count} hauntables found for testing");
+        Debug.Log($"{m_Hauntables.Count} hauntables found for testing -- " +
+            $"disabled {numDisabled} so they are all disabled by default (for testing)");
     }
 
     void OnValidate()

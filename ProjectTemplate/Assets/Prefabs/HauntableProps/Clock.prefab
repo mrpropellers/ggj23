@@ -89,6 +89,8 @@ GameObject:
   - component: {fileID: 4954400965262453274}
   - component: {fileID: 4954400965262453275}
   - component: {fileID: 4954400965262453273}
+  - component: {fileID: 7245305495375730737}
+  - component: {fileID: 3391119162966251664}
   m_Layer: 0
   m_Name: Clock
   m_TagString: Untagged
@@ -153,6 +155,57 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &7245305495375730737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4954400965262453252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1993317980
+      Data2: 1175615216
+      Data3: 1628043932
+      Data4: 587517799
+    Path: event:/Living Room/Ticking Clock
+  Event: 
+  PlayEvent: 1
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &3391119162966251664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4954400965262453252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 0
+  m_AttenuationObject: {fileID: 0}
+  m_FmodEvent:
+    Guid:
+      Data1: -479288412
+      Data2: 1323221353
+      Data3: 1889811859
+      Data4: -1765804150
+    Path: event:/Living Room/HauntClock
 --- !u!1 &4954400965430906359
 GameObject:
   m_ObjectHideFlags: 0

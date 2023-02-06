@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GGJ23.Audio;
 using UnityEngine;
 
 public class Hauntable : MonoBehaviour
@@ -38,6 +39,7 @@ public class Hauntable : MonoBehaviour
     private Renderer[] m_RenderersToSwapMatsOn;
 
     internal Animation m_Animation;
+    internal FmodEventCueAdvancer m_FmodPlayer;
 
     private List<Material> m_Mats = new List<Material>();
     private bool m_Hovering;
@@ -49,6 +51,7 @@ public class Hauntable : MonoBehaviour
             m_Mats.Add(r.material);
         }
         m_Animation = GetComponent<Animation>();
+        m_FmodPlayer = GetComponent<FmodEventCueAdvancer>();
     }
 
     private void Update()
@@ -120,6 +123,14 @@ public class Hauntable : MonoBehaviour
     IEnumerator EnableFramingCamForDuration(float dur)
     {
         m_FramingCam.SetActive(true);
+        if (m_FmodPlayer == null && !TryGetComponent<FMODUnity.StudioEventEmitter>(out _))
+        {
+            Debug.LogWarning($"{name} doesn't have any sound effects!", this);
+        }
+        else
+        {
+            m_FmodPlayer.PlayNextFmodCue();
+        }
         InputHandler.Instance.FreezeControls = true;
 
         // Wait for camera to get to its place

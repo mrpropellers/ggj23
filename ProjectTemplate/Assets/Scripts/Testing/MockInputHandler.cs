@@ -13,6 +13,7 @@ namespace GGJ23.Testing
         static IEnumerator DoTestHaunt(Hauntable self)
         {
             self.m_FramingCam.SetActive(true);
+            self.m_FmodPlayer?.PlayNextFmodCue();
             yield return new WaitForSeconds(Hauntable.k_HauntWindupTime);
             self.m_Animation.Play();
             if (self.m_ApplyScreenShake)

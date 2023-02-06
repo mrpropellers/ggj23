@@ -616,6 +616,7 @@ GameObject:
   - component: {fileID: 237100740405930148}
   - component: {fileID: 237100740405930206}
   - component: {fileID: 599490498}
+  - component: {fileID: 8624921508828403780}
   m_Layer: 0
   m_Name: Cabinets
   m_TagString: Untagged
@@ -680,6 +681,27 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &8624921508828403780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237100740405930149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 0
+  m_AttenuationObject: {fileID: 0}
+  m_FmodEvent:
+    Guid:
+      Data1: -1993805104
+      Data2: 1297104114
+      Data3: -748619631
+      Data4: 492478752
+    Path: event:/Kitchen/HauntCabinet
 --- !u!1 &919057963389816659
 GameObject:
   m_ObjectHideFlags: 0

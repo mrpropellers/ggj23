@@ -399,6 +399,9 @@
 		<property name="linkChannels">
 			<value>false</value>
 		</property>
+		<relationship name="sidechains">
+			<destination>{66f3da46-22bd-4310-9207-772ef8393259}</destination>
+		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{fce84868-93ca-4f5f-9f95-fed28c7803db}" />
 	<object class="SingleSound" id="{72d325c4-c032-4b02-a906-24594dc0499f}">

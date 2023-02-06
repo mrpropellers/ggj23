@@ -80,6 +80,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{20aefb85-64bf-4090-a5e6-c7425e727dfe}">
+		<property name="volume">
+			<value>10</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{be9dcd07-c804-42e8-91fb-28897c179440}</destination>
 		</relationship>
@@ -123,6 +126,9 @@
 	</object>
 	<object class="MixerBusPanner" id="{5f8749ee-630a-4767-ac13-43434ce826cd}" />
 	<object class="SingleSound" id="{6d143016-8f84-4a8b-b57b-bd3e2f0ff567}">
+		<property name="volume">
+			<value>10</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{6c77b658-923e-4918-9fa0-20be935ceff1}</destination>
 		</relationship>
@@ -135,6 +141,16 @@
 	</object>
 	<object class="MixerBusPanner" id="{9cf8aace-de0e-401a-9211-dcb046b308f0}" />
 	<object class="MixerBusFader" id="{f975adff-1624-4a84-aab1-085492c493a2}" />
-	<object class="SpatialiserEffect" id="{db4f75a6-26d8-4b76-a474-669072633993}" />
+	<object class="SpatialiserEffect" id="{db4f75a6-26d8-4b76-a474-669072633993}">
+		<property name="distanceRolloffType">
+			<value>1</value>
+		</property>
+		<property name="maximumDistance">
+			<value>55</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{36d1bf87-1537-4127-adb2-1f69fb856194}" />
 </objects>

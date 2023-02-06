@@ -862,6 +862,7 @@ GameObject:
   - component: {fileID: 154438609518716575}
   - component: {fileID: 154438609518716572}
   - component: {fileID: 679824319}
+  - component: {fileID: 1204912003714736150}
   m_Layer: 0
   m_Name: Bathtub
   m_TagString: Untagged
@@ -926,6 +927,27 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &1204912003714736150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154438609518716574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 1
+  m_AttenuationObject: {fileID: 409287042549055319}
+  m_FmodEvent:
+    Guid:
+      Data1: -580713426
+      Data2: 1119674592
+      Data3: 1237812370
+      Data4: 1426624842
+    Path: event:/Bathroom/HauntBathtub
 --- !u!1 &154438609786414638
 GameObject:
   m_ObjectHideFlags: 0

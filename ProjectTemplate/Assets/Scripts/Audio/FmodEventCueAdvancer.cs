@@ -7,24 +7,45 @@ namespace GGJ23.Audio
 {
     public class FmodEventCueAdvancer : MonoBehaviour
     {
-        EventInstance m_EventInstance;
+        const string k_ContinueParameter = "Continue";
 
+        EventInstance m_EventInstance;
+        bool m_IsBroken;
+
+        [SerializeField]
+        bool m_UseContinueParameter;
+        [SerializeField]
+        Transform m_AttenuationObject;
         [SerializeField]
         EventReference m_FmodEvent;
 
         void Start()
         {
             m_EventInstance = RuntimeManager.CreateInstance(m_FmodEvent);
+            RuntimeManager.AttachInstanceToGameObject(m_EventInstance,
+                m_AttenuationObject == null ? transform : m_AttenuationObject);
         }
 
-        public void PlayNext()
+        public void PlayNextFmodCue()
         {
+            if (m_IsBroken)
+                return;
             var ret = m_EventInstance.getPlaybackState(out var playbackState);
             if (!this.CheckFmodResult("get playback state", ret))
                 return;
 
             if (playbackState == PLAYBACK_STATE.STOPPED)
+            {
+                if (m_UseContinueParameter)
+                {
+                    this.CheckFmodResult("set continue parameter",
+                        m_EventInstance.setParameterByName(k_ContinueParameter, 0f));
+                }
+
                 this.CheckFmodResult("start event", m_EventInstance.start());
+            }
+            else if (m_UseContinueParameter)
+                m_EventInstance.setParameterByName(k_ContinueParameter, 1f);
             else
                 this.CheckFmodResult("key off next cue", m_EventInstance.keyOff());
         }

@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_AttenuationObject: {fileID: 9166507347959499747}
   m_FmodEvent:
     Guid:
       Data1: 458828999
