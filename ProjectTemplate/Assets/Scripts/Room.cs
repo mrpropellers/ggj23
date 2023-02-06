@@ -164,6 +164,11 @@ public class Room : MonoBehaviour
             {
                 humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
             }
+            else
+            {
+                // TODO: set to idle
+                humanToKill.Animator.SetTrigger("other_kill");
+            }
 
             humanToKill.Kill();
         }

@@ -127,7 +127,7 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
-            HumanManager.UpdateOccupancy(CurrentTask, false);
+            HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
             TaskBeforeHaunt = CurrentTask;
             CurrentTask = HumanNeed.Haunted;
@@ -201,6 +201,9 @@ namespace Humans
 
         public void Kill()
         {
+            GetComponent<NavMeshAgent>().isStopped = true;
+            HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
+            HumanManager.UpdateOccupancy(CurrentTask, false);
             Killed = true;
             StartCoroutine(Deactivate(10f));
             HumanManager.Instance.CheckGameOver();
