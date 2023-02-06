@@ -34,10 +34,17 @@ public class Hauntable : MonoBehaviour
     [SerializeField]
     private Renderer[] m_RenderersToSwapMatsOn;
 
+    private KillAnimationHelper m_KillHelper;
+
     private Animation m_Animation;
 
     private List<Material> m_Mats = new List<Material>();
     private bool m_Hovering;
+
+    private void Awake()
+    {
+        TryGetComponent<KillAnimationHelper>(out m_KillHelper);
+    }
 
     private void Start()
     {
@@ -125,12 +132,17 @@ public class Hauntable : MonoBehaviour
         if (m_IsKillMove)
         {
             InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(transform);
+            // TODO: check bed/toilet
+            if (m_KillHelper != null)
+            {
+                m_KillHelper.TriggerKill();
+            }
         }
         else
         {
             InputHandler.Instance.CurrentWindow.Room.BeginHaunt(Spookiness);
+            m_Animation.Play();
         }
-        m_Animation.Play();
 
         if (m_ApplyScreenShake)
         {

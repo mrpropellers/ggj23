@@ -20,10 +20,8 @@ public class KillAnimationHelper : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        // TODO: temp debug
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             TriggerKill();
