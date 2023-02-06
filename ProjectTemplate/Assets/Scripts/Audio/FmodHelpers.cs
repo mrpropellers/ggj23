@@ -6,6 +6,8 @@ namespace GGJ23.Audio
 {
     public static class FmodHelper
     {
+        public const string PARAM_CONTINUE = "Continue";
+        public const string PARAM_RADIO_MUTE = "RadioMute";
         public static bool CheckFmodResult(
             this Component owner, string thingAttempted, RESULT result, bool isError = true)
         {

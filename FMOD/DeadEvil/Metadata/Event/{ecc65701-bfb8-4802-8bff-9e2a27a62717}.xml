@@ -115,9 +115,9 @@
 		<property name="delayType">
 			<value>0</value>
 		</property>
-		<property name="maxVoices">
-			<value>2</value>
-		</property>
+		<relationship name="triggerConditions">
+			<destination>{09a4647e-0754-4349-9461-b0059b82fa93}</destination>
+		</relationship>
 		<relationship name="audioFile">
 			<destination>{1e70d44f-9385-4ac4-8706-3232d4fae883}</destination>
 		</relationship>
@@ -143,6 +143,9 @@
 		<property name="length">
 			<value>21.333333333333332</value>
 		</property>
+		<relationship name="triggerConditions">
+			<destination>{5f083d2d-957f-4d52-b1df-0a40c028734d}</destination>
+		</relationship>
 		<relationship name="audioFile">
 			<destination>{95afd6e2-1fa6-40e4-813b-8ad2cd8f73ff}</destination>
 		</relationship>
@@ -199,6 +202,17 @@
 	</object>
 	<object class="MixerBusPanner" id="{5d09a8df-f256-4101-a476-97786a0874a1}" />
 	<object class="MixerBusFader" id="{a55c262e-8f02-4f39-aa90-f7ccdc525f90}" />
+	<object class="ParameterCondition" id="{09a4647e-0754-4349-9461-b0059b82fa93}">
+		<property name="minimum">
+			<value>0</value>
+		</property>
+		<property name="maximum">
+			<value>0</value>
+		</property>
+		<relationship name="parameter">
+			<destination>{2d611ce7-4d9d-4ffc-ad52-df0af8a78e23}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{845b4acd-966c-4966-a964-93690ca48a43}">
 		<relationship name="effects">
 			<destination>{648e5473-5140-4a0e-89ed-e655cad29249}</destination>
@@ -206,6 +220,17 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{55f4f622-b94c-4c63-91c6-c523bc127e51}" />
+	<object class="ParameterCondition" id="{5f083d2d-957f-4d52-b1df-0a40c028734d}">
+		<property name="minimum">
+			<value>0</value>
+		</property>
+		<property name="maximum">
+			<value>0</value>
+		</property>
+		<relationship name="parameter">
+			<destination>{2d611ce7-4d9d-4ffc-ad52-df0af8a78e23}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{82a15147-fa42-4d09-96fd-6152e2fff97f}">
 		<relationship name="effects">
 			<destination>{7dcf79cf-5b3a-44bb-8081-3e73951e7f13}</destination>

@@ -471,6 +471,7 @@ GameObject:
   - component: {fileID: 8049564871910794001}
   - component: {fileID: 8049564871910794006}
   - component: {fileID: 8049564871910794007}
+  - component: {fileID: 7793484488669539817}
   m_Layer: 0
   m_Name: Painting 1
   m_TagString: Untagged
@@ -542,6 +543,27 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &7793484488669539817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8049564871910793997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 0
+  m_AttenuationObject: {fileID: 0}
+  m_FmodEvent:
+    Guid:
+      Data1: -1636475748
+      Data2: 1087160427
+      Data3: -143402335
+      Data4: 96870811
+    Path: event:/Living Room/HauntPainting
 --- !u!1 &8049564872355654519
 GameObject:
   m_ObjectHideFlags: 0

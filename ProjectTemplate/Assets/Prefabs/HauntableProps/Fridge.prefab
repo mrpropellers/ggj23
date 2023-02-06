@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 1273056493629706657}
   - component: {fileID: 1273056493629706687}
   - component: {fileID: 1273056493629706680}
+  - component: {fileID: 1151217658512287383}
   m_Layer: 0
   m_Name: Fridge
   m_TagString: Untagged
@@ -314,6 +315,27 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &1151217658512287383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273056493629706656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 0
+  m_AttenuationObject: {fileID: 9147874814721700310}
+  m_FmodEvent:
+    Guid:
+      Data1: -1439510854
+      Data2: 1236181750
+      Data3: 368613286
+      Data4: -68841579
+    Path: event:/Kitchen/HauntFridge
 --- !u!1 &1273056493733684558
 GameObject:
   m_ObjectHideFlags: 0

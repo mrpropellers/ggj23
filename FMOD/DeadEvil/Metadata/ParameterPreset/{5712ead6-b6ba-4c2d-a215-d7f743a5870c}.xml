@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{5712ead6-b6ba-4c2d-a215-d7f743a5870c}">
+		<property name="name">
+			<value>RadioMute</value>
+		</property>
+		<relationship name="folder">
+			<destination>{1e913d33-4742-4ce8-a177-5fe2850999aa}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{2d611ce7-4d9d-4ffc-ad52-df0af8a78e23}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{2d611ce7-4d9d-4ffc-ad52-df0af8a78e23}">
+		<property name="parameterType">
+			<value>1</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>1</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

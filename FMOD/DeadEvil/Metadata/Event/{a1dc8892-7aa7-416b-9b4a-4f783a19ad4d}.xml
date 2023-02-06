@@ -400,7 +400,7 @@
 			<value>false</value>
 		</property>
 		<relationship name="sidechains">
-			<destination>{66f3da46-22bd-4310-9207-772ef8393259}</destination>
+			<destination>{092bf058-6fb1-4fba-a635-1e0a835606d7}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{fce84868-93ca-4f5f-9f95-fed28c7803db}" />
