@@ -108,8 +108,8 @@ public class Hauntable : MonoBehaviour
     public void Haunt()
     {
         HauntCompleted = true;
-        InputHandler.Instance.CurrentWindow.Room.RemoveHauntable(this);
         StartCoroutine(EnableFramingCamForDuration(m_FramingCamHauntDuration));
+        InputHandler.Instance.CurrentWindow.Room.RemoveHauntable(this);
     }
 
     public void SwapMats()
