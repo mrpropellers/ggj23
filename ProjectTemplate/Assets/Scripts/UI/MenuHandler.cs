@@ -14,7 +14,6 @@ public class MenuHandler : MonoBehaviour
 
     private void Awake()
     {
-        Time.timeScale = 0f;
     }
 
     private void Update()
@@ -32,25 +31,28 @@ public class MenuHandler : MonoBehaviour
 
     public void StartGame ()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         IsGamePaused = false;
         MainMenuUi.SetActive(false);
         GameStateText.text = "Resume";
-        Time.timeScale = 1f;
     }
 
     void Resume ()
     {
         MainMenuUi.SetActive(false);
-        Time.timeScale = 1f;
         IsGamePaused = false;
     }
 
     void Pause ()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+
         if (!MainMenuUi.activeSelf){
             MainMenuUi.SetActive(true);
-            
-            Time.timeScale = 0f;
+
             IsGamePaused = true;
         }
     }
