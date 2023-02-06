@@ -45,7 +45,15 @@ namespace GGJ23.Audio
                 this.CheckFmodResult("start event", m_EventInstance.start());
             }
             else if (m_UseContinueParameter)
-                m_EventInstance.setParameterByName(k_ContinueParameter, 1f);
+            {
+                if (!this.CheckFmodResult("get continue value",
+                        m_EventInstance.getParameterByName(k_ContinueParameter, out var value)))
+                    return;
+                value = 1f - value;
+
+                this.CheckFmodResult($"set Continue value to {value}",
+                    m_EventInstance.setParameterByName(k_ContinueParameter, value));
+            }
             else
                 this.CheckFmodResult("key off next cue", m_EventInstance.keyOff());
         }

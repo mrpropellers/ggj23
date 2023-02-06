@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 8298419219415232483}
   - component: {fileID: 8298419219415232482}
   - component: {fileID: 8298419219415232481}
+  - component: {fileID: 2345645115282882779}
   m_Layer: 0
   m_Name: Range
   m_TagString: Untagged
@@ -168,6 +169,36 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &2345645115282882779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8298419219415232492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -629775980
+      Data2: 1155281745
+      Data3: 2118327982
+      Data4: 570015918
+    Path: event:/Kitchen/Range On (loop)
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 0
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &8298419219509704994
 GameObject:
   m_ObjectHideFlags: 0

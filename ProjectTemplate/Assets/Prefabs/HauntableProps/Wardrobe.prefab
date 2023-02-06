@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 4898947757129824649}
   - component: {fileID: 4898947757129824650}
   - component: {fileID: 38201527}
+  - component: {fileID: 2380519536194606971}
   m_Layer: 0
   m_Name: Wardrobe
   m_TagString: Untagged
@@ -286,6 +287,27 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &2380519536194606971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4898947757129824648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 0
+  m_AttenuationObject: {fileID: 0}
+  m_FmodEvent:
+    Guid:
+      Data1: 454660321
+      Data2: 1155170607
+      Data3: 1810566570
+      Data4: 1015321801
+    Path: event:/Bedroom/HauntWardrobe
 --- !u!1 &4898947758563801410
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +491,7 @@ PrefabInstance:
     - target: {fileID: -9162283137040199926, guid: a31945138a8a8c844aa6531fb54253bb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -55.195953
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: -9162283137040199926, guid: a31945138a8a8c844aa6531fb54253bb,
         type: 3}
@@ -559,7 +581,7 @@ PrefabInstance:
     - target: {fileID: 8412421403877000013, guid: a31945138a8a8c844aa6531fb54253bb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -53.78569
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 8412421403877000013, guid: a31945138a8a8c844aa6531fb54253bb,
         type: 3}

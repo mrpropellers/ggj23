@@ -1313,6 +1313,7 @@ GameObject:
   - component: {fileID: 6828099326147991516}
   - component: {fileID: 6828099326147991517}
   - component: {fileID: 2686691525025455910}
+  - component: {fileID: 6381499042217403656}
   m_Layer: 0
   m_Name: KnifeBlock 1
   m_TagString: Untagged
@@ -1377,6 +1378,27 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &6381499042217403656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6828099326147991519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 0
+  m_AttenuationObject: {fileID: 857859379925589050}
+  m_FmodEvent:
+    Guid:
+      Data1: -980814582
+      Data2: 1149994131
+      Data3: -2081706617
+      Data4: -799200638
+    Path: event:/Kitchen/HauntKillKnife
 --- !u!1 &6828099326450745208
 GameObject:
   m_ObjectHideFlags: 0

@@ -5159,6 +5159,7 @@ GameObject:
   - component: {fileID: 4435437693145646651}
   - component: {fileID: 4435437693145646655}
   - component: {fileID: 4435437693145646654}
+  - component: {fileID: 4692541965002637599}
   m_Layer: 0
   m_Name: Kettle
   m_TagString: Untagged
@@ -5222,6 +5223,36 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &4692541965002637599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4435437693145646628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2026190064
+      Data2: 1125456860
+      Data3: 16078732
+      Data4: 1013124829
+    Path: event:/Kitchen/Kettle Whistle
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 1
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &6441831400693120177
 PrefabInstance:
   m_ObjectHideFlags: 0
