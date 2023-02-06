@@ -6,7 +6,7 @@ using UnityEngine;
 public class Hauntable : MonoBehaviour
 {
     public const float k_HauntWindupTime = 1f;
-    public const float k_ScreenShakeWaitTime = 2f;
+    public const float k_ScreenShakeWaitTime = 5f;
 
     [field: SerializeField, Range(0.01f, 100.00f)]
     public float Spookiness { get; private set; }
@@ -154,6 +154,10 @@ public class Hauntable : MonoBehaviour
             if (m_KillHelper != null)
             {
                 m_KillHelper.TriggerKill();
+            }
+            else if (m_Animation != null)
+            {
+                m_Animation.Play();
             }
         }
         else
