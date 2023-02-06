@@ -86,13 +86,16 @@ namespace Humans
 
         private void Update()
         {
-            // Needs fulfilment
-            m_HumanData.UpdateNeeds();
-
-            // State machine logic
-            if (m_CurrentState != null)
+            if (!Killed)
             {
-                m_CurrentState.UpdateLogic();
+                // Needs fulfilment
+                m_HumanData.UpdateNeeds();
+
+                // State machine logic
+                if (m_CurrentState != null)
+                {
+                    m_CurrentState.UpdateLogic();
+                }
             }
         }
 
@@ -127,13 +130,13 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
+            TaskBeforeHaunt = CurrentTask;
             HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
-            TaskBeforeHaunt = CurrentTask;
             CurrentTask = HumanNeed.Haunted;
             ChangeState(HauntedState, true);
             var haunted = m_HumanData.GetHaunted(amount, haunt);
-            Animator.SetFloat("fear", Animator.GetFloat("fear") + amount); // TODO: cleanup
+            Animator.SetFloat("fear", Animator.GetFloat("fear") + amount); 
             if (haunted)
             {
                 BeginEscape();
@@ -199,18 +202,24 @@ namespace Humans
             m_HumanData.RefillNeed(CurrentTask);
         }
 
-        public void Kill()
+        public void PrepareKill()
         {
-            GetComponent<NavMeshAgent>().isStopped = true;
-            HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
-            HumanManager.UpdateOccupancy(CurrentTask, false);
             Killed = true;
-            StartCoroutine(Deactivate(10f));
+            GetComponent<NavMeshAgent>().isStopped = true;
+            //HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
+            HumanManager.UpdateOccupancy(CurrentTask, false);
+            StartCoroutine(MoveToKill());
+        }
+
+        public void Kill(float killTime)
+        {
+            StartCoroutine(Deactivate(killTime));
             HumanManager.Instance.CheckGameOver();
         }
 
-        private IEnumerator Deactivate(float time)
+        public IEnumerator MoveToKill()
         {
+            Debug.Log($"start MoveToKill");
             var start = transform.position;
             var t = 0f;
             var len = 1f;
@@ -224,6 +233,10 @@ namespace Humans
             {
                 transform.rotation = Quaternion.Euler(rot);
             }
+        }
+
+        private IEnumerator Deactivate(float time)
+        {
             yield return new WaitForSeconds(time);
             gameObject.SetActive(false);
         }

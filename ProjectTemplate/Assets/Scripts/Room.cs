@@ -103,7 +103,7 @@ public class Room : MonoBehaviour
         var prevHauntable = m_SelectedHauntable.Previous ?? m_SelectedHauntable.List.Last; // check for null to loop back to last node in list
 
         while (prevHauntable != currHauntable && (!prevHauntable.Value.Unlocked || prevHauntable.Value.HauntCompleted)){
-            prevHauntable = prevHauntable.Previous ?? prevHauntable.List.Last; 
+            prevHauntable = prevHauntable.Previous ?? prevHauntable.List.Last;
         }
 
         m_SelectedHauntable = prevHauntable;
@@ -140,7 +140,7 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void BeginKillMoveHaunt(Transform hauntable)
+    public Human PrepareKillMoveHaunt(Transform hauntable)
     {
         float minDistance = Mathf.Infinity;
         GameObject closestHuman = null;
@@ -166,12 +166,28 @@ public class Room : MonoBehaviour
             }
             else
             {
-                // TODO: set to idle
+                // TODO: omg sorry
+                humanToKill.Animator.SetBool("walking", false);
+                humanToKill.Animator.SetBool("running", false);
+                humanToKill.Animator.SetBool("eat", false);
+                humanToKill.Animator.SetBool("read", false);
+                humanToKill.Animator.SetBool("sleep", false);
+                humanToKill.Animator.SetBool("toilet", false);
+                humanToKill.Animator.SetBool("jump", false);
+                //humanToKill.Animator.SetBool("scared", false);
                 humanToKill.Animator.SetTrigger("other_kill");
             }
+            humanToKill.PrepareKill();
 
-            humanToKill.Kill();
+            return humanToKill;
         }
+        return null;
+    }
+
+    public void BeginKillMoveHaunt(Human humanToKill)
+    {
+        // TODO: pass kill time
+        humanToKill.Kill(10f);
     }
 
     private void OnTriggerEnter(Collider other)
