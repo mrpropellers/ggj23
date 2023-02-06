@@ -132,8 +132,11 @@ public class Hauntable : MonoBehaviour
         if (m_IsKillMove)
         {
             InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(transform);
-            // TODO: check bed/toilet 
-            m_KillHelper.TriggerKill();
+            // TODO: check bed/toilet
+            if (m_KillHelper != null)
+            {
+                m_KillHelper.TriggerKill();
+            }
         }
         else
         {

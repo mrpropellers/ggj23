@@ -201,7 +201,6 @@ namespace Humans
 
         public void Kill()
         {
-            
             Killed = true;
             StartCoroutine(Deactivate(10f));
             HumanManager.Instance.CheckGameOver();
@@ -212,14 +211,12 @@ namespace Humans
             var start = transform.position;
             var t = 0f;
             var len = 1f;
-            //while (Vector3.Distance(transform.position, m_NeedsRoomTx[CurrentTask].position) > k_DistThreshold)
             while (t <= 1)
             {
                 t += Time.deltaTime / len;
                 transform.position = Vector3.Lerp(start, m_NeedsRoomTx[CurrentTask].position, t);
                 yield return null;
             }
-            // TODO: walk to animation state, wait for reaching waypoint
             if (BaseState.NeedToHardcodeRotation.TryGetValue(CurrentTask, out var rot))
             {
                 transform.rotation = Quaternion.Euler(rot);

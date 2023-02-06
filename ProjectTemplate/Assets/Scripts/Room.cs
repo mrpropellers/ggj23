@@ -24,7 +24,7 @@ public class Room : MonoBehaviour
     private bool m_Growing;
     private int m_SelectedHauntable;
 
-    private static Dictionary<HauntType, string> k_HauntCharacterAnim = new()
+    public static Dictionary<HauntType, string> k_HauntCharacterAnim = new()
     {
         { HauntType.Bathroom,"toilet_kill" }, { HauntType.Bedroom, "bed_kill" },
         //{ HumanNeed.Curious, new Vector3(0, 180, 0) }, { HumanNeed.Hunger, new Vector3(0, 270, 0) },
@@ -129,10 +129,14 @@ public class Room : MonoBehaviour
 
         if (closestHuman != null)
         {
-            var toKill = closestHuman.GetComponent<Human>();
-            // TODO: check if not bed or toilet
-            toKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
-            toKill.Kill();
+            var humanToKill = closestHuman.GetComponent<Human>();
+            // Call human death anim
+            if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out var val))
+            {
+                humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
+            }
+
+            humanToKill.Kill();
         }
     }
 

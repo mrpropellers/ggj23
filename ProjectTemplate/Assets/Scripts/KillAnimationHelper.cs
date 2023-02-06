@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class KillAnimationHelper : MonoBehaviour
 {
-    [SerializeField]
-    private bool m_UsesAnimators = false;
-
     private Animator[] m_Animators;
 
     private void Awake()

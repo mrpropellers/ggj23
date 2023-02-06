@@ -137,7 +137,6 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
-            // TODO: if haunted, current task is haunted!! need to save previous one?
             if (!isHaunted)
             {
                 m_Human.Animator.SetBool(NeedToAnimName[m_Human.CurrentTask], false);
