@@ -103,7 +103,7 @@ public class Room : MonoBehaviour
         var prevHauntable = m_SelectedHauntable.Previous ?? m_SelectedHauntable.List.Last; // check for null to loop back to last node in list
 
         while (prevHauntable != currHauntable && (!prevHauntable.Value.Unlocked || prevHauntable.Value.HauntCompleted)){
-            prevHauntable = prevHauntable.Previous ?? prevHauntable.List.Last; 
+            prevHauntable = prevHauntable.Previous ?? prevHauntable.List.Last;
         }
 
         m_SelectedHauntable = prevHauntable;
@@ -184,41 +184,10 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    //public void BeginKillMoveHaunt(Transform hauntable)
     public void BeginKillMoveHaunt(Human humanToKill)
     {
-        //float minDistance = Mathf.Infinity;
-        //GameObject closestHuman = null;
-
-        //foreach (var human in m_HauntableHumans)
-        //{
-        //    float dist = Vector3.Distance(hauntable.position, human.transform.position);
-
-        //    if (dist <= minDistance)
-        //    {
-        //        minDistance = dist;
-        //        closestHuman = human;
-        //    }
-        //}
-
-        //if (closestHuman != null)
-        //{
-        //    var humanToKill = closestHuman.GetComponent<Human>();
-            // Call human death anim
-            //if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out var val))
-            //{
-            //    humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
-            //}
-            //else
-            //{
-            //    // TODO: set to idle
-            //    humanToKill.Animator.SetTrigger("other_kill");
-            //}
-
-        //humanToKill.Kill();
         // TODO: pass kill time
         humanToKill.Kill(10f);
-        //}
     }
 
     private void OnTriggerEnter(Collider other)
