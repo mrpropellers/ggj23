@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Hauntable : MonoBehaviour
 {
-    public const float k_HauntWindupTime = 1f;
     public const float k_ScreenShakeWaitTime = 5f;
 
     [field: SerializeField, Range(0.01f, 100.00f)]
@@ -19,6 +18,9 @@ public class Hauntable : MonoBehaviour
 
     [SerializeField]
     private GrowingRoot[] m_Roots;
+
+    [SerializeField]
+    internal float m_HauntWindupTime = 1f;
 
     [SerializeField]
     internal GameObject m_FramingCam;
@@ -152,7 +154,7 @@ public class Hauntable : MonoBehaviour
         }
 
         // Wait for camera to get to its place
-        yield return new WaitForSeconds(k_HauntWindupTime);
+        yield return new WaitForSeconds(m_HauntWindupTime);
 
         if (m_IsKillMove)
         {

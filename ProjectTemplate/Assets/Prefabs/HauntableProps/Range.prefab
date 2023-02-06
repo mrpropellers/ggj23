@@ -147,8 +147,9 @@ MonoBehaviour:
   <Spookiness>k__BackingField: 30
   m_Roots:
   - {fileID: 8298419219509704992}
+  m_HauntWindupTime: 2
   m_FramingCam: {fileID: 8298419220420487535}
-  m_FramingCamHauntDuration: 4
+  m_FramingCamHauntDuration: 2
   m_IsKillMove: 0
   m_ApplyScreenShake: 0
   m_MatsToSwap: []

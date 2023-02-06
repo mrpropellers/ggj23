@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 8046208574091735243}
   - component: {fileID: 8046208574091735242}
   - component: {fileID: 4089622595445672383}
-  - component: {fileID: 831648876057077615}
+  - component: {fileID: 2514800875085288916}
   m_Layer: 0
   m_Name: Desk 1
   m_TagString: Untagged
@@ -577,7 +577,7 @@ MonoBehaviour:
   m_Roots:
   - {fileID: 8046208573526964841}
   m_FramingCam: {fileID: 8046208574886275067}
-  m_FramingCamHauntDuration: 5
+  m_FramingCamHauntDuration: 8
   m_IsKillMove: 0
   m_ApplyScreenShake: 0
   m_MatsToSwap: []
@@ -598,7 +598,7 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &831648876057077615
+--- !u!114 &2514800875085288916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -23,7 +23,7 @@ namespace GGJ23.Testing
                 yield break;
             }
 
-            yield return new WaitForSeconds(Hauntable.k_HauntWindupTime);
+            yield return new WaitForSeconds(self.m_HauntWindupTime);
             self.m_Animation.Play();
             if (self.m_ApplyScreenShake)
             {
