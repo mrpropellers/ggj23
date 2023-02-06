@@ -6,7 +6,7 @@ using UnityEngine;
 public class Hauntable : MonoBehaviour
 {
     public const float k_HauntWindupTime = 1f;
-    public const float k_ScreenShakeWaitTime = 2f;
+    public const float k_ScreenShakeWaitTime = 5f;
 
     [field: SerializeField, Range(0.01f, 100.00f)]
     public float Spookiness { get; private set; }
@@ -144,16 +144,27 @@ public class Hauntable : MonoBehaviour
             m_FmodPlayer.PlayNextFmodCue();
         InputHandler.Instance.FreezeControls = true;
 
+        Humans.Human human = null;
+        if (m_IsKillMove)
+        {
+            // TODO: place human first
+            human = InputHandler.Instance.CurrentWindow.Room.PrepareKillMoveHaunt(transform);
+        }
+
         // Wait for camera to get to its place
         yield return new WaitForSeconds(k_HauntWindupTime);
 
         if (m_IsKillMove)
         {
-            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(transform);
+            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(human);
             // TODO: check bed/toilet
             if (m_KillHelper != null)
             {
                 m_KillHelper.TriggerKill();
+            }
+            else if (m_Animation != null)
+            {
+                m_Animation.Play();
             }
         }
         else

@@ -25,14 +25,11 @@ public class GameplayManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void FixedUpdate()
     {
-        m_FearEnergy += m_PassiveEnergyGain;
+        m_FearEnergy = Mathf.Clamp(m_FearEnergy + m_PassiveEnergyGain, 0f, 100f);
     }
 
     public bool SpendFearJuice(float juiceToSpend)

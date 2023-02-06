@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("Your SkyAndFogVolume has no vignette!");
         }
 
-        m_FearMeter = transform.Find("FearMeter/FearMeterBar").GetComponent<Image>();
+        m_FearMeter = transform.Find("HUD/FearMeter/FearMeterBar").GetComponent<Image>();
         m_Animation = GetComponent<Animation>();
     }
 

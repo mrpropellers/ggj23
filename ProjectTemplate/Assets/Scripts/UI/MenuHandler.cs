@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class MenuHandler : MonoBehaviour
 {
@@ -12,9 +12,16 @@ public class MenuHandler : MonoBehaviour
 
     private static bool IsDitheringEnabled = true;
 
+    [SerializeField]
+    private EventSystem m_EventSystem;
+    private GameObject m_LastSelectedObject;
+
+    [SerializeField]
+    private GameObject m_DitheringShader;
+
     private void Awake()
     {
-        Time.timeScale = 0f;
+        IsGamePaused = true;
     }
 
     private void Update()
@@ -28,29 +35,53 @@ public class MenuHandler : MonoBehaviour
                 Pause();
             }
         }
+
+        if (IsGamePaused)
+        {
+            Debug.Log(m_EventSystem.currentSelectedGameObject);
+            if (m_EventSystem.currentSelectedGameObject == null)
+            {
+                m_EventSystem.SetSelectedGameObject(m_LastSelectedObject);
+            }
+            else
+            {
+                m_LastSelectedObject = m_EventSystem.currentSelectedGameObject;
+            }
+        }
+    }
+
+    public void UpdateSelectedButton(GameObject newButton)
+    {
+        m_EventSystem.SetSelectedGameObject(newButton);
+        m_LastSelectedObject = newButton;
     }
 
     public void StartGame ()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         IsGamePaused = false;
         MainMenuUi.SetActive(false);
-        GameStateText.text = "Resume";
-        Time.timeScale = 1f;
+        GameStateText.text = "resume";
     }
 
     void Resume ()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         MainMenuUi.SetActive(false);
-        Time.timeScale = 1f;
         IsGamePaused = false;
     }
 
     void Pause ()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+
         if (!MainMenuUi.activeSelf){
             MainMenuUi.SetActive(true);
-            
-            Time.timeScale = 0f;
+
             IsGamePaused = true;
         }
     }
@@ -72,7 +103,7 @@ public class MenuHandler : MonoBehaviour
     public void ToggleDithering ()
     {
         IsDitheringEnabled = !IsDitheringEnabled;
-        Debug.Log($"Dithering: {IsDitheringEnabled}");
+        m_DitheringShader.SetActive(IsDitheringEnabled);
     }
 
     #endregion

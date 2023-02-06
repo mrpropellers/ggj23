@@ -1,7 +1,6 @@
 using Cinemachine;
 using Humans;
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
 
 public class TreeGoblinController : MonoBehaviour
 {
