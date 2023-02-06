@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{d0219dec-1b55-4812-beb3-fa8d55eb73d2}">
+		<property name="name">
+			<value>Bathroom Reverb</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{76c549a8-56bc-4560-b71d-85b10dab7866}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{b6d9f101-67e9-437e-9984-cb5130cd1c96}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{50b1809c-1b87-42ba-96e9-c85848c44e35}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{76c549a8-56bc-4560-b71d-85b10dab7866}">
+		<relationship name="effects">
+			<destination>{96585f6c-7d09-415b-8c67-dc73c89a2f6c}</destination>
+			<destination>{db1c40bf-dab5-4693-8e23-161c248cc3e6}</destination>
+			<destination>{abb6e6ec-d121-46cd-8b49-49227db5a8a5}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{b6d9f101-67e9-437e-9984-cb5130cd1c96}" />
+	<object class="ConvolutionReverbEffect" id="{96585f6c-7d09-415b-8c67-dc73c89a2f6c}">
+		<property name="endFrame">
+			<value>66729</value>
+		</property>
+		<relationship name="referenceableData">
+			<destination>{5dc9ac63-2ad4-48b7-bdc6-2fa992bb9e89}</destination>
+		</relationship>
+	</object>
+	<object class="SFXReverbEffect" id="{db1c40bf-dab5-4693-8e23-161c248cc3e6}" />
+	<object class="MixerBusFader" id="{abb6e6ec-d121-46cd-8b49-49227db5a8a5}" />
+</objects>
