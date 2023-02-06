@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: c23c22772a28a2545aff6609d1c2ed10
+guid: df1764371e4427c49b801de7b4c53429
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Bathroomsink2sprite
-    second: {fileID: 2100000, guid: 8ce0777b32e7dcc44bd7e5c4ae36df22, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -74,7 +69,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 1
+    normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
