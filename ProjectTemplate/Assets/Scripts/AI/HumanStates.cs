@@ -67,9 +67,6 @@ namespace Humans
 
     public class Moving : BaseState
     {
-        // TODO: tune this
-        private const float k_DistThreshold = 0.6f;
-
         public Moving(Human human, Transform target) : base(human, StateType.Moving, target) { }
 
         public override void Enter(bool isEscaping)
@@ -93,7 +90,7 @@ namespace Humans
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            if (Vector3.Distance(m_Target.position, m_Human.transform.position) < k_DistThreshold)
+            if (Vector3.Distance(m_Target.position, m_Human.transform.position) < Human.k_DistThreshold)
             {
                 m_Human.transform.position = m_Target.position;
                 m_Human.ChangeState(m_Human.TaskState, false);
