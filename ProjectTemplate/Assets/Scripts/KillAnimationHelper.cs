@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class KillAnimationHelper : MonoBehaviour
 {
+    [SerializeField]
+    private bool m_UsesAnimators = false;
+
     private Animator[] m_Animators;
 
     private void Awake()
@@ -20,10 +23,8 @@ public class KillAnimationHelper : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        // TODO: temp debug
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             TriggerKill();

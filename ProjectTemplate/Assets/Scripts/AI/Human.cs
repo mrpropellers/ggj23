@@ -198,8 +198,21 @@ namespace Humans
 
         public void Kill()
         {
+            // TODO: place at animation state
+            transform.position = m_NeedsRoomTx[CurrentTask].position;
+            if (BaseState.NeedToHardcodeRotation.TryGetValue(CurrentTask, out var rot))
+            {
+                transform.rotation = Quaternion.Euler(rot);
+            }
             Killed = true;
+            StartCoroutine(Deactivate(10f));
             HumanManager.Instance.CheckGameOver();
+        }
+
+        private IEnumerator Deactivate(float time)
+        {
+            yield return new WaitForSeconds(time);
+            gameObject.SetActive(false);
         }
 
         // DEBUG

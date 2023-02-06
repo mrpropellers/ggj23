@@ -19,7 +19,6 @@ namespace Humans
             { HumanNeed.Haunted, "jump" }, { HumanNeed.Error, string.Empty }
         };
 
-        // TODO: assign these values after placements
         public static Dictionary<HumanNeed, Vector3> NeedToHardcodeRotation = new()
         {
             { HumanNeed.Bathroom, new Vector3(0, 270, 0) }, { HumanNeed.Sleep, new Vector3(0, 180, 0) },
