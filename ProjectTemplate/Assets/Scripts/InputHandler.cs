@@ -56,6 +56,7 @@ public class InputHandler : MonoBehaviour
                 {
                     LookingInside = false;
                     CurrentWindow.StopLooking();
+                    UIManager.Instance.StatsTransitions(true);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Space))
@@ -73,6 +74,7 @@ public class InputHandler : MonoBehaviour
                 {
                     LookingInside = true;
                     CurrentWindow.LookInside();
+                    UIManager.Instance.StatsTransitions(false);
                 }
             }
         }
