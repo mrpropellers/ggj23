@@ -88,6 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8920236650138950157}
   - component: {fileID: 8920236650138950156}
+  - component: {fileID: 1744244580}
   m_Layer: 0
   m_Name: Shampoo
   m_TagString: Untagged
@@ -129,11 +130,27 @@ MonoBehaviour:
   m_Roots:
   - {fileID: 8920236650220298584}
   m_FramingCam: {fileID: 8920236649699440429}
-  m_FramingCamHauntDuration: 0
+  m_FramingCamHauntDuration: 5
   m_IsKillMove: 0
   m_ApplyScreenShake: 0
   m_MatsToSwap: []
   m_RenderersToSwapMatsOn: []
+--- !u!111 &1744244580
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920236650138950158}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 463aff309c99f934aaedeaf1ee03bb71, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 463aff309c99f934aaedeaf1ee03bb71, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &8920236650220298586
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,17 +445,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 6e83ca369024b8a46b62f8c9b66aa7c4,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: -89.807
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e83ca369024b8a46b62f8c9b66aa7c4,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -41.161
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e83ca369024b8a46b62f8c9b66aa7c4,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -311.16998
+      value: -270.009
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6e83ca369024b8a46b62f8c9b66aa7c4,
         type: 3}
