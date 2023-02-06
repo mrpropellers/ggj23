@@ -17,19 +17,21 @@ public class Room : MonoBehaviour
     [SerializeField]
     private HauntType m_HauntType;
 
+    // linked list of m_Hauntables in visual order from left to right
+    private LinkedList<Hauntable> m_HauntablesLinkedList;
+
     // All hauntables, but in order that you should unlock them
     private Hauntable[] m_HauntablesUnlockOrder;
-
-    // The list of hauntables currently unlocked, in left to right visual order
-    private List<Hauntable> m_UnlockedHauntables = new List<Hauntable>();
 
     private List<GameObject> m_HauntableHumans = new();
 
     private bool m_Growing;
-    private int m_SelectedHauntable;
+    private LinkedListNode<Hauntable> m_SelectedHauntable = null;
 
     private void Start()
     {
+        m_HauntablesLinkedList = new LinkedList<Hauntable>(m_Hauntables);
+
         // Find hauntable unlock order based on spookiness of haunts
         m_HauntablesUnlockOrder = m_Hauntables.OrderBy(h => h.Spookiness).ToArray();
     }
@@ -37,14 +39,12 @@ public class Room : MonoBehaviour
     private void Update()
     {
         if (!LookingInRoom) return;
-        if (m_Hauntables.Length != 0 && m_UnlockedHauntables.Count != 0)
+
+        InputHandler.Instance.CurrentHauntableObject = m_SelectedHauntable?.Value;
+
+        if (InputHandler.Instance.CurrentHauntableObject != null)
         {
-            InputHandler.Instance.CurrentHauntableObject = m_UnlockedHauntables[m_SelectedHauntable];
             InputHandler.Instance.CurrentHauntableObject.Hover();
-        }
-        else if (m_UnlockedHauntables.Count == 0)
-        {
-            InputHandler.Instance.CurrentHauntableObject = null;
         }
     }
 
@@ -77,28 +77,57 @@ public class Room : MonoBehaviour
 
     public void SelectNextHauntableRight()
     {
-        int nextHauntable = (m_SelectedHauntable + 1) % m_UnlockedHauntables.Count;
-        m_SelectedHauntable = m_UnlockedHauntables[nextHauntable].Unlocked ? nextHauntable : 0;
+        if (m_SelectedHauntable == null){
+            return;
+        }
+
+        var currHauntable = m_SelectedHauntable;
+        var nextHauntable = m_SelectedHauntable.Next ?? m_SelectedHauntable.List.First; // check for null to loop back to first node in list
+
+        while (nextHauntable != currHauntable && (!nextHauntable.Value.Unlocked || nextHauntable.Value.HauntCompleted)){
+            nextHauntable = nextHauntable.Next ?? nextHauntable.List.First;
+        }
+
+        m_SelectedHauntable = nextHauntable;
     }
 
     public void SelectNextHauntableLeft()
     {
-        int lastUnlockedHauntable = m_UnlockedHauntables.Count - 1;
-        int nextHauntable = m_SelectedHauntable - 1 == -1 ? lastUnlockedHauntable : m_SelectedHauntable - 1;
-        m_SelectedHauntable = m_UnlockedHauntables[nextHauntable].Unlocked ? nextHauntable : lastUnlockedHauntable;
+        if (m_SelectedHauntable == null){
+            return;
+        }
+
+        var currHauntable = m_SelectedHauntable;
+        var prevHauntable = m_SelectedHauntable.Previous ?? m_SelectedHauntable.List.Last; // check for null to loop back to last node in list
+
+        while (prevHauntable != currHauntable && (!prevHauntable.Value.Unlocked || prevHauntable.Value.HauntCompleted)){
+            prevHauntable = prevHauntable.Previous ?? prevHauntable.List.Last; 
+        }
+
+        m_SelectedHauntable = prevHauntable;
     }
 
     public void UnlockHauntable(Hauntable unlocked)
     {
-        m_UnlockedHauntables.Add(unlocked);
+        if (m_SelectedHauntable == null){
+            m_SelectedHauntable = m_HauntablesLinkedList.Find(unlocked);
+        }
     }
 
     public void RemoveHauntable(Hauntable completed)
     {
-        m_UnlockedHauntables.Remove(completed);
-        m_SelectedHauntable--;
-        if (m_SelectedHauntable < 0)
-            m_SelectedHauntable = 0;
+        // if the completed is the current selected hauntable, try to find the next one to the right
+        if (m_SelectedHauntable.Value == completed)
+        {
+            var currHauntable = m_SelectedHauntable;
+            this.SelectNextHauntableRight();
+
+            // didnt a valid next one to the right, set selected hauntable to null
+            if (currHauntable == m_SelectedHauntable)
+            {
+                m_SelectedHauntable = null;
+            }
+        }
     }
 
     public void BeginHaunt(float amount)
