@@ -10,10 +10,6 @@ public class Room : MonoBehaviour
     [SerializeField, Tooltip("All hauntable objects, in visual order from left to right")]
     private Hauntable[] m_Hauntables;
 
-    // TODO: killanim
-    [SerializeField]
-    private KillAnimationHelper m_KillHelper;
-
     [SerializeField]
     private HauntType m_HauntType;
 
@@ -27,6 +23,12 @@ public class Room : MonoBehaviour
 
     private bool m_Growing;
     private LinkedListNode<Hauntable> m_SelectedHauntable = null;
+
+    public static Dictionary<HauntType, string> k_HauntCharacterAnim = new()
+    {
+        { HauntType.Bathroom,"toilet_kill" }, { HauntType.Bedroom, "bed_kill" },
+        //{ HumanNeed.Curious, new Vector3(0, 180, 0) }, { HumanNeed.Hunger, new Vector3(0, 270, 0) },
+    };
 
     private void Start()
     {
@@ -156,8 +158,14 @@ public class Room : MonoBehaviour
 
         if (closestHuman != null)
         {
-            m_KillHelper.TriggerKill();
-            closestHuman.GetComponent<Human>().Kill();
+            var humanToKill = closestHuman.GetComponent<Human>();
+            // Call human death anim
+            if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out var val))
+            {
+                humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
+            }
+
+            humanToKill.Kill();
         }
     }
 

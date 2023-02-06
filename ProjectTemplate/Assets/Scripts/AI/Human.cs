@@ -17,6 +17,9 @@ namespace Humans
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Human : MonoBehaviour
     {
+        // TODO: tune this
+        public static readonly float k_DistThreshold = 0.6f;
+
         public readonly static float WalkSpeed = 2f;
         public readonly static float RunSpeed = 4f;
 
@@ -199,7 +202,27 @@ namespace Humans
         public void Kill()
         {
             Killed = true;
+            StartCoroutine(Deactivate(10f));
             HumanManager.Instance.CheckGameOver();
+        }
+
+        private IEnumerator Deactivate(float time)
+        {
+            var start = transform.position;
+            var t = 0f;
+            var len = 1f;
+            while (t <= 1)
+            {
+                t += Time.deltaTime / len;
+                transform.position = Vector3.Lerp(start, m_NeedsRoomTx[CurrentTask].position, t);
+                yield return null;
+            }
+            if (BaseState.NeedToHardcodeRotation.TryGetValue(CurrentTask, out var rot))
+            {
+                transform.rotation = Quaternion.Euler(rot);
+            }
+            yield return new WaitForSeconds(time);
+            gameObject.SetActive(false);
         }
 
         // DEBUG

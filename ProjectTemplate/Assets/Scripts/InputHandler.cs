@@ -10,6 +10,7 @@ public class InputHandler : MonoBehaviour
     public bool LookingInside { get; private set; }
     public Hauntable CurrentHauntableObject { get; set; }
     public bool FreezeControls { get; set; }
+    public bool IsMoving => Vector2.Distance(MovementInput, Vector2.zero) < Mathf.Epsilon;
 
     [SerializeField]
     private float m_CameraHorizontalLook = 1f;
