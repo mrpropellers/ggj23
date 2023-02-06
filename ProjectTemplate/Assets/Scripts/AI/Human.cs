@@ -14,6 +14,11 @@ namespace Humans
         Bathroom, Bedroom, Kitchen, LivingRoom
     }
 
+    public enum HumanName
+    {
+        Sleepyhead, CuriousKat, Gourmando
+    }
+
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Human : MonoBehaviour
     {
@@ -43,12 +48,17 @@ namespace Humans
         public HumanNeed CurrentTask = HumanNeed.Error;
         public HumanNeed TaskBeforeHaunt = HumanNeed.Error;
 
+        [SerializeField]
+        private HumanName m_HumanName = HumanName.Sleepyhead;
+
         public bool Escaped { get; set; }
         public bool Killed { get; private set; }
 
         bool m_StartedWait = false;
         [HideInInspector]
         public bool Continue;
+
+        private HumanNeed m_TaskLastFrame;
 
         private void Awake()
         {
@@ -67,6 +77,7 @@ namespace Humans
             if (m_CurrentState != null)
             {
                 m_CurrentState.Enter(isEscaping: false);
+                UIManager.Instance.HumanThought(m_HumanName, m_HumanData.FirstNeed);
             }
         }
 
@@ -96,6 +107,13 @@ namespace Humans
                 {
                     m_CurrentState.UpdateLogic();
                 }
+
+                if (CurrentTask != m_TaskLastFrame)
+                {
+                    UIManager.Instance.HumanThought(m_HumanName, CurrentTask);
+                }
+
+                m_TaskLastFrame = CurrentTask;
             }
         }
 
@@ -121,6 +139,15 @@ namespace Humans
 
             m_CurrentState = newState;
             m_CurrentState.Enter(isEscaping);
+
+            if (newState == HauntedState || isHaunted || isEscaping)
+            {
+                UIManager.Instance.HumanInDanger(m_HumanName);
+            }
+            else if (!Animator.GetBool(BaseState.NeedToAnimName[HumanNeed.Haunted]) && m_HumanData.CurrentFear < 70)
+            {
+                UIManager.Instance.HumanHealthy(m_HumanName);
+            }
         }
 
         private BaseState GetInitialState()
@@ -136,7 +163,7 @@ namespace Humans
             CurrentTask = HumanNeed.Haunted;
             ChangeState(HauntedState, true);
             var haunted = m_HumanData.GetHaunted(amount, haunt);
-            Animator.SetFloat("fear", Animator.GetFloat("fear") + amount); 
+            Animator.SetFloat("fear", Animator.GetFloat("fear") + amount);
             if (haunted)
             {
                 BeginEscape();
@@ -214,6 +241,7 @@ namespace Humans
         public void Kill(float killTime)
         {
             StartCoroutine(Deactivate(killTime));
+            UIManager.Instance.KillHuman(m_HumanName);
             HumanManager.Instance.CheckGameOver();
         }
 

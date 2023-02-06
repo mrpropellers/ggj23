@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Humans;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -51,6 +52,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(GameplayManager.Instance.FearEnergyNormalized);
         m_FearMeter.fillAmount = Mathf.SmoothStep(m_FearMeter.fillAmount, GameplayManager.Instance.FearEnergyNormalized,
             Time.deltaTime * m_FearMeterSmoothSpeed);
     }
@@ -110,6 +112,43 @@ public class UIManager : MonoBehaviour
         transform.Find("Newspaper/ArticleBody").GetComponent<TextMeshProUGUI>().SetText(body);
 
         m_Animation.Play("NewspaperIn");
+    }
+
+    public void KillHuman(HumanName humanName)
+    {
+        var portrait = transform.Find($"HUD/{humanName}Stats/Portrait");
+        var portraitComponent = portrait.GetComponent<HumanPortrait>();
+        portraitComponent.Kill();
+
+        var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
+        var animateHealth = cardiogram.GetComponent<AnimateHealth>();
+        animateHealth.Kill();
+    }
+
+    public void HumanInDanger(HumanName humanName)
+    {
+        var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
+        var animateHealth = cardiogram.GetComponent<AnimateHealth>();
+        animateHealth.Danger();
+    }
+
+    public void HumanHealthy(HumanName humanName)
+    {
+        var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
+        var animateHealth = cardiogram.GetComponent<AnimateHealth>();
+        animateHealth.Healthy();
+    }
+
+    public void HumanThought(HumanName humanName, HumanNeed need)
+    {
+        var thought = transform.Find($"HUD/{humanName}Stats/ThoughtBubble");
+        var thoughts = thought.GetComponent<Thoughts>();
+        thoughts.HaveNewThought(need);
+    }
+
+    public void StatsTransitions(bool inAnim)
+    {
+        m_Animation.Play(inAnim ? "StatsIn" : "StatsOut");
     }
 
     public void SetVignetteIntensity(float intensity, float dur, bool fadeToOriginal=false)
