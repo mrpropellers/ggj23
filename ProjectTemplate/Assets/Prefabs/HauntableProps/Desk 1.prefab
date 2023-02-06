@@ -576,7 +576,7 @@ MonoBehaviour:
   m_Roots:
   - {fileID: 8046208573526964841}
   m_FramingCam: {fileID: 8046208574886275067}
-  m_FramingCamHauntDuration: 0
+  m_FramingCamHauntDuration: 8
   m_IsKillMove: 0
   m_ApplyScreenShake: 0
   m_MatsToSwap: []
