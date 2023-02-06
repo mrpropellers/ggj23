@@ -93,7 +93,7 @@ public class Room : MonoBehaviour
         m_UnlockedHauntables.Add(unlocked);
     }
 
-    public void RemoveHauntable(Hauntable completed)
+    public virtual void RemoveHauntable(Hauntable completed)
     {
         m_UnlockedHauntables.Remove(completed);
         m_SelectedHauntable--;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Hauntable : MonoBehaviour
 {
+    public const float k_HauntWindupTime = 1f;
+    public const float k_ScreenShakeWaitTime = 2f;
+
     [field: SerializeField, Range(0.01f, 100.00f)]
     public float Spookiness { get; private set; }
 
@@ -11,22 +14,22 @@ public class Hauntable : MonoBehaviour
 
     public float RootGrowthAmount { get; private set; }
 
-    public bool HauntCompleted { get; private set; }
+    public bool HauntCompleted { get; internal set; }
 
     [SerializeField]
     private GrowingRoot[] m_Roots;
 
     [SerializeField]
-    private GameObject m_FramingCam;
+    internal GameObject m_FramingCam;
 
     [SerializeField]
-    private float m_FramingCamHauntDuration;
+    internal float m_FramingCamHauntDuration;
 
     [SerializeField]
     private bool m_IsKillMove;
 
     [SerializeField]
-    private bool m_ApplyScreenShake;
+    internal bool m_ApplyScreenShake;
 
     [SerializeField]
     private Material[] m_MatsToSwap;
@@ -34,7 +37,7 @@ public class Hauntable : MonoBehaviour
     [SerializeField]
     private Renderer[] m_RenderersToSwapMatsOn;
 
-    private Animation m_Animation;
+    internal Animation m_Animation;
 
     private List<Material> m_Mats = new List<Material>();
     private bool m_Hovering;
@@ -114,13 +117,13 @@ public class Hauntable : MonoBehaviour
         }
     }
 
-    private IEnumerator EnableFramingCamForDuration(float dur)
+    IEnumerator EnableFramingCamForDuration(float dur)
     {
         m_FramingCam.SetActive(true);
         InputHandler.Instance.FreezeControls = true;
 
         // Wait for camera to get to its place
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(k_HauntWindupTime);
 
         if (m_IsKillMove)
         {
@@ -134,10 +137,11 @@ public class Hauntable : MonoBehaviour
 
         if (m_ApplyScreenShake)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(k_ScreenShakeWaitTime);
             GameplayManager.Instance.ScreenShake();
         }
 
+        // BUG? Should you subtract previous wait durations from this number?
         yield return new WaitForSeconds(dur);
 
         m_FramingCam.SetActive(false);

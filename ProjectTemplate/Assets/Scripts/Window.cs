@@ -4,7 +4,7 @@ using UnityEngine;
 public class Window : MonoBehaviour
 {
     [field: SerializeField]
-    public Room Room { get; private set; }
+    public Room Room { get; internal set; }
 
     [SerializeField]
     private LayerMask m_HauntableLayerMask;
