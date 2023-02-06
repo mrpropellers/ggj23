@@ -20,14 +20,6 @@ public class KillAnimationHelper : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            TriggerKill();
-        }
-    }
-
     public void TriggerKill()
     {
         foreach (var anim in m_Animators)

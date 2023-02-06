@@ -140,7 +140,7 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void BeginKillMoveHaunt(Transform hauntable)
+    public Human PrepareKillMoveHaunt(Transform hauntable)
     {
         float minDistance = Mathf.Infinity;
         GameObject closestHuman = null;
@@ -166,12 +166,59 @@ public class Room : MonoBehaviour
             }
             else
             {
-                // TODO: set to idle
+                // TODO: omg sorry
+                humanToKill.Animator.SetBool("walking", false);
+                humanToKill.Animator.SetBool("running", false);
+                humanToKill.Animator.SetBool("eat", false);
+                humanToKill.Animator.SetBool("read", false);
+                humanToKill.Animator.SetBool("sleep", false);
+                humanToKill.Animator.SetBool("toilet", false);
+                humanToKill.Animator.SetBool("jump", false);
+                //humanToKill.Animator.SetBool("scared", false);
                 humanToKill.Animator.SetTrigger("other_kill");
             }
+            humanToKill.PrepareKill();
 
-            humanToKill.Kill();
+            return humanToKill;
         }
+        return null;
+    }
+
+    //public void BeginKillMoveHaunt(Transform hauntable)
+    public void BeginKillMoveHaunt(Human humanToKill)
+    {
+        //float minDistance = Mathf.Infinity;
+        //GameObject closestHuman = null;
+
+        //foreach (var human in m_HauntableHumans)
+        //{
+        //    float dist = Vector3.Distance(hauntable.position, human.transform.position);
+
+        //    if (dist <= minDistance)
+        //    {
+        //        minDistance = dist;
+        //        closestHuman = human;
+        //    }
+        //}
+
+        //if (closestHuman != null)
+        //{
+        //    var humanToKill = closestHuman.GetComponent<Human>();
+            // Call human death anim
+            //if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out var val))
+            //{
+            //    humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
+            //}
+            //else
+            //{
+            //    // TODO: set to idle
+            //    humanToKill.Animator.SetTrigger("other_kill");
+            //}
+
+        //humanToKill.Kill();
+        // TODO: pass kill time
+        humanToKill.Kill(10f);
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
