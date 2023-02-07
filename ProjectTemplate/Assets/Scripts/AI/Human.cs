@@ -273,7 +273,6 @@ namespace Humans
 
         public void Kill(float killTime, HauntType hauntType)
         {
-            Debug.Log($"not allowikng current task {HumanDataScriptableObject.HauntToNeed[hauntType]}");
             HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], true);
             // TODO: recalculate goals?
             StartCoroutine(Deactivate(killTime, hauntType));
@@ -325,14 +324,8 @@ namespace Humans
                         rb.AddForce((-transform.right) * 10f , ForceMode.Impulse);
                         break;
                 }
-
-                this.enabled = false;
             }
-            else
-            {
-                gameObject.SetActive(false);
-            }
-
+            this.enabled = false;
         }
 
         // DEBUG
