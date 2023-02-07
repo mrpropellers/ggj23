@@ -24,7 +24,7 @@ public class AnimateHealth : MonoBehaviour
     private bool m_Healthy = true;
     private bool m_Dead;
 
-    private void Start()
+    private void OnEnable()
     {
         m_Image = GetComponent<Image>();
         StartCoroutine(PlayAnimation());

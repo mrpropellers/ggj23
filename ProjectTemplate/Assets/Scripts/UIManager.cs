@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Humans;
@@ -20,6 +21,8 @@ public class UIManager : MonoBehaviour
         { 3, "THREE" }
     };
 
+    public Stopwatch GameTimeStopwatch { get; private set; }
+
     [SerializeField]
     private Volume m_Volume;
 
@@ -29,6 +32,7 @@ public class UIManager : MonoBehaviour
     private Animation m_Animation;
     private Vignette m_Vignette;
     private Image m_FearMeter;
+    private TextMeshProUGUI m_TimeLeft;
 
     private float m_DefaultVignetteIntensity;
 
@@ -48,14 +52,21 @@ public class UIManager : MonoBehaviour
         }
 
         m_FearMeter = transform.Find("HUD/FearMeter/FearMeterBar").GetComponent<Image>();
+        m_TimeLeft = transform.Find("HUD/TimeRemaining").GetComponent<TextMeshProUGUI>();
         m_Animation = GetComponent<Animation>();
+        GameTimeStopwatch = GetComponent<Stopwatch>();
     }
 
     private void Update()
     {
-        Debug.Log(GameplayManager.Instance.FearEnergyNormalized);
         m_FearMeter.fillAmount = Mathf.SmoothStep(m_FearMeter.fillAmount, GameplayManager.Instance.FearEnergyNormalized,
             Time.deltaTime * m_FearMeterSmoothSpeed);
+
+        int timeLeft = GameplayManager.Instance.GameLength - GameTimeStopwatch.GetSeconds();
+        if (timeLeft < 0) timeLeft = 0;
+
+        TimeSpan time = TimeSpan.FromSeconds(timeLeft);
+        m_TimeLeft.SetText(time.ToString(@"mm\:ss"));
     }
 
     private void OnDisable()

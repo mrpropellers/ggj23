@@ -32,6 +32,8 @@ public class HumanManager : MonoBehaviour
 
     private Human[] m_Humans;
 
+    private bool m_InitiatedGameOver;
+
     void Awake()
     {
         Instance = this;
@@ -40,6 +42,15 @@ public class HumanManager : MonoBehaviour
         foreach (var child in m_Humans)
         {
             child.Initialize(m_Waypoints);
+        }
+    }
+
+    private void Update()
+    {
+        if (!m_InitiatedGameOver && UIManager.Instance.GameTimeStopwatch.GetSeconds() > GameplayManager.Instance.GameLength)
+        {
+            m_InitiatedGameOver = true;
+            TimeUp();
         }
     }
 
@@ -82,5 +93,14 @@ public class HumanManager : MonoBehaviour
 
         if (killed + escaped == m_Humans.Length)
             GameplayManager.Instance.GameOver(killed, escaped);
+    }
+
+    public void TimeUp()
+    {
+        foreach (Human human in m_Humans)
+        {
+            if (!human.Killed && !human.Escaped)
+                human.TimeUpRunAway();
+        }
     }
 }

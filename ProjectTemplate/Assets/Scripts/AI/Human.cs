@@ -213,6 +213,12 @@ namespace Humans
             ChangeState(MovingState, isHaunted: true, isEscaping: true);
         }
 
+        public void TimeUpRunAway()
+        {
+            BeginEscape();
+            PauseAllNeeds(false);
+        }
+
         public void TestWait(float time)
         {
             if (!m_StartedWait)

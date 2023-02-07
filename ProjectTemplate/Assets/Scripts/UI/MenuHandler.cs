@@ -19,6 +19,9 @@ public class MenuHandler : MonoBehaviour
     [SerializeField]
     private GameObject m_DitheringShader;
 
+    [SerializeField]
+    private GameObject m_StartCamera;
+
     private void Awake()
     {
         IsGamePaused = true;
@@ -35,6 +38,8 @@ public class MenuHandler : MonoBehaviour
                 Pause();
             }
         }
+
+
 
         if (IsGamePaused)
         {
@@ -62,9 +67,10 @@ public class MenuHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         IsGamePaused = false;
+        m_StartCamera.SetActive(false);
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
-        GameStateText.text = "resume";
+        UIManager.Instance.GameTimeStopwatch.Begin();
     }
 
     void Resume ()
@@ -74,6 +80,7 @@ public class MenuHandler : MonoBehaviour
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
         IsGamePaused = false;
+        UIManager.Instance.GameTimeStopwatch.Unpause();
     }
 
     void Pause ()
@@ -82,9 +89,11 @@ public class MenuHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         if (!MainMenuUi.activeSelf){
+            GameStateText.text = "resume";
             MainMenuUi.SetActive(true);
             UIManager.Instance.MenuTransitions(true);
             IsGamePaused = true;
+            UIManager.Instance.GameTimeStopwatch.Pause();
         }
     }
 

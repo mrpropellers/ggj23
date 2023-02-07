@@ -11,7 +11,13 @@ public class GameplayManager : MonoBehaviour
     public float GrowRootSpeed { get; private set; } = 1f;
 
     [field: SerializeField]
+    public float GrowRootCost { get; private set; } = 0.5f;
+
+    [field: SerializeField]
     public GameObject NPCFollowCam { get; private set; }
+
+    [field: SerializeField]
+    public int GameLength { get; private set; } = 240;
 
     [SerializeField]
     private float m_PassiveEnergyGain = 0.2f;
@@ -19,7 +25,8 @@ public class GameplayManager : MonoBehaviour
     [SerializeField]
     private CinemachineImpulseSource m_ImpulseSource;
 
-    private float m_FearEnergy;
+    [SerializeField, Tooltip("The amount of energy you start with.")]
+    private float m_FearEnergy = 20f;
     public float FearEnergyNormalized => m_FearEnergy / k_FearEnergyTotal;
 
     private void Awake()
@@ -41,6 +48,11 @@ public class GameplayManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void AddFearJuice(float juiceToAdd)
+    {
+        m_FearEnergy = Mathf.Clamp(m_FearEnergy + juiceToAdd, 0f, 100f);
     }
 
     public void GameOver(int killed, int escaped)

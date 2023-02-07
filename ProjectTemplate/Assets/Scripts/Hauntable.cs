@@ -58,7 +58,8 @@ public class Hauntable : MonoBehaviour
     {
         foreach (Renderer r in GetComponentsInChildren<Renderer>())
         {
-            m_Mats.Add(r.material);
+            if (!r.material.name.Contains("Root"))
+                m_Mats.Add(r.material);
         }
         m_Animation = GetComponent<Animation>();
         m_FmodPlayer = GetComponent<FmodEventCueAdvancer>();
@@ -75,14 +76,14 @@ public class Hauntable : MonoBehaviour
         {
             foreach (Material mat in m_Mats)
             {
-                mat.SetColor("_EmissiveColor", Color.red * 8);
+                mat.SetColor("_EmissiveColor", Color.red * 6);
             }
         }
         else
         {
             foreach (Material mat in m_Mats)
             {
-                mat.SetColor("_EmissiveColor", Unlocked && !HauntCompleted ? Color.white * 8f : Color.black);
+                mat.SetColor("_EmissiveColor", Unlocked && !HauntCompleted ? Color.white * 2f : Color.black);
             }
         }
 
@@ -157,6 +158,7 @@ public class Hauntable : MonoBehaviour
 
         // Wait for camera to get to its place
         yield return new WaitForSeconds(m_HauntWindupTime);
+        GameplayManager.Instance.AddFearJuice(Spookiness);
 
         if (m_IsKillMove)
         {
