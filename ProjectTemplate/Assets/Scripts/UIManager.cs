@@ -192,6 +192,13 @@ public class UIManager : MonoBehaviour
     public void MenuTransitions(bool inAnim)
     {
         m_Animation.Play(inAnim ? "MainMenuIn" : "MainMenuOut");
+
+        if (m_HintRoutine != null)
+        {
+            StopCoroutine(m_HintRoutine);
+            m_HintAnimation.Stop();
+            m_Hint.SetText("");
+        }
     }
 
     public void ShowHint(string hint, float duration)

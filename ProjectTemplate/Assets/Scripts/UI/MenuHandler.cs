@@ -23,6 +23,8 @@ public class MenuHandler : MonoBehaviour
     [SerializeField]
     private GameObject m_StartCamera;
 
+    private bool m_IsGameStarted;
+
     private void Awake()
     {
         IsGamePaused = true;
@@ -67,12 +69,17 @@ public class MenuHandler : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        if (!m_IsGameStarted)
+        {
+            m_IsGameStarted = true;
+            StartCoroutine(WaitForInitialPrompt());
+        }
+
         IsGamePaused = false;
         m_StartCamera.SetActive(false);
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
         UIManager.Instance.GameTimeStopwatch.Begin();
-        StartCoroutine(WaitForInitialPrompt());
     }
 
     private IEnumerator WaitForInitialPrompt()

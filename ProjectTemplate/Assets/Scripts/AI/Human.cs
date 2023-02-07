@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using Cinemachine;
 using Knife.HDRPOutline.Core;
 #if UNITY_EDITOR // for Handles.Label debugging
 using UnityEditor;
@@ -371,6 +372,7 @@ namespace Humans
         private IEnumerator RunAwayCamera()
         {
             yield return new WaitForSeconds(3f);
+            GameplayManager.Instance.NPCFollowCam.GetComponent<CinemachineVirtualCamera>().Follow = transform;
             GameplayManager.Instance.NPCFollowCam.SetActive(true);
             yield return new WaitForSeconds(3f);
             GameplayManager.Instance.NPCFollowCam.SetActive(false);

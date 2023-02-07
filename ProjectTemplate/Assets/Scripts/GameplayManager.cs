@@ -1,3 +1,4 @@
+using System.Collections;
 using Cinemachine;
 using UnityEngine;
 
@@ -58,8 +59,14 @@ public class GameplayManager : MonoBehaviour
 
     public void GameOver(int killed, int escaped)
     {
-        UIManager.Instance.ShowNewspaper(killed, escaped);
+        StartCoroutine(GameOverAnim(killed, escaped));
+    }
+
+    private IEnumerator GameOverAnim(int killed, int escaped)
+    {
         InputHandler.Instance.FreezeControls = true;
+        yield return new WaitForSeconds(10f);
+        UIManager.Instance.ShowNewspaper(killed, escaped);
     }
 
     public void ScreenShake()
