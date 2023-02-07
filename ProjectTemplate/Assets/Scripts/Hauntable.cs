@@ -153,7 +153,6 @@ public class Hauntable : MonoBehaviour
         Humans.Human human = null;
         if (m_IsKillMove)
         {
-            // TODO: place human first
             human = InputHandler.Instance.CurrentWindow.Room.PrepareKillMoveHaunt(transform);
         }
 
@@ -163,9 +162,8 @@ public class Hauntable : MonoBehaviour
 
         if (m_IsKillMove)
         {
-            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(human);
-            // TODO: check bed/toilet
-            if (m_KillHelper != null)
+            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(human, m_FramingCamHauntDuration);
+            if (m_KillHelper != null) // if bed or toilet kill
             {
                 m_KillHelper.TriggerKill();
             }

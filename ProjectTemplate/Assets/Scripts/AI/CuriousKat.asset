@@ -15,6 +15,8 @@ MonoBehaviour:
   Name: Curious Kat
   FirstNeed: 3
   CurrentFear: 0
+  FearDecrementHealthy: 0.001
+  FearDecrementDanger: 0.0015
   NeedStatus:
   - NeedType: 0
     MaxValue: 100

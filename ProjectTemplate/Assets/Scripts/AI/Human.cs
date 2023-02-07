@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using Knife.HDRPOutline.Core;
 #if UNITY_EDITOR // for Handles.Label debugging
 using UnityEditor;
 #endif
@@ -22,7 +23,6 @@ namespace Humans
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Human : MonoBehaviour
     {
-        // TODO: tune this
         public static readonly float k_DistThreshold = 0.6f;
 
         public readonly static float WalkSpeed = 2f;
@@ -52,6 +52,7 @@ namespace Humans
         private HumanName m_HumanName = HumanName.Sleepyhead;
         public HumanName NameOfHuman => m_HumanName;
 
+        public bool Hauntable = true;
         public bool Escaped { get; set; }
         public bool Killed { get; private set; }
 
@@ -170,6 +171,8 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
+            Hauntable = false;
+            RefillNeed(haunted: true, HumanDataScriptableObject.HauntToNeed[haunt]); // Discourage npc from coming back too soon
             TaskBeforeHaunt = CurrentTask;
             HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
@@ -245,49 +248,84 @@ namespace Humans
             m_HumanData.PauseAllNeeds(pause);
         }
 
-        public void RefillNeed()
+        public void RefillNeed(bool haunted = false, HumanNeed hauntedRoom = HumanNeed.Error)
         {
+            if (haunted)
+            {
+                m_HumanData.RefillNeed(hauntedRoom);
+                return;
+            }
             m_HumanData.RefillNeed(CurrentTask);
         }
 
-        public void PrepareKill()
+        public void PrepareKill(HauntType hauntType)
         {
             Killed = true;
             GetComponent<NavMeshAgent>().isStopped = true;
-            //HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
-            HumanManager.UpdateOccupancy(CurrentTask, false);
-            StartCoroutine(MoveToKill());
+            if (hauntType == HauntType.Kitchen || hauntType == HauntType.LivingRoom)
+            {
+                GetComponent<NavMeshAgent>().enabled = false;
+            }
+            StartCoroutine(MoveToKill(hauntType));
         }
 
-        public void Kill(float killTime)
+        public void Kill(float killTime, HauntType hauntType)
         {
-            StartCoroutine(Deactivate(killTime));
+            HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], true);
+            // TODO: recalculate goals?
+            StartCoroutine(Deactivate(killTime, hauntType));
             UIManager.Instance.KillHuman(m_HumanName);
             HumanManager.Instance.CheckGameOver();
         }
 
-        public IEnumerator MoveToKill()
+        public IEnumerator MoveToKill(HauntType hauntType)
         {
-            Debug.Log($"start MoveToKill");
             var start = transform.position;
+            var goalTaskPos = m_NeedsRoomTx[HumanDataScriptableObject.HauntToNeed[hauntType]].position;
             var t = 0f;
             var len = 1f;
             while (t <= 1)
             {
                 t += Time.deltaTime / len;
-                transform.position = Vector3.Lerp(start, m_NeedsRoomTx[CurrentTask].position, t);
+                transform.position = Vector3.Lerp(start, goalTaskPos, t);
                 yield return null;
             }
             if (BaseState.NeedToHardcodeRotation.TryGetValue(CurrentTask, out var rot))
             {
                 transform.rotation = Quaternion.Euler(rot);
             }
+
+            transform.position = goalTaskPos;
         }
 
-        private IEnumerator Deactivate(float time)
+        private IEnumerator Deactivate(float time, HauntType hauntType)
         {
+            GetComponentInChildren<OutlineObject>().enabled = false;
+            if (hauntType == HauntType.Kitchen)
+            {
+                time -= 8f;
+            }
             yield return new WaitForSeconds(time);
-            gameObject.SetActive(false);
+            HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], false);
+            // blastoff!
+            if (hauntType == HauntType.Kitchen || hauntType == HauntType.LivingRoom)
+            {
+                GetComponent<Animator>().enabled = false;
+                var rb = GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                rb.useGravity = true;
+                switch (hauntType)
+                {
+                    case HauntType.LivingRoom:
+                        rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
+                        break;
+                    case HauntType.Kitchen:
+                        rb.AddForce((-transform.right) * 10f , ForceMode.Impulse);
+                        break;
+                }
+            }
+            this.enabled = false;
+            // TODO: turn off outline object
         }
 
         // DEBUG
