@@ -175,6 +175,7 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
+            RefillNeed(); // Discourage npc from coming back too soon
             TaskBeforeHaunt = CurrentTask;
             HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;

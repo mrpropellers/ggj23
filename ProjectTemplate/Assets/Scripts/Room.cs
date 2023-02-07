@@ -6,6 +6,7 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     public bool LookingInRoom { get; set; }
+    public bool HasHauntableHumans => m_HauntableHumans.Count > 0;
 
     [SerializeField, Tooltip("All hauntable objects, in visual order from left to right")]
     private Hauntable[] m_Hauntables;
@@ -159,22 +160,8 @@ public class Room : MonoBehaviour
         if (closestHuman != null)
         {
             var humanToKill = closestHuman.GetComponent<Human>();
-            // Call human death anim
-            if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out var val))
+            if (!k_HauntCharacterAnim.ContainsKey(m_HauntType))
             {
-                humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
-            }
-            else
-            {
-                // TODO: omg sorry
-                humanToKill.Animator.SetBool("walking", false);
-                humanToKill.Animator.SetBool("running", false);
-                humanToKill.Animator.SetBool("eat", false);
-                humanToKill.Animator.SetBool("read", false);
-                humanToKill.Animator.SetBool("sleep", false);
-                humanToKill.Animator.SetBool("toilet", false);
-                humanToKill.Animator.SetBool("jump", false);
-                //humanToKill.Animator.SetBool("scared", false);
                 humanToKill.Animator.SetTrigger("other_kill");
             }
             humanToKill.PrepareKill();
@@ -186,6 +173,11 @@ public class Room : MonoBehaviour
 
     public void BeginKillMoveHaunt(Human humanToKill)
     {
+        // Call human death anim
+        if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out var val))
+        {
+            humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
+        }
         // TODO: pass kill time
         humanToKill.Kill(10f);
     }
