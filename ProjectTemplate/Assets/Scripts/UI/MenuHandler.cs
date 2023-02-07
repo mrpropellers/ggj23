@@ -26,7 +26,7 @@ public class MenuHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
             if (IsGamePaused){
                 Resume();
@@ -62,7 +62,8 @@ public class MenuHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         IsGamePaused = false;
-        MainMenuUi.SetActive(false);
+        // MainMenuUi.SetActive(false);
+        UIManager.Instance.MenuTransitions(false);
         GameStateText.text = "resume";
     }
 
@@ -70,7 +71,8 @@ public class MenuHandler : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        MainMenuUi.SetActive(false);
+        // MainMenuUi.SetActive(false);
+        UIManager.Instance.MenuTransitions(false);
         IsGamePaused = false;
     }
 
@@ -81,7 +83,7 @@ public class MenuHandler : MonoBehaviour
 
         if (!MainMenuUi.activeSelf){
             MainMenuUi.SetActive(true);
-
+            UIManager.Instance.MenuTransitions(true);
             IsGamePaused = true;
         }
     }

@@ -151,6 +151,11 @@ public class UIManager : MonoBehaviour
         m_Animation.Play(inAnim ? "StatsIn" : "StatsOut");
     }
 
+    public void MenuTransitions(bool inAnim)
+    {
+        m_Animation.Play(inAnim ? "MainMenuIn" : "MainMenuOut");
+    }
+
     public void SetVignetteIntensity(float intensity, float dur, bool fadeToOriginal=false)
     {
         StartCoroutine(SetVignetteIntensityOverTime(fadeToOriginal ? m_DefaultVignetteIntensity : intensity, dur));
