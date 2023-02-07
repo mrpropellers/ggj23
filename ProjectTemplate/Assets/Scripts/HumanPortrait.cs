@@ -18,4 +18,9 @@ public class HumanPortrait : MonoBehaviour
     {
         m_Image.sprite = m_Dead;
     }
+
+    public void Escape()
+    {
+        m_Image.color = Color.gray;
+    }
 }

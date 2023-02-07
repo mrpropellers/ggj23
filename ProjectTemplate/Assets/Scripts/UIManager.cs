@@ -149,25 +149,29 @@ public class UIManager : MonoBehaviour
         thoughts.HeadEmpty();
     }
 
-    public void HumanInDanger(HumanName humanName)
+    public void HumanEscaped(HumanName humanName)
+    {
+        var portrait = transform.Find($"HUD/{humanName}Stats/Portrait");
+        var portraitComponent = portrait.GetComponent<HumanPortrait>();
+        portraitComponent.Escape();
+
+        var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
+        var animateHealth = cardiogram.GetComponent<AnimateHealth>();
+        animateHealth.Escaped();
+    }
+
+    public void SetCardiogramFear(HumanName humanName, float fear)
     {
         var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
         var animateHealth = cardiogram.GetComponent<AnimateHealth>();
-        animateHealth.Danger();
+        animateHealth.SetFear(fear);
     }
 
-    public void HumanHealthy(HumanName humanName)
-    {
-        var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
-        var animateHealth = cardiogram.GetComponent<AnimateHealth>();
-        animateHealth.Healthy();
-    }
-
-    public void HumanThought(HumanName humanName, HumanNeed need)
+    public void HumanThought(HumanName humanName, HumanNeed need, bool escape)
     {
         var thought = transform.Find($"HUD/{humanName}Stats/ThoughtBubble");
         var thoughts = thought.GetComponent<Thoughts>();
-        thoughts.HaveNewThought(need);
+        thoughts.HaveNewThought(need, escape);
     }
 
     public void StatsTransitions(bool inAnim)

@@ -50,6 +50,7 @@ namespace Humans
 
         [SerializeField]
         private HumanName m_HumanName = HumanName.Sleepyhead;
+        public HumanName NameOfHuman => m_HumanName;
 
         public bool Escaped { get; set; }
         public bool Killed { get; private set; }
@@ -61,6 +62,7 @@ namespace Humans
         private HumanNeed m_TaskLastFrame;
         private NavMeshAgent m_Agent;
         private bool m_LastPausedState;
+        private bool m_Escaping;
 
         private void Awake()
         {
@@ -79,7 +81,7 @@ namespace Humans
             if (m_CurrentState != null)
             {
                 m_CurrentState.Enter(isEscaping: false);
-                UIManager.Instance.HumanThought(m_HumanName, m_HumanData.FirstNeed);
+                UIManager.Instance.HumanThought(m_HumanName, m_HumanData.FirstNeed, false);
             }
 
             m_Agent = GetComponent<NavMeshAgent>();
@@ -126,9 +128,11 @@ namespace Humans
                     m_CurrentState.UpdateLogic();
                 }
 
-                if (CurrentTask != m_TaskLastFrame)
+                // UI updating
+                UIManager.Instance.SetCardiogramFear(m_HumanName, m_HumanData.CurrentFear / 100f);
+                if (CurrentTask != m_TaskLastFrame && !m_Escaping)
                 {
-                    UIManager.Instance.HumanThought(m_HumanName, CurrentTask);
+                    UIManager.Instance.HumanThought(m_HumanName, CurrentTask, m_Escaping);
                 }
 
                 m_TaskLastFrame = CurrentTask;
@@ -157,15 +161,6 @@ namespace Humans
 
             m_CurrentState = newState;
             m_CurrentState.Enter(isEscaping);
-
-            if (newState == HauntedState || isHaunted || isEscaping)
-            {
-                UIManager.Instance.HumanInDanger(m_HumanName);
-            }
-            else if (!Animator.GetBool(BaseState.NeedToAnimName[HumanNeed.Haunted]) && m_HumanData.CurrentFear < 70)
-            {
-                UIManager.Instance.HumanHealthy(m_HumanName);
-            }
         }
 
         private BaseState GetInitialState()
@@ -191,7 +186,9 @@ namespace Humans
 
         public void BeginEscape()
         {
-            StartCoroutine(RunAwayCamera());
+            m_Escaping = true;
+            UIManager.Instance.HumanThought(m_HumanName, CurrentTask, m_Escaping);
+            StartCoroutine(RunAwayCamera()); // TODO: Follow this person!!!
             Transform closestEscape = m_Escapes[0];
             NavMeshPath temp = new NavMeshPath();
             float minDist = Int32.MaxValue;

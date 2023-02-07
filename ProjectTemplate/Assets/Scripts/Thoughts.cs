@@ -22,6 +22,9 @@ public class Thoughts : MonoBehaviour
     [SerializeField]
     private Sprite m_Toilet;
 
+    [SerializeField]
+    private Sprite m_Escape;
+
     private Image m_Thought;
     private Animation m_Animation;
 
@@ -33,9 +36,9 @@ public class Thoughts : MonoBehaviour
         m_Animation = GetComponent<Animation>();
     }
 
-    public void HaveNewThought(HumanNeed need)
+    public void HaveNewThought(HumanNeed need, bool escape)
     {
-        StartCoroutine(NewThoughtAnim(need));
+        StartCoroutine(NewThoughtAnim(need, escape));
     }
 
     public void HeadEmpty()
@@ -43,7 +46,7 @@ public class Thoughts : MonoBehaviour
         m_Animation.Play("CloseBubble");
     }
 
-    private IEnumerator NewThoughtAnim(HumanNeed need)
+    private IEnumerator NewThoughtAnim(HumanNeed need, bool escape)
     {
         if (m_BubbleOpen)
         {
@@ -69,6 +72,9 @@ public class Thoughts : MonoBehaviour
                 toSet = m_Scared;
                 break;
         }
+
+        if (escape)
+            toSet = m_Escape;
 
         yield return new WaitForSeconds(0.5f);
         m_Thought.sprite = toSet;
