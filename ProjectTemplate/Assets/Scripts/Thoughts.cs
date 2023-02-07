@@ -38,6 +38,11 @@ public class Thoughts : MonoBehaviour
         StartCoroutine(NewThoughtAnim(need));
     }
 
+    public void HeadEmpty()
+    {
+        m_Animation.Play("CloseBubble");
+    }
+
     private IEnumerator NewThoughtAnim(HumanNeed need)
     {
         if (m_BubbleOpen)

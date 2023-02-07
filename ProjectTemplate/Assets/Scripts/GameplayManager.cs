@@ -46,7 +46,7 @@ public class GameplayManager : MonoBehaviour
     public void GameOver(int killed, int escaped)
     {
         UIManager.Instance.ShowNewspaper(killed, escaped);
-        Debug.Log($"GAME OVER LOSER!!!! {killed} humans killed, {escaped} humans escaped");
+        InputHandler.Instance.FreezeControls = true;
     }
 
     public void ScreenShake()

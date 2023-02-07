@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -112,6 +113,14 @@ public class UIManager : MonoBehaviour
         transform.Find("Newspaper/ArticleBody").GetComponent<TextMeshProUGUI>().SetText(body);
 
         m_Animation.Play("NewspaperIn");
+
+        StartCoroutine(RestartGame());
+    }
+
+    private IEnumerator RestartGame()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void KillHuman(HumanName humanName)
@@ -123,6 +132,10 @@ public class UIManager : MonoBehaviour
         var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
         var animateHealth = cardiogram.GetComponent<AnimateHealth>();
         animateHealth.Kill();
+
+        var thought = transform.Find($"HUD/{humanName}Stats/ThoughtBubble");
+        var thoughts = thought.GetComponent<Thoughts>();
+        thoughts.HeadEmpty();
     }
 
     public void HumanInDanger(HumanName humanName)
