@@ -71,7 +71,7 @@ public class InputHandler : MonoBehaviour
                         }
                         else
                         {
-                            // TODO: no hauntable humans!
+                            UIManager.Instance.ShowHint("no one is in range to haunt...", 4f);
                         }
                     }
                     else if (Input.GetKeyDown(KeyCode.D))

@@ -27,6 +27,8 @@ public class MenuHandler : MonoBehaviour
 
     [SerializeField]
     StudioEventEmitter m_TitleMusic;
+    
+    private bool m_IsGameStarted;
 
     private void Awake()
     {
@@ -74,12 +76,18 @@ public class MenuHandler : MonoBehaviour
         m_TitleMusic.Stop();
         FmodHelper.TurnOnInGameMusic();
         StartCoroutine(FmodHelper.AttenuateBgmTo(0f, 4f));
+
+        if (!m_IsGameStarted)
+        {
+            m_IsGameStarted = true;
+            StartCoroutine(WaitForInitialPrompt());
+        }
+
         IsGamePaused = false;
         m_StartCamera.SetActive(false);
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
         UIManager.Instance.GameTimeStopwatch.Begin();
-        StartCoroutine(WaitForInitialPrompt());
     }
 
     private IEnumerator WaitForInitialPrompt()

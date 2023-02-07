@@ -11,7 +11,6 @@ public class Window : MonoBehaviour
 
     private CinemachineVirtualCamera m_LookCam;
     private bool m_Viewing;
-    private bool m_FirstTimeViewing = true;
     private float m_VerticalRotation;
 
     private void Start()
@@ -23,10 +22,10 @@ public class Window : MonoBehaviour
     {
         if (m_Viewing)
         {
-            if (m_FirstTimeViewing)
+            if (!UIManager.Instance.m_ShownSpreadRootsPrompt)
             {
-                m_FirstTimeViewing = false;
-                UIManager.Instance.ShowHint("hold [space] to spread your roots...", 4);
+                UIManager.Instance.m_ShownSpreadRootsPrompt = true;
+                UIManager.Instance.ShowHint("hold [space] to spread your roots...", 6);
             }
 
             Quaternion currentRot = m_LookCam.transform.localRotation;
