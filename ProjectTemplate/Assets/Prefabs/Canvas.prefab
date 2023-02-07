@@ -2585,7 +2585,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
-  m_BlocksRaycasts: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &362181452463989917
 GameObject:
@@ -4254,6 +4254,7 @@ MonoBehaviour:
   GameStateText: {fileID: 362181452091116099}
   m_EventSystem: {fileID: 665107739492932534}
   m_DitheringShader: {fileID: 0}
+  m_StartCamera: {fileID: 0}
 --- !u!1 &362181453366681543
 GameObject:
   m_ObjectHideFlags: 0

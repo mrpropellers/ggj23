@@ -19,6 +19,9 @@ public class MenuHandler : MonoBehaviour
     [SerializeField]
     private GameObject m_DitheringShader;
 
+    [SerializeField]
+    private GameObject m_StartCamera;
+
     private void Awake()
     {
         IsGamePaused = true;
@@ -35,6 +38,8 @@ public class MenuHandler : MonoBehaviour
                 Pause();
             }
         }
+
+
 
         if (IsGamePaused)
         {
@@ -62,6 +67,7 @@ public class MenuHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         IsGamePaused = false;
+        m_StartCamera.SetActive(false);
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
         UIManager.Instance.GameTimeStopwatch.Begin();
