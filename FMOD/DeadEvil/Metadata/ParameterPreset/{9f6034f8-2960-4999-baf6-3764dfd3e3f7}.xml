@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{9f6034f8-2960-4999-baf6-3764dfd3e3f7}">
+		<property name="name">
+			<value>BgmAttenuation</value>
+		</property>
+		<relationship name="folder">
+			<destination>{1e913d33-4742-4ce8-a177-5fe2850999aa}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{ce46b3ac-03f5-4860-8d22-14a6f71f82d2}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{ce46b3ac-03f5-4860-8d22-14a6f71f82d2}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

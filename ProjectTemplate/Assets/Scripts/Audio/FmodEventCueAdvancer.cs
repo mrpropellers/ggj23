@@ -7,8 +7,6 @@ namespace GGJ23.Audio
 {
     public class FmodEventCueAdvancer : MonoBehaviour
     {
-        const string k_ContinueParameter = "Continue";
-
         EventInstance m_EventInstance;
         bool m_IsBroken;
 
@@ -39,13 +37,21 @@ namespace GGJ23.Audio
                 if (m_UseContinueParameter)
                 {
                     this.CheckFmodResult("set continue parameter",
-                        m_EventInstance.setParameterByName(k_ContinueParameter, 0f));
+                        m_EventInstance.setParameterByName(FmodHelper.PARAM_CONTINUE, 0f));
                 }
 
                 this.CheckFmodResult("start event", m_EventInstance.start());
             }
             else if (m_UseContinueParameter)
-                m_EventInstance.setParameterByName(k_ContinueParameter, 1f);
+            {
+                if (!this.CheckFmodResult("get continue value",
+                        m_EventInstance.getParameterByName(FmodHelper.PARAM_CONTINUE, out var value)))
+                    return;
+                value = 1f - value;
+
+                this.CheckFmodResult($"set Continue value to {value}",
+                    m_EventInstance.setParameterByName(FmodHelper.PARAM_CONTINUE, value));
+            }
             else
                 this.CheckFmodResult("key off next cue", m_EventInstance.keyOff());
         }

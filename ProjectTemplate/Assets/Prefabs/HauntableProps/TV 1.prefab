@@ -423,6 +423,7 @@ GameObject:
   - component: {fileID: 6356490176592557530}
   - component: {fileID: 6356490176592557531}
   - component: {fileID: 1563007274}
+  - component: {fileID: 5167366006594650979}
   m_Layer: 0
   m_Name: TV 1
   m_TagString: Untagged
@@ -487,6 +488,27 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &5167366006594650979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6356490176592557525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 0
+  m_AttenuationObject: {fileID: 6898515578882589341}
+  m_FmodEvent:
+    Guid:
+      Data1: -2085044462
+      Data2: 1215058413
+      Data3: 1531978397
+      Data4: 74410912
+    Path: event:/Living Room/HauntTV
 --- !u!1 &6356490177684256211
 GameObject:
   m_ObjectHideFlags: 0

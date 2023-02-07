@@ -558,6 +558,7 @@ GameObject:
   - component: {fileID: 3680053399295133998}
   - component: {fileID: 3680053399295134033}
   - component: {fileID: 3680053399295134034}
+  - component: {fileID: 1109336972234136316}
   m_Layer: 7
   m_Name: MirrorModel
   m_TagString: Untagged
@@ -685,6 +686,36 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &1109336972234136316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3680053399295133996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -154895451
+      Data2: 1212774368
+      Data3: 1455954307
+      Data4: 327868217
+    Path: event:/Bathroom/HauntMirror
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &3680053399596721576
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,7 +761,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.755785, g: 0.755785, b: 0.8301887, a: 1}
-  m_Intensity: 367.04666
+  m_Intensity: 367.048
   m_Range: 22.63768
   m_SpotAngle: 108.6
   m_InnerSpotAngle: 21.80208

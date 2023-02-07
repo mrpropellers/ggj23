@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="MixerGroup" id="{62bca021-6c45-4ede-ada6-945f37e8ea26}">
 		<property name="volume">
-			<value>-3</value>
+			<value>-4.5</value>
 		</property>
 		<property name="name">
 			<value>BGM</value>
@@ -22,10 +22,6 @@
 			<destination>{3b07fdf6-a3d8-4cda-8754-18491fcdfd28}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{caf4ed1d-29d1-4ba4-8078-f7938a6be872}">
-		<property name="surroundPanExtent">
-			<value>332</value>
-		</property>
-	</object>
+	<object class="MixerBusPanner" id="{caf4ed1d-29d1-4ba4-8078-f7938a6be872}" />
 	<object class="MixerBusFader" id="{3b07fdf6-a3d8-4cda-8754-18491fcdfd28}" />
 </objects>

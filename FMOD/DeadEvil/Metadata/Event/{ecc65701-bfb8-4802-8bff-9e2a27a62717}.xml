@@ -55,7 +55,7 @@
 			<destination>{9238ef8d-a6e0-452c-9a27-f2c2c977a59c}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{62bca021-6c45-4ede-ada6-945f37e8ea26}</destination>
+			<destination>{e5c99e2c-5bb1-4f3b-bade-1fe24ac84111}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{a6b8bd1f-caa5-4a9f-abb8-2fc90970d4a6}">
@@ -92,6 +92,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{c42af6f9-b2c2-4fa6-85dd-047708422d67}">
+		<property name="volume">
+			<value>3</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{e1cbda64-64aa-4cb4-a0e1-555ccd9480c4}</destination>
 		</relationship>
@@ -115,16 +118,16 @@
 		<property name="delayType">
 			<value>0</value>
 		</property>
-		<property name="maxVoices">
-			<value>2</value>
-		</property>
+		<relationship name="triggerConditions">
+			<destination>{09a4647e-0754-4349-9461-b0059b82fa93}</destination>
+		</relationship>
 		<relationship name="audioFile">
 			<destination>{1e70d44f-9385-4ac4-8706-3232d4fae883}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{704a8867-5952-48cd-bd44-422ffc601bf1}">
 		<property name="volume">
-			<value>6</value>
+			<value>8</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -143,13 +146,16 @@
 		<property name="length">
 			<value>21.333333333333332</value>
 		</property>
+		<relationship name="triggerConditions">
+			<destination>{5f083d2d-957f-4d52-b1df-0a40c028734d}</destination>
+		</relationship>
 		<relationship name="audioFile">
 			<destination>{95afd6e2-1fa6-40e4-813b-8ad2cd8f73ff}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{61dc9ff5-9b15-4de0-87a8-9a25d7c09952}">
 		<property name="volume">
-			<value>-6</value>
+			<value>-7</value>
 		</property>
 		<property name="name">
 			<value>Audio 2</value>
@@ -195,10 +201,22 @@
 	<object class="MixerBusEffectChain" id="{e1cbda64-64aa-4cb4-a0e1-555ccd9480c4}">
 		<relationship name="effects">
 			<destination>{f5c04a2f-b305-4029-b199-6b76e266ed78}</destination>
+			<destination>{945d1a66-8083-4e49-be21-f1e3f282ef11}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{5d09a8df-f256-4101-a476-97786a0874a1}" />
 	<object class="MixerBusFader" id="{a55c262e-8f02-4f39-aa90-f7ccdc525f90}" />
+	<object class="ParameterCondition" id="{09a4647e-0754-4349-9461-b0059b82fa93}">
+		<property name="minimum">
+			<value>0</value>
+		</property>
+		<property name="maximum">
+			<value>0</value>
+		</property>
+		<relationship name="parameter">
+			<destination>{2d611ce7-4d9d-4ffc-ad52-df0af8a78e23}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{845b4acd-966c-4966-a964-93690ca48a43}">
 		<relationship name="effects">
 			<destination>{648e5473-5140-4a0e-89ed-e655cad29249}</destination>
@@ -206,6 +224,17 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{55f4f622-b94c-4c63-91c6-c523bc127e51}" />
+	<object class="ParameterCondition" id="{5f083d2d-957f-4d52-b1df-0a40c028734d}">
+		<property name="minimum">
+			<value>0</value>
+		</property>
+		<property name="maximum">
+			<value>0</value>
+		</property>
+		<relationship name="parameter">
+			<destination>{2d611ce7-4d9d-4ffc-ad52-df0af8a78e23}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{82a15147-fa42-4d09-96fd-6152e2fff97f}">
 		<relationship name="effects">
 			<destination>{7dcf79cf-5b3a-44bb-8081-3e73951e7f13}</destination>
@@ -214,6 +243,11 @@
 	</object>
 	<object class="MixerBusPanner" id="{76cf1b6e-30e3-454d-a2fd-0373e7444a3f}" />
 	<object class="MixerBusFader" id="{f5c04a2f-b305-4029-b199-6b76e266ed78}" />
+	<object class="Sidechain" id="{945d1a66-8083-4e49-be21-f1e3f282ef11}">
+		<property name="level">
+			<value>10</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{648e5473-5140-4a0e-89ed-e655cad29249}" />
 	<object class="SpatialiserEffect" id="{946f9f29-d75a-473e-afa5-4bd4b3976f6e}">
 		<property name="maximumDistance">

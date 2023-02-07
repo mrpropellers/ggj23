@@ -533,6 +533,8 @@ GameObject:
   - component: {fileID: 8046208574091735243}
   - component: {fileID: 8046208574091735242}
   - component: {fileID: 4089622595445672383}
+  - component: {fileID: 2514800875085288916}
+  - component: {fileID: 8942752167821587213}
   m_Layer: 0
   m_Name: Desk 1
   m_TagString: Untagged
@@ -575,8 +577,9 @@ MonoBehaviour:
   <Spookiness>k__BackingField: 30
   m_Roots:
   - {fileID: 8046208573526964841}
+  m_HauntWindupTime: 2
   m_FramingCam: {fileID: 8046208574886275067}
-  m_FramingCamHauntDuration: 8
+  m_FramingCamHauntDuration: 6
   m_IsKillMove: 0
   m_ApplyScreenShake: 0
   m_MatsToSwap: []
@@ -597,6 +600,43 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &2514800875085288916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8046208574091735244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 1
+  m_AttenuationObject: {fileID: 5191886061980629129}
+  m_FmodEvent:
+    Guid:
+      Data1: -1765304419
+      Data2: 1222826605
+      Data3: 1428369070
+      Data4: -1823775697
+    Path: event:/Bedroom/Typewriter
+--- !u!208 &8942752167821587213
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8046208574091735244}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.13, y: 0.5, z: 1.22}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &8046208574483976232
 GameObject:
   m_ObjectHideFlags: 0

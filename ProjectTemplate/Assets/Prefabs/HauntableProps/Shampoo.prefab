@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 8920236650138950157}
   - component: {fileID: 8920236650138950156}
   - component: {fileID: 1744244580}
+  - component: {fileID: 7561912501137824846}
   m_Layer: 0
   m_Name: Shampoo
   m_TagString: Untagged
@@ -151,6 +152,27 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &7561912501137824846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920236650138950158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38f5c81f8024bbaa70cb772663b62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseContinueParameter: 0
+  m_AttenuationObject: {fileID: 8953633822241501555}
+  m_FmodEvent:
+    Guid:
+      Data1: -1770431133
+      Data2: 1263220127
+      Data3: 1188326070
+      Data4: -1699694708
+    Path: event:/Bathroom/HauntShampoo
 --- !u!1 &8920236650220298586
 GameObject:
   m_ObjectHideFlags: 0

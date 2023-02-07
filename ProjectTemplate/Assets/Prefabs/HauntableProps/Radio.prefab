@@ -105,8 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4052906667908469473}
   - component: {fileID: 4052906667908469502}
-  - component: {fileID: 3659939417563892902}
   - component: {fileID: 743968735311354165}
+  - component: {fileID: 5974509606285180712}
   m_Layer: 0
   m_Name: Radio
   m_TagString: Untagged
@@ -126,6 +126,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1059617740794234159}
   - {fileID: 4590408652395253685}
   - {fileID: 4052906667912527635}
   - {fileID: 4052906669319469882}
@@ -153,36 +154,6 @@ MonoBehaviour:
   m_ApplyScreenShake: 0
   m_MatsToSwap: []
   m_RenderersToSwapMatsOn: []
---- !u!114 &3659939417563892902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4052906667908469472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: -322545919
-      Data2: 1208139704
-      Data3: 715063179
-      Data4: 388474407
-    Path: event:/BGM/Diagetic
-  Event: 
-  PlayEvent: 0
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 40
 --- !u!111 &743968735311354165
 Animation:
   m_ObjectHideFlags: 0
@@ -199,6 +170,20 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &5974509606285180712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4052906667908469472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c290f5234c1f144a5f6880da4e9ba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SwitchEmitter: {fileID: 1762731251183837506}
+  m_MusicEmitter: {fileID: 7650333315202410273}
 --- !u!1 &4052906667912527634
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +215,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4052906667908469473}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4052906667912527633
 MonoBehaviour:
@@ -364,7 +349,7 @@ Transform:
   m_Children:
   - {fileID: 4052906667612485661}
   m_Father: {fileID: 4052906667908469473}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4052906669319469883
 MonoBehaviour:
@@ -411,6 +396,68 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4052906667612485661}
+--- !u!1 &8464948843004733206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1059617740794234159}
+  - component: {fileID: 7650333315202410273}
+  m_Layer: 0
+  m_Name: MusicEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1059617740794234159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8464948843004733206}
+  m_LocalRotation: {x: -0, y: -0.7963606, z: -0, w: 0.60482216}
+  m_LocalPosition: {x: 2.0047994, y: -0.11199999, z: 17.001}
+  m_LocalScale: {x: 2.2500007, y: 2.25, z: 2.2500007}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4052906667908469473}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7650333315202410273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8464948843004733206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -322545919
+      Data2: 1208139704
+      Data3: 715063179
+      Data4: 388474407
+    Path: event:/BGM/Diagetic
+  Event: 
+  PlayEvent: 1
+  StopEvent: 0
+  AllowFadeout: 0
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 40
 --- !u!1001 &4052906668661106782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -421,12 +468,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3b3873abac8b4744698c244ffb9b472e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b3873abac8b4744698c244ffb9b472e,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.25
+      value: 2.2500005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b3873abac8b4744698c244ffb9b472e,
         type: 3}
@@ -436,17 +483,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3b3873abac8b4744698c244ffb9b472e,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.25
+      value: 2.2500005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b3873abac8b4744698c244ffb9b472e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.0047998
+      value: 2.0047994
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b3873abac8b4744698c244ffb9b472e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.112
+      value: -0.11199999
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b3873abac8b4744698c244ffb9b472e,
         type: 3}
@@ -495,6 +542,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b3873abac8b4744698c244ffb9b472e, type: 3}
+--- !u!1 &3818974374415193359 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3b3873abac8b4744698c244ffb9b472e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4052906668661106782}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1762731251183837506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3818974374415193359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1620933162
+      Data2: 1287338270
+      Data3: 74737551
+      Data4: 1449421961
+    Path: event:/Bedroom/HauntRadio
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 0
+  TriggerOnce: 1
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!4 &4590408652395253685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3b3873abac8b4744698c244ffb9b472e,
