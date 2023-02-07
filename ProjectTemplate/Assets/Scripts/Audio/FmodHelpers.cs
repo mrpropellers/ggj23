@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
 using FMOD;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -11,8 +10,12 @@ namespace GGJ23.Audio
     {
         public const string PARAM_CONTINUE = "Continue";
         public const string PARAM_RADIO_MUTE = "RadioMute";
-        public const string PARAM_BG_ATTENUATE = "BgmAttenuation";
         public const string PARAM_IS_SNEAKING = "IsSneaking";
+        // This adjusts the compressor to make space for foreground noises
+        public const string PARAM_BG_ATTENUATE = "BgmAttenuation";
+        // This straight up kills the music
+        public const string PARAM_BGM_VOLUME = "BgmVolume";
+        public const string PARAM_SFX_VOLUME = "SfxVolume";
 
         static float s_CurrentAttenuateTarget;
 
@@ -81,6 +84,5 @@ namespace GGJ23.Audio
                     yield break;
             }
         }
-
     }
 }

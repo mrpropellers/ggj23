@@ -1,3 +1,4 @@
+using GGJ23.Audio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -106,9 +107,14 @@ public class MenuHandler : MonoBehaviour
 
     #region OptionMenuRegion
 
-    public void SetVolume (float volume)
+    public void SetBgmVolume (float volume)
     {
-        Debug.Log(volume);
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName(FmodHelper.PARAM_BGM_VOLUME, volume);
+    }
+
+    public void SetSfxVolume(float volume)
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName(FmodHelper.PARAM_SFX_VOLUME, volume);
     }
 
     public void ToggleDithering ()
