@@ -33,7 +33,7 @@ namespace Humans
         public float FearDecrementDanger = 0.002f;
         private HumanNeed m_LastHaunted;
         private Dictionary<HauntType, float> m_FearPerRoom;
-        private static Dictionary<HauntType, HumanNeed> m_HauntToNeed = new()
+        public static Dictionary<HauntType, HumanNeed> HauntToNeed = new()
         {
             { HauntType.Bathroom, HumanNeed.Bathroom }, { HauntType.Bedroom, HumanNeed.Sleep },
             { HauntType.Kitchen, HumanNeed.Hunger }, { HauntType.LivingRoom, HumanNeed.Curious },
@@ -114,12 +114,12 @@ namespace Humans
         /// <returns>True if fear is maxed!</returns>
         public bool GetHaunted(float amount, HauntType haunt)
         {
-            m_LastHaunted = m_HauntToNeed[haunt];
+            m_LastHaunted = HauntToNeed[haunt];
             CurrentFear += amount;
             m_FearPerRoom[haunt] += amount;
 
             // TODO: slow down rates?
-            //var need = NeedStatus.Find(x => x.NeedType == m_HauntToNeed[haunt]);
+            //var need = NeedStatus.Find(x => x.NeedType == HauntToNeed[haunt]);
             //need.CurrentRate *= 0.5f;
 
             if (CurrentFear >= MaxFear)

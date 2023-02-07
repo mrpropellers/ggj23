@@ -22,7 +22,6 @@ namespace Humans
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Human : MonoBehaviour
     {
-        // TODO: tune this
         public static readonly float k_DistThreshold = 0.6f;
 
         public readonly static float WalkSpeed = 2f;
@@ -175,7 +174,7 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
-            RefillNeed(); // Discourage npc from coming back too soon
+            RefillNeed(haunted: true, HumanDataScriptableObject.HauntToNeed[haunt]); // Discourage npc from coming back too soon
             TaskBeforeHaunt = CurrentTask;
             HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
@@ -249,8 +248,13 @@ namespace Humans
             m_HumanData.PauseAllNeeds(pause);
         }
 
-        public void RefillNeed()
+        public void RefillNeed(bool haunted = false, HumanNeed hauntedRoom = HumanNeed.Error)
         {
+            if (haunted)
+            {
+                m_HumanData.RefillNeed(hauntedRoom);
+                return;
+            }
             m_HumanData.RefillNeed(CurrentTask);
         }
 
