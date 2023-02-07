@@ -137,8 +137,6 @@ Animation:
   - {fileID: 7400000, guid: 6f86fac3230d2a24cbba69cd30af612f, type: 2}
   - {fileID: 7400000, guid: 794841f37f2785a4fb2df3afecbff910, type: 2}
   - {fileID: 7400000, guid: 758592bad65ae87448542c5471fa71f3, type: 2}
-  - {fileID: 7400000, guid: 514272ea7ae816242a28a69cc113f774, type: 2}
-  - {fileID: 7400000, guid: d51e7e3951c767e46a8c2b1e12df3839, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -5571,6 +5569,7 @@ GameObject:
   - component: {fileID: 2310884720194604192}
   - component: {fileID: 1956299609479183564}
   - component: {fileID: 7982638219184349343}
+  - component: {fileID: 8591213915367005968}
   m_Layer: 5
   m_Name: HintText
   m_TagString: Untagged
@@ -5626,7 +5625,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: click to peer inside...
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8ab340292b8c07a4a8ca8d0e5fc92fc2, type: 2}
   m_sharedMaterial: {fileID: 8736367281291361986, guid: 8ab340292b8c07a4a8ca8d0e5fc92fc2,
@@ -5696,6 +5695,23 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!111 &8591213915367005968
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880882348389648923}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 514272ea7ae816242a28a69cc113f774, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 514272ea7ae816242a28a69cc113f774, type: 2}
+  - {fileID: 7400000, guid: d51e7e3951c767e46a8c2b1e12df3839, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2204950489840023749
 GameObject:
   m_ObjectHideFlags: 0

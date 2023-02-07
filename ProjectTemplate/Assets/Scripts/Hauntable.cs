@@ -40,6 +40,9 @@ public class Hauntable : MonoBehaviour
     [SerializeField]
     private Renderer[] m_RenderersToSwapMatsOn;
 
+    [SerializeField]
+    private GameObject m_LightToEnable;
+
     internal Animation m_Animation;
     internal FmodEventCueAdvancer m_FmodPlayer;
     private KillAnimationHelper m_KillHelper;
@@ -71,7 +74,7 @@ public class Hauntable : MonoBehaviour
         {
             if (!UIManager.Instance.m_ShownHauntablePrompt)
             {
-                UIManager.Instance.ShowHint("[click] to haunt them...", 4);
+                UIManager.Instance.ShowHint("[click] to haunt them...", 6);
                 UIManager.Instance.m_ShownHauntablePrompt = true;
             }
 
@@ -189,14 +192,16 @@ public class Hauntable : MonoBehaviour
 
         m_FramingCam.SetActive(false);
         InputHandler.Instance.FreezeControls = false;
+        if (m_LightToEnable != null)
+            m_LightToEnable.SetActive(true);
 
         if (!UIManager.Instance.m_ShownHauntCompletedPrompt)
         {
             UIManager.Instance.m_ShownHauntCompletedPrompt = true;
-            UIManager.Instance.ShowHint("you scared them... keep haunting them to kill them", 5);
+            UIManager.Instance.ShowHint("you scared them... keep haunting to end their life", 8);
 
             yield return new WaitForSeconds(3f);
-            UIManager.Instance.ShowHint("when you're done here, [right click] to leave...", 5);
+            UIManager.Instance.ShowHint("when you're done here, [right click] to leave...", 8);
         }
     }
 }

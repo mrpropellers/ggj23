@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     private float m_FearMeterSmoothSpeed = 10f;
 
     private Animation m_Animation;
+    private Animation m_HintAnimation;
     private Vignette m_Vignette;
     private Image m_FearMeter;
     private TextMeshProUGUI m_Hint;
@@ -37,8 +38,11 @@ public class UIManager : MonoBehaviour
 
     public bool m_ShownHauntablePrompt { get; set; }
     public bool m_ShownHauntCompletedPrompt { get; set; }
+    public bool m_ShownSpreadRootsPrompt { get; set; }
 
     private float m_DefaultVignetteIntensity;
+
+    private Coroutine m_HintRoutine;
 
     private void Awake()
     {
@@ -59,6 +63,7 @@ public class UIManager : MonoBehaviour
         m_TimeLeft = transform.Find("HUD/TimeRemaining").GetComponent<TextMeshProUGUI>();
         m_Hint = transform.Find("HUD/HintText").GetComponent<TextMeshProUGUI>();
         m_Animation = GetComponent<Animation>();
+        m_HintAnimation = transform.Find("HUD/HintText").GetComponent<Animation>();
         GameTimeStopwatch = GetComponent<Stopwatch>();
     }
 
@@ -191,15 +196,21 @@ public class UIManager : MonoBehaviour
 
     public void ShowHint(string hint, float duration)
     {
-        StartCoroutine(ShowHintAnim(hint, duration));
+        if (m_HintRoutine != null)
+        {
+            StopCoroutine(m_HintRoutine);
+            m_HintAnimation.Stop();
+            m_Hint.SetText("");
+        }
+        m_HintRoutine = StartCoroutine(ShowHintAnim(hint, duration));
     }
 
     private IEnumerator ShowHintAnim(string hint, float duration)
     {
         m_Hint.SetText(hint);
-        m_Animation.Play("HintIn");
+        m_HintAnimation.Play("HintIn");
         yield return new WaitForSeconds(duration);
-        m_Animation.Play("HintOut");
+        m_HintAnimation.Play("HintOut");
     }
 
     public void SetVignetteIntensity(float intensity, float dur, bool fadeToOriginal=false)
