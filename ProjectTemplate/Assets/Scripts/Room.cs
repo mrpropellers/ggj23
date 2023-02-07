@@ -165,7 +165,6 @@ public class Room : MonoBehaviour
                 humanToKill.Animator.SetTrigger("other_kill");
             }
 
-            // TODO: need to pass goal position
             humanToKill.PrepareKill(m_HauntType);
 
             return humanToKill;

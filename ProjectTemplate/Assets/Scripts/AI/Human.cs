@@ -264,13 +264,18 @@ namespace Humans
         {
             Killed = true;
             GetComponent<NavMeshAgent>().isStopped = true;
-            HumanManager.UpdateOccupancy(CurrentTask, false);
-            GetComponent<NavMeshAgent>().enabled = false;
+            if (hauntType == HauntType.Kitchen || hauntType == HauntType.LivingRoom)
+            {
+                GetComponent<NavMeshAgent>().enabled = false;
+            }
             StartCoroutine(MoveToKill(hauntType));
         }
 
         public void Kill(float killTime, HauntType hauntType)
         {
+            Debug.Log($"not allowikng current task {HumanDataScriptableObject.HauntToNeed[hauntType]}");
+            HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], true);
+            // TODO: recalculate goals?
             StartCoroutine(Deactivate(killTime, hauntType));
             UIManager.Instance.KillHuman(m_HumanName);
             HumanManager.Instance.CheckGameOver();
@@ -303,25 +308,31 @@ namespace Humans
                 time -= 8f;
             }
             yield return new WaitForSeconds(time);
+            HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], false);
             // blastoff!
-            GetComponent<Animator>().enabled = false;
-            var rb = GetComponent<Rigidbody>();
-            rb.isKinematic = false;
-            rb.useGravity = true;
-            switch (hauntType)
+            if (hauntType == HauntType.Kitchen || hauntType == HauntType.LivingRoom)
             {
-                case HauntType.LivingRoom:
-                    rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
-                    break;
-                case HauntType.Kitchen:
-                    rb.AddForce((-transform.right) * 10f , ForceMode.Impulse);
-                    break;
-                case HauntType.Bathroom:
-                case HauntType.Bedroom:
-                    gameObject.SetActive(false);
-                    break;
+                GetComponent<Animator>().enabled = false;
+                var rb = GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                rb.useGravity = true;
+                switch (hauntType)
+                {
+                    case HauntType.LivingRoom:
+                        rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
+                        break;
+                    case HauntType.Kitchen:
+                        rb.AddForce((-transform.right) * 10f , ForceMode.Impulse);
+                        break;
+                }
+
+                this.enabled = false;
             }
-            this.enabled = false;
+            else
+            {
+                gameObject.SetActive(false);
+            }
+
         }
 
         // DEBUG
