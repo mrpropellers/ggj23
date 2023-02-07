@@ -4,6 +4,7 @@ using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MenuHandler : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class MenuHandler : MonoBehaviour
 
     [SerializeField]
     StudioEventEmitter m_TitleMusic;
-    
+
     private bool m_IsGameStarted;
 
     private void Awake()
@@ -133,9 +134,9 @@ public class MenuHandler : MonoBehaviour
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName(FmodHelper.PARAM_BGM_VOLUME, volume);
     }
 
-    public void SetSfxVolume(float volume)
+    public void SetSfxVolume(Slider volumeSlider)
     {
-        FMODUnity.RuntimeManager.StudioSystem.setParameterByName(FmodHelper.PARAM_SFX_VOLUME, volume);
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName(FmodHelper.PARAM_SFX_VOLUME, volumeSlider.normalizedValue);
     }
 
     public void ToggleDithering ()
