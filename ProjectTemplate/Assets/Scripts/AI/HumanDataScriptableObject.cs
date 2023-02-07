@@ -29,6 +29,8 @@ namespace Humans
         public HumanNeed FirstNeed;
         public const float MaxFear = 100f;
         public float CurrentFear;
+        public float FearDecrementHealthy = 0.001f;
+        public float FearDecrementDanger = 0.002f;
         private HumanNeed m_LastHaunted;
         private Dictionary<HauntType, float> m_FearPerRoom;
         private static Dictionary<HauntType, HumanNeed> m_HauntToNeed = new()
@@ -102,6 +104,11 @@ namespace Humans
                     need.CurrentValue -= need.CurrentRate;
                 }
             }
+
+            if (CurrentFear > 0)
+            {
+                CurrentFear -= CurrentFear < 70 ? FearDecrementHealthy : FearDecrementDanger;
+            }
         }
 
         /// <returns>True if fear is maxed!</returns>
@@ -117,7 +124,6 @@ namespace Humans
 
             if (CurrentFear >= MaxFear)
             {
-                Debug.Log($"{Name} is fully spooked!");
                 return true;
             }
 
