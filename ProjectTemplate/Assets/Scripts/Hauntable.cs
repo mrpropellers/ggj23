@@ -47,6 +47,8 @@ public class Hauntable : MonoBehaviour
     private List<Material> m_Mats = new List<Material>();
     private bool m_Hovering;
 
+    public bool IsKill => m_IsKillMove;
+
     private void Awake()
     {
         TryGetComponent<KillAnimationHelper>(out m_KillHelper);

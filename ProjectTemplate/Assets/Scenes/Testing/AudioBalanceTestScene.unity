@@ -994,6 +994,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0d41ec9d271a4f449e1f960d216eb73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_BgmAttenuationWhenPeeking: 0.25
+  m_BgmAttenuationWhenRooting: 0.5
+  m_BgmAttenuationWhenKilling: 0.8
+  m_BgmAttenuationTime: 2
   m_CameraHorizontalLook: 30
 --- !u!4 &42583775
 Transform:
@@ -3394,7 +3398,7 @@ PrefabInstance:
     - target: {fileID: 4948540030753115023, guid: 54d1e1915a2df6c4f9773b2d4501aa88,
         type: 3}
       propertyPath: m_PathPosition
-      value: 2.950611
+      value: 5.843814
       objectReference: {fileID: 0}
     - target: {fileID: 4948540030942003396, guid: 54d1e1915a2df6c4f9773b2d4501aa88,
         type: 3}
@@ -3404,22 +3408,22 @@ PrefabInstance:
     - target: {fileID: 4948540031048506342, guid: 54d1e1915a2df6c4f9773b2d4501aa88,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8135251
+      value: 0.30127847
       objectReference: {fileID: 0}
     - target: {fileID: 4948540031048506342, guid: 54d1e1915a2df6c4f9773b2d4501aa88,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.21300499
+      value: 0.07345548
       objectReference: {fileID: 0}
     - target: {fileID: 4948540031048506342, guid: 54d1e1915a2df6c4f9773b2d4501aa88,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.5234696
+      value: 0.9236461
       objectReference: {fileID: 0}
     - target: {fileID: 4948540031048506342, guid: 54d1e1915a2df6c4f9773b2d4501aa88,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.13705987
+      value: -0.22519657
       objectReference: {fileID: 0}
     - target: {fileID: 4948540031048506343, guid: 54d1e1915a2df6c4f9773b2d4501aa88,
         type: 3}
@@ -30852,7 +30856,7 @@ MonoBehaviour:
     OrthographicSize: 5
     NearClipPlane: 0.1
     FarClipPlane: 5000
-    Dutch: 1.519925
+    Dutch: 3.961071
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
@@ -37227,7 +37231,7 @@ MonoBehaviour:
     OrthographicSize: 5
     NearClipPlane: 0.1
     FarClipPlane: 5000
-    Dutch: -0.7903714
+    Dutch: -0.8699648
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
@@ -41980,8 +41984,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823688464}
-  m_LocalRotation: {x: 0.21300499, y: -0.5234696, z: 0.13705987, w: 0.8135251}
-  m_LocalPosition: {x: 37.232788, y: 23, z: -16.952888}
+  m_LocalRotation: {x: 0.07345548, y: 0.9236461, z: -0.22519657, w: 0.30127847}
+  m_LocalPosition: {x: -26.158205, y: 23, z: 35.83114}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42783,7 +42787,7 @@ MonoBehaviour:
     OrthographicSize: 5
     NearClipPlane: 0.1
     FarClipPlane: 5000
-    Dutch: 0.5379535
+    Dutch: -7.627596
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2

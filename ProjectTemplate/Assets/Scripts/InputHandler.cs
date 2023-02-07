@@ -1,3 +1,4 @@
+using GGJ23.Audio;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
@@ -11,6 +12,24 @@ public class InputHandler : MonoBehaviour
     public Hauntable CurrentHauntableObject { get; set; }
     public bool FreezeControls { get; set; }
     public bool IsMoving => Vector2.Distance(MovementInput, Vector2.zero) < Mathf.Epsilon;
+    float m_BgmAttenuateDirection;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    float m_BgmAttenuationWhenPeeking = 0.3f;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    float m_BgmAttenuationWhenRooting = 0.5f;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    float m_BgmAttenuationWhenKilling = 0.8f;
+
+    [SerializeField]
+    [Range(0f, 5f)]
+    float m_BgmAttenuationTime = 2f;
+
 
     [SerializeField]
     private float m_CameraHorizontalLook = 1f;
@@ -40,6 +59,12 @@ public class InputHandler : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
+                        var bgmAttenuation = CurrentHauntableObject.IsKill
+                            ? m_BgmAttenuationWhenKilling
+                            : m_BgmAttenuationWhenRooting;
+                        StartCoroutine(FmodHelper.AttenuateBgmTo(
+                            bgmAttenuation, m_BgmAttenuationTime));
+
                         CurrentHauntableObject.Haunt();
                     }
                     else if (Input.GetKeyDown(KeyCode.D))
@@ -55,6 +80,8 @@ public class InputHandler : MonoBehaviour
                 if (Input.GetMouseButtonDown(1))
                 {
                     LookingInside = false;
+                    FmodHelper.SetPlayerIsSneaking(true);
+                    StartCoroutine(FmodHelper.AttenuateBgmTo(0f, m_BgmAttenuationTime));
                     CurrentWindow.StopLooking();
                     UIManager.Instance.StatsTransitions(true);
                 }
@@ -62,16 +89,21 @@ public class InputHandler : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     CurrentWindow.Room.GrowRoots();
+                    StartCoroutine(FmodHelper.AttenuateBgmTo(m_BgmAttenuationWhenRooting, m_BgmAttenuationTime));
                 }
                 else if (Input.GetKeyUp(KeyCode.Space))
                 {
                     CurrentWindow.Room.StopGrowingRoots();
+                    StartCoroutine(FmodHelper.AttenuateBgmTo(m_BgmAttenuationWhenPeeking, m_BgmAttenuationTime));
                 }
             }
             else
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    FmodHelper.SetPlayerIsSneaking(false);
+                    StartCoroutine(
+                        FmodHelper.AttenuateBgmTo(m_BgmAttenuationWhenPeeking, m_BgmAttenuationTime));
                     LookingInside = true;
                     CurrentWindow.LookInside();
                     UIManager.Instance.StatsTransitions(false);
