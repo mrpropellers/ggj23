@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{67ec3e62-f8e6-47ba-b281-c95a759f9b1f}">
 		<property name="name">
-			<value>Gourmondo_Sleep</value>
+			<value>Gourmando_Sleep</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -59,7 +59,7 @@
 			<destination>{64bd9e1d-5dc5-4c07-a242-b664ef2d9347}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{50b1809c-1b87-42ba-96e9-c85848c44e35}</destination>
+			<destination>{8d37a33d-bb6c-4d4d-90f3-34c5abab34b2}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{27f8ebe2-aaa1-4ce6-8e41-ff88188566bc}" />
@@ -135,6 +135,16 @@
 	</object>
 	<object class="MixerBusPanner" id="{531f7114-7c51-4512-a245-4a005952d7ec}" />
 	<object class="MixerBusFader" id="{9f7e3079-ffc2-4945-9c0b-e2d2309e4aa5}" />
-	<object class="SpatialiserEffect" id="{372552f4-9004-456a-af16-cdb4c3b0e621}" />
+	<object class="SpatialiserEffect" id="{372552f4-9004-456a-af16-cdb4c3b0e621}">
+		<property name="minimumDistance">
+			<value>3</value>
+		</property>
+		<property name="maximumDistance">
+			<value>30</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{6f14606a-b8d6-4cc5-9a84-b40b752df74c}" />
 </objects>

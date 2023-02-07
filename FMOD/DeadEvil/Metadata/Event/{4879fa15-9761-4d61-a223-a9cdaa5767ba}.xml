@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{4879fa15-9761-4d61-a223-a9cdaa5767ba}">
 		<property name="name">
-			<value>Gourmondo_Scream</value>
+			<value>Gourmando_Scream</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -59,7 +59,7 @@
 			<destination>{503872fc-81a6-4175-bee5-52a7eaaf8e93}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{50b1809c-1b87-42ba-96e9-c85848c44e35}</destination>
+			<destination>{8d37a33d-bb6c-4d4d-90f3-34c5abab34b2}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{900ffab9-0894-40b8-b446-5086e004f449}" />
@@ -80,6 +80,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{107aeb8b-3620-46e7-b728-e2ffface10a6}">
+		<property name="volume">
+			<value>-2</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{fedb4cf9-c5ad-4044-9863-17d1f380fe4d}</destination>
 		</relationship>
@@ -135,6 +138,16 @@
 	</object>
 	<object class="MixerBusPanner" id="{76de05cc-4e1e-4ff9-8312-2bc478662a45}" />
 	<object class="MixerBusFader" id="{14a4ac00-1ea6-4168-8224-6654391a69f9}" />
-	<object class="SpatialiserEffect" id="{599cf778-1cbd-483b-aebc-b78b7cb3ad0c}" />
+	<object class="SpatialiserEffect" id="{599cf778-1cbd-483b-aebc-b78b7cb3ad0c}">
+		<property name="minimumDistance">
+			<value>5</value>
+		</property>
+		<property name="maximumDistance">
+			<value>50</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{c287eafa-35ad-45fb-a22c-ef3d44b72db4}" />
 </objects>

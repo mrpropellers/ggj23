@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{f078025b-b6e4-4f3d-9181-e9ebabdb329e}">
 		<property name="name">
-			<value>Kat_Curious</value>
+			<value>CuriousKat_Curious</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -34,6 +34,9 @@
 		<relationship name="parameters">
 			<destination>{fd91d7c6-6b6a-44b7-874f-3d237e7a138a}</destination>
 		</relationship>
+		<relationship name="banks">
+			<destination>{0d7ec525-4b08-4c5f-b295-90589b6ffe7f}</destination>
+		</relationship>
 	</object>
 	<object class="EventMixer" id="{5b6d9a34-03a0-4b61-8707-5969f5cab0a9}">
 		<relationship name="masterBus">
@@ -56,7 +59,7 @@
 			<destination>{f12fd4b6-5c4d-46c8-b0c8-03a257a6f0d9}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{50b1809c-1b87-42ba-96e9-c85848c44e35}</destination>
+			<destination>{8d37a33d-bb6c-4d4d-90f3-34c5abab34b2}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{9dc5f165-c7de-4e9d-9fa6-5244ba297996}" />
@@ -132,6 +135,13 @@
 	</object>
 	<object class="MixerBusPanner" id="{b6fc4821-b994-4a75-961a-11027459649a}" />
 	<object class="MixerBusFader" id="{19886378-b9ab-4378-b662-d5ab1a0d6749}" />
-	<object class="SpatialiserEffect" id="{d98a0d25-99cd-4b02-88a2-563eb33e16cf}" />
+	<object class="SpatialiserEffect" id="{d98a0d25-99cd-4b02-88a2-563eb33e16cf}">
+		<property name="maximumDistance">
+			<value>10</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{eb30d674-8cf6-44ec-b134-06cac92f2d60}" />
 </objects>
