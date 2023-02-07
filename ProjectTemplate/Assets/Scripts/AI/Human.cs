@@ -258,13 +258,13 @@ namespace Humans
             m_HumanData.RefillNeed(CurrentTask);
         }
 
-        public void PrepareKill()
+        public void PrepareKill(HauntType hauntType)
         {
             Killed = true;
             GetComponent<NavMeshAgent>().isStopped = true;
-            //HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
             HumanManager.UpdateOccupancy(CurrentTask, false);
-            StartCoroutine(MoveToKill());
+            GetComponent<NavMeshAgent>().enabled = false;
+            StartCoroutine(MoveToKill(hauntType));
         }
 
         public void Kill(float killTime)
@@ -274,28 +274,36 @@ namespace Humans
             HumanManager.Instance.CheckGameOver();
         }
 
-        public IEnumerator MoveToKill()
+        public IEnumerator MoveToKill(HauntType hauntType)
         {
-            Debug.Log($"start MoveToKill");
             var start = transform.position;
+            var goalTaskPos = m_NeedsRoomTx[HumanDataScriptableObject.HauntToNeed[hauntType]].position;
             var t = 0f;
             var len = 1f;
             while (t <= 1)
             {
                 t += Time.deltaTime / len;
-                transform.position = Vector3.Lerp(start, m_NeedsRoomTx[CurrentTask].position, t);
+                transform.position = Vector3.Lerp(start, goalTaskPos, t);
                 yield return null;
             }
             if (BaseState.NeedToHardcodeRotation.TryGetValue(CurrentTask, out var rot))
             {
                 transform.rotation = Quaternion.Euler(rot);
             }
+
+            transform.position = goalTaskPos;
         }
 
         private IEnumerator Deactivate(float time)
         {
             yield return new WaitForSeconds(time);
-            gameObject.SetActive(false);
+            // blastoff!
+            GetComponent<Animator>().enabled = false;
+            var rb = GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
+            this.enabled = false;
         }
 
         // DEBUG

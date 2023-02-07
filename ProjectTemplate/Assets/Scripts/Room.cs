@@ -27,8 +27,7 @@ public class Room : MonoBehaviour
 
     public static Dictionary<HauntType, string> k_HauntCharacterAnim = new()
     {
-        { HauntType.Bathroom,"toilet_kill" }, { HauntType.Bedroom, "bed_kill" },
-        //{ HumanNeed.Curious, new Vector3(0, 180, 0) }, { HumanNeed.Hunger, new Vector3(0, 270, 0) },
+        { HauntType.Bathroom,"toilet_kill" }, { HauntType.Bedroom, "bed_kill" }
     };
 
     private void Start()
@@ -164,22 +163,24 @@ public class Room : MonoBehaviour
             {
                 humanToKill.Animator.SetTrigger("other_kill");
             }
-            humanToKill.PrepareKill();
+
+            // TODO: need to pass goal position
+            humanToKill.PrepareKill(m_HauntType);
 
             return humanToKill;
         }
         return null;
     }
 
-    public void BeginKillMoveHaunt(Human humanToKill)
+    public void BeginKillMoveHaunt(Human humanToKill, float hauntLength)
     {
         // Call human death anim
-        if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out var val))
+        if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out _))
         {
             humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
         }
-        // TODO: pass kill time
-        humanToKill.Kill(10f);
+        // TODO: tune shorten kill time
+        humanToKill.Kill(hauntLength);
     }
 
     private void OnTriggerEnter(Collider other)

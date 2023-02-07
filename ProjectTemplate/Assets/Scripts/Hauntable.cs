@@ -161,7 +161,7 @@ public class Hauntable : MonoBehaviour
 
         if (m_IsKillMove)
         {
-            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(human);
+            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(human, m_FramingCamHauntDuration);
             if (m_KillHelper != null) // if bed or toilet kill
             {
                 m_KillHelper.TriggerKill();
