@@ -13,6 +13,9 @@ public class GameplayManager : MonoBehaviour
     [field: SerializeField]
     public GameObject NPCFollowCam { get; private set; }
 
+    [field: SerializeField]
+    public int GameLength { get; private set; } = 240;
+
     [SerializeField]
     private float m_PassiveEnergyGain = 0.2f;
 

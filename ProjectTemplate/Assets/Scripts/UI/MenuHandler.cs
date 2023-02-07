@@ -64,7 +64,7 @@ public class MenuHandler : MonoBehaviour
         IsGamePaused = false;
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
-        GameStateText.text = "resume";
+        UIManager.Instance.GameTimeStopwatch.Begin();
     }
 
     void Resume ()
@@ -74,6 +74,7 @@ public class MenuHandler : MonoBehaviour
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
         IsGamePaused = false;
+        UIManager.Instance.GameTimeStopwatch.Unpause();
     }
 
     void Pause ()
@@ -82,9 +83,11 @@ public class MenuHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         if (!MainMenuUi.activeSelf){
+            GameStateText.text = "resume";
             MainMenuUi.SetActive(true);
             UIManager.Instance.MenuTransitions(true);
             IsGamePaused = true;
+            UIManager.Instance.GameTimeStopwatch.Pause();
         }
     }
 
