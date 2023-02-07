@@ -60,6 +60,11 @@ public class GrowingRoot : MonoBehaviour
         {
             m_GrowthAmount = Mathf.Clamp(m_GrowthAmount, 0f, 1f);
             Contort();
+
+            if (1 - m_GrowthAmount < 0.05f)
+            {
+                m_GrowthAmount = 1f;
+            }
         }
     }
 

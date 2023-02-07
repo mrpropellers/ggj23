@@ -54,7 +54,7 @@ public class Room : MonoBehaviour
     private void FixedUpdate()
     {
         if (!LookingInRoom) return;
-        if (m_Growing && GameplayManager.Instance.SpendFearJuice(GameplayManager.Instance.GrowRootSpeed) && !m_HauntablesUnlockOrder[^1].Unlocked)
+        if (m_Growing && GameplayManager.Instance.SpendFearJuice(GameplayManager.Instance.GrowRootCost) && !m_HauntablesUnlockOrder[^1].Unlocked)
         {
             for (int i = 0; i < m_HauntablesUnlockOrder.Length; i++)
             {
