@@ -67,13 +67,14 @@ public class Hauntable : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            GameplayManager.Instance.ScreenShake();
-        }
-
         if (m_Hovering && Unlocked)
         {
+            if (!UIManager.Instance.m_ShownHauntablePrompt)
+            {
+                UIManager.Instance.ShowHint("[click] to haunt them...", 4);
+                UIManager.Instance.m_ShownHauntablePrompt = true;
+            }
+
             foreach (Material mat in m_Mats)
             {
                 mat.SetColor("_EmissiveColor", Color.red * 6);
@@ -152,7 +153,6 @@ public class Hauntable : MonoBehaviour
         Humans.Human human = null;
         if (m_IsKillMove)
         {
-            // TODO: place human first
             human = InputHandler.Instance.CurrentWindow.Room.PrepareKillMoveHaunt(transform);
         }
 
@@ -162,9 +162,8 @@ public class Hauntable : MonoBehaviour
 
         if (m_IsKillMove)
         {
-            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(human);
-            // TODO: check bed/toilet
-            if (m_KillHelper != null)
+            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(human, m_FramingCamHauntDuration);
+            if (m_KillHelper != null) // if bed or toilet kill
             {
                 m_KillHelper.TriggerKill();
             }
@@ -190,5 +189,14 @@ public class Hauntable : MonoBehaviour
 
         m_FramingCam.SetActive(false);
         InputHandler.Instance.FreezeControls = false;
+
+        if (!UIManager.Instance.m_ShownHauntCompletedPrompt)
+        {
+            UIManager.Instance.m_ShownHauntCompletedPrompt = true;
+            UIManager.Instance.ShowHint("you scared them... keep haunting them to kill them", 5);
+
+            yield return new WaitForSeconds(3f);
+            UIManager.Instance.ShowHint("when you're done here, [right click] to leave...", 5);
+        }
     }
 }

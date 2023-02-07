@@ -1,4 +1,5 @@
 using GGJ23.Audio;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -72,6 +73,13 @@ public class MenuHandler : MonoBehaviour
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
         UIManager.Instance.GameTimeStopwatch.Begin();
+        StartCoroutine(WaitForInitialPrompt());
+    }
+
+    private IEnumerator WaitForInitialPrompt()
+    {
+        yield return new WaitForSeconds(1.5f);
+        UIManager.Instance.ShowHint("kill them all...", 3);
     }
 
     void Resume ()
@@ -103,7 +111,6 @@ public class MenuHandler : MonoBehaviour
         Debug.Log("Exiting Game!");
         Application.Quit();
     }
-
 
     #region OptionMenuRegion
 

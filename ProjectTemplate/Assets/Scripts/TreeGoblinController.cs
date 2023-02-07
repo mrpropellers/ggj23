@@ -29,6 +29,7 @@ public class TreeGoblinController : MonoBehaviour
     private readonly string k_MoveAnim = "moving";
     private bool m_WasMoving;
     private bool m_WasRight;
+    private bool m_FirstWindow;
 
     private void Start()
     {
@@ -90,6 +91,12 @@ public class TreeGoblinController : MonoBehaviour
         if (other.CompareTag("Window"))
         {
             InputHandler.Instance.CurrentWindow = other.GetComponent<Window>();
+
+            if (!m_FirstWindow)
+            {
+                m_FirstWindow = true;
+                UIManager.Instance.ShowHint("[click] to peer inside...", 3);
+            }
         }
     }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Humans;
 using UnityEngine;
 
@@ -13,6 +11,7 @@ public class Escape : MonoBehaviour
             // TODO:
             Debug.Log($"{other.transform.parent.name} escaped!");
             other.GetComponent<Human>().Escaped = true;
+            UIManager.Instance.HumanEscaped(other.GetComponent<Human>().NameOfHuman);
             HumanManager.Instance.CheckGameOver();
             other.transform.parent.gameObject.SetActive(false);
         }

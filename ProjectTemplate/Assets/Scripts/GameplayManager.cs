@@ -36,7 +36,8 @@ public class GameplayManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        m_FearEnergy = Mathf.Clamp(m_FearEnergy + m_PassiveEnergyGain, 0f, 100f);
+        if (!MenuHandler.IsGamePaused)
+            m_FearEnergy = Mathf.Clamp(m_FearEnergy + m_PassiveEnergyGain, 0f, 100f);
     }
 
     public bool SpendFearJuice(float juiceToSpend)

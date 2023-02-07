@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using Knife.HDRPOutline.Core;
 #if UNITY_EDITOR // for Handles.Label debugging
 using UnityEditor;
 #endif
@@ -22,7 +23,6 @@ namespace Humans
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Human : MonoBehaviour
     {
-        // TODO: tune this
         public static readonly float k_DistThreshold = 0.6f;
 
         public readonly static float WalkSpeed = 2f;
@@ -50,7 +50,9 @@ namespace Humans
 
         [SerializeField]
         private HumanName m_HumanName = HumanName.Sleepyhead;
+        public HumanName NameOfHuman => m_HumanName;
 
+        public bool Hauntable = true;
         public bool Escaped { get; set; }
         public bool Killed { get; private set; }
 
@@ -61,6 +63,7 @@ namespace Humans
         private HumanNeed m_TaskLastFrame;
         private NavMeshAgent m_Agent;
         private bool m_LastPausedState;
+        private bool m_Escaping;
 
         private void Awake()
         {
@@ -79,7 +82,7 @@ namespace Humans
             if (m_CurrentState != null)
             {
                 m_CurrentState.Enter(isEscaping: false);
-                UIManager.Instance.HumanThought(m_HumanName, m_HumanData.FirstNeed);
+                UIManager.Instance.HumanThought(m_HumanName, m_HumanData.FirstNeed, false);
             }
 
             m_Agent = GetComponent<NavMeshAgent>();
@@ -126,9 +129,11 @@ namespace Humans
                     m_CurrentState.UpdateLogic();
                 }
 
-                if (CurrentTask != m_TaskLastFrame)
+                // UI updating
+                UIManager.Instance.SetCardiogramFear(m_HumanName, m_HumanData.CurrentFear / 100f);
+                if (CurrentTask != m_TaskLastFrame && !m_Escaping)
                 {
-                    UIManager.Instance.HumanThought(m_HumanName, CurrentTask);
+                    UIManager.Instance.HumanThought(m_HumanName, CurrentTask, m_Escaping);
                 }
 
                 m_TaskLastFrame = CurrentTask;
@@ -157,15 +162,6 @@ namespace Humans
 
             m_CurrentState = newState;
             m_CurrentState.Enter(isEscaping);
-
-            if (newState == HauntedState || isHaunted || isEscaping)
-            {
-                UIManager.Instance.HumanInDanger(m_HumanName);
-            }
-            else if (!Animator.GetBool(BaseState.NeedToAnimName[HumanNeed.Haunted]) && m_HumanData.CurrentFear < 70)
-            {
-                UIManager.Instance.HumanHealthy(m_HumanName);
-            }
         }
 
         private BaseState GetInitialState()
@@ -175,6 +171,8 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
+            Hauntable = false;
+            RefillNeed(haunted: true, HumanDataScriptableObject.HauntToNeed[haunt]); // Discourage npc from coming back too soon
             TaskBeforeHaunt = CurrentTask;
             HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
             m_TargetFollowPoint.position = m_NeedsRoomTx[HumanNeed.Haunted].position;
@@ -191,7 +189,9 @@ namespace Humans
 
         public void BeginEscape()
         {
-            StartCoroutine(RunAwayCamera());
+            m_Escaping = true;
+            UIManager.Instance.HumanThought(m_HumanName, CurrentTask, m_Escaping);
+            StartCoroutine(RunAwayCamera()); // TODO: Follow this person!!!
             Transform closestEscape = m_Escapes[0];
             NavMeshPath temp = new NavMeshPath();
             float minDist = Int32.MaxValue;
@@ -248,49 +248,84 @@ namespace Humans
             m_HumanData.PauseAllNeeds(pause);
         }
 
-        public void RefillNeed()
+        public void RefillNeed(bool haunted = false, HumanNeed hauntedRoom = HumanNeed.Error)
         {
+            if (haunted)
+            {
+                m_HumanData.RefillNeed(hauntedRoom);
+                return;
+            }
             m_HumanData.RefillNeed(CurrentTask);
         }
 
-        public void PrepareKill()
+        public void PrepareKill(HauntType hauntType)
         {
             Killed = true;
             GetComponent<NavMeshAgent>().isStopped = true;
-            //HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
-            HumanManager.UpdateOccupancy(CurrentTask, false);
-            StartCoroutine(MoveToKill());
+            if (hauntType == HauntType.Kitchen || hauntType == HauntType.LivingRoom)
+            {
+                GetComponent<NavMeshAgent>().enabled = false;
+            }
+            StartCoroutine(MoveToKill(hauntType));
         }
 
-        public void Kill(float killTime)
+        public void Kill(float killTime, HauntType hauntType)
         {
-            StartCoroutine(Deactivate(killTime));
+            HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], true);
+            // TODO: recalculate goals?
+            StartCoroutine(Deactivate(killTime, hauntType));
             UIManager.Instance.KillHuman(m_HumanName);
             HumanManager.Instance.CheckGameOver();
         }
 
-        public IEnumerator MoveToKill()
+        public IEnumerator MoveToKill(HauntType hauntType)
         {
-            Debug.Log($"start MoveToKill");
             var start = transform.position;
+            var goalTaskPos = m_NeedsRoomTx[HumanDataScriptableObject.HauntToNeed[hauntType]].position;
             var t = 0f;
             var len = 1f;
             while (t <= 1)
             {
                 t += Time.deltaTime / len;
-                transform.position = Vector3.Lerp(start, m_NeedsRoomTx[CurrentTask].position, t);
+                transform.position = Vector3.Lerp(start, goalTaskPos, t);
                 yield return null;
             }
             if (BaseState.NeedToHardcodeRotation.TryGetValue(CurrentTask, out var rot))
             {
                 transform.rotation = Quaternion.Euler(rot);
             }
+
+            transform.position = goalTaskPos;
         }
 
-        private IEnumerator Deactivate(float time)
+        private IEnumerator Deactivate(float time, HauntType hauntType)
         {
+            GetComponentInChildren<OutlineObject>().enabled = false;
+            if (hauntType == HauntType.Kitchen)
+            {
+                time -= 8f;
+            }
             yield return new WaitForSeconds(time);
-            gameObject.SetActive(false);
+            HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], false);
+            // blastoff!
+            if (hauntType == HauntType.Kitchen || hauntType == HauntType.LivingRoom)
+            {
+                GetComponent<Animator>().enabled = false;
+                var rb = GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                rb.useGravity = true;
+                switch (hauntType)
+                {
+                    case HauntType.LivingRoom:
+                        rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
+                        break;
+                    case HauntType.Kitchen:
+                        rb.AddForce((-transform.right) * 10f , ForceMode.Impulse);
+                        break;
+                }
+            }
+            this.enabled = false;
+            // TODO: turn off outline object
         }
 
         // DEBUG

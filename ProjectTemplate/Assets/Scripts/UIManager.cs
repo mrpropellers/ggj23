@@ -32,7 +32,11 @@ public class UIManager : MonoBehaviour
     private Animation m_Animation;
     private Vignette m_Vignette;
     private Image m_FearMeter;
+    private TextMeshProUGUI m_Hint;
     private TextMeshProUGUI m_TimeLeft;
+
+    public bool m_ShownHauntablePrompt { get; set; }
+    public bool m_ShownHauntCompletedPrompt { get; set; }
 
     private float m_DefaultVignetteIntensity;
 
@@ -53,6 +57,7 @@ public class UIManager : MonoBehaviour
 
         m_FearMeter = transform.Find("HUD/FearMeter/FearMeterBar").GetComponent<Image>();
         m_TimeLeft = transform.Find("HUD/TimeRemaining").GetComponent<TextMeshProUGUI>();
+        m_Hint = transform.Find("HUD/HintText").GetComponent<TextMeshProUGUI>();
         m_Animation = GetComponent<Animation>();
         GameTimeStopwatch = GetComponent<Stopwatch>();
     }
@@ -149,25 +154,29 @@ public class UIManager : MonoBehaviour
         thoughts.HeadEmpty();
     }
 
-    public void HumanInDanger(HumanName humanName)
+    public void HumanEscaped(HumanName humanName)
+    {
+        var portrait = transform.Find($"HUD/{humanName}Stats/Portrait");
+        var portraitComponent = portrait.GetComponent<HumanPortrait>();
+        portraitComponent.Escape();
+
+        var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
+        var animateHealth = cardiogram.GetComponent<AnimateHealth>();
+        animateHealth.Escaped();
+    }
+
+    public void SetCardiogramFear(HumanName humanName, float fear)
     {
         var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
         var animateHealth = cardiogram.GetComponent<AnimateHealth>();
-        animateHealth.Danger();
+        animateHealth.SetFear(fear);
     }
 
-    public void HumanHealthy(HumanName humanName)
-    {
-        var cardiogram = transform.Find($"HUD/{humanName}Stats/Cardiogram");
-        var animateHealth = cardiogram.GetComponent<AnimateHealth>();
-        animateHealth.Healthy();
-    }
-
-    public void HumanThought(HumanName humanName, HumanNeed need)
+    public void HumanThought(HumanName humanName, HumanNeed need, bool escape)
     {
         var thought = transform.Find($"HUD/{humanName}Stats/ThoughtBubble");
         var thoughts = thought.GetComponent<Thoughts>();
-        thoughts.HaveNewThought(need);
+        thoughts.HaveNewThought(need, escape);
     }
 
     public void StatsTransitions(bool inAnim)
@@ -178,6 +187,19 @@ public class UIManager : MonoBehaviour
     public void MenuTransitions(bool inAnim)
     {
         m_Animation.Play(inAnim ? "MainMenuIn" : "MainMenuOut");
+    }
+
+    public void ShowHint(string hint, float duration)
+    {
+        StartCoroutine(ShowHintAnim(hint, duration));
+    }
+
+    private IEnumerator ShowHintAnim(string hint, float duration)
+    {
+        m_Hint.SetText(hint);
+        m_Animation.Play("HintIn");
+        yield return new WaitForSeconds(duration);
+        m_Animation.Play("HintOut");
     }
 
     public void SetVignetteIntensity(float intensity, float dur, bool fadeToOriginal=false)

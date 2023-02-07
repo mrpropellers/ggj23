@@ -9,10 +9,16 @@ public class AnimateHealth : MonoBehaviour
     private Sprite[] m_HealthyFrames;
 
     [SerializeField]
-    private Sprite[] m_DangerFrames;
+    private Color m_HealthyColor;
+
+    [SerializeField]
+    private Color m_ScaredColor;
 
     [SerializeField]
     private Sprite m_DeadFrame;
+
+    [SerializeField]
+    private Sprite m_EscapedFrame;
 
     [SerializeField]
     private float m_TimeBetweenHealthyFrames;
@@ -21,8 +27,9 @@ public class AnimateHealth : MonoBehaviour
     private float m_TimeBetweenDangerFrames;
 
     private Image m_Image;
-    private bool m_Healthy = true;
+    private float m_Fear;
     private bool m_Dead;
+    private bool m_Escaped;
 
     private void OnEnable()
     {
@@ -39,21 +46,21 @@ public class AnimateHealth : MonoBehaviour
             if (m_Dead)
             {
                 m_Image.sprite = m_DeadFrame;
+                m_Image.color = Color.white;
                 yield break;
             }
 
-            if (m_Healthy)
+            if (m_Escaped)
             {
-                m_Image.sprite = m_HealthyFrames[frame];
-                frame = (frame + 1) % m_HealthyFrames.Length;
-                yield return new WaitForSeconds(m_TimeBetweenHealthyFrames);
+                m_Image.sprite = m_EscapedFrame;
+                m_Image.color = Color.white;
+                yield break;
             }
-            else
-            {
-                m_Image.sprite = m_DangerFrames[frame];
-                frame = (frame + 1) % m_DangerFrames.Length;
-                yield return new WaitForSeconds(m_TimeBetweenDangerFrames);
-            }
+
+            m_Image.sprite = m_HealthyFrames[frame];
+            m_Image.color = Color.Lerp(m_HealthyColor, m_ScaredColor, m_Fear);
+            frame = (frame + 1) % m_HealthyFrames.Length;
+            yield return new WaitForSeconds(Mathf.Lerp(m_TimeBetweenHealthyFrames, m_TimeBetweenDangerFrames, m_Fear));
         }
     }
 
@@ -62,13 +69,13 @@ public class AnimateHealth : MonoBehaviour
         m_Dead = true;
     }
 
-    public void Danger()
+    public void Escaped()
     {
-        m_Healthy = false;
+        m_Escaped = true;
     }
 
-    public void Healthy()
+    public void SetFear(float normalizedFear)
     {
-        m_Healthy = true;
+        m_Fear = normalizedFear;
     }
 }

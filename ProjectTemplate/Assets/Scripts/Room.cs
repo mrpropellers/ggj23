@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Humans;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     public bool LookingInRoom { get; set; }
+    public bool HasHauntableHumans => m_HauntableHumans.Count > 0;
 
     [SerializeField, Tooltip("All hauntable objects, in visual order from left to right")]
     private Hauntable[] m_Hauntables;
@@ -26,8 +28,7 @@ public class Room : MonoBehaviour
 
     public static Dictionary<HauntType, string> k_HauntCharacterAnim = new()
     {
-        { HauntType.Bathroom,"toilet_kill" }, { HauntType.Bedroom, "bed_kill" },
-        //{ HumanNeed.Curious, new Vector3(0, 180, 0) }, { HumanNeed.Hunger, new Vector3(0, 270, 0) },
+        { HauntType.Bathroom,"toilet_kill" }, { HauntType.Bedroom, "bed_kill" }
     };
 
     private void Start()
@@ -159,42 +160,52 @@ public class Room : MonoBehaviour
         if (closestHuman != null)
         {
             var humanToKill = closestHuman.GetComponent<Human>();
-            // Call human death anim
-            if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out var val))
+            if (!k_HauntCharacterAnim.ContainsKey(m_HauntType))
             {
-                humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
-            }
-            else
-            {
-                // TODO: omg sorry
-                humanToKill.Animator.SetBool("walking", false);
-                humanToKill.Animator.SetBool("running", false);
-                humanToKill.Animator.SetBool("eat", false);
-                humanToKill.Animator.SetBool("read", false);
-                humanToKill.Animator.SetBool("sleep", false);
-                humanToKill.Animator.SetBool("toilet", false);
-                humanToKill.Animator.SetBool("jump", false);
-                //humanToKill.Animator.SetBool("scared", false);
                 humanToKill.Animator.SetTrigger("other_kill");
             }
-            humanToKill.PrepareKill();
+
+            humanToKill.PrepareKill(m_HauntType);
 
             return humanToKill;
         }
         return null;
     }
 
-    public void BeginKillMoveHaunt(Human humanToKill)
+    public void BeginKillMoveHaunt(Human humanToKill, float hauntLength)
     {
-        // TODO: pass kill time
-        humanToKill.Kill(10f);
+        // Call human death anim
+        if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out _))
+        {
+            humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
+        }
+        humanToKill.Kill(hauntLength, m_HauntType);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("AI"))
         {
-            m_HauntableHumans.Add(other.gameObject);
+            var human = other.GetComponent<Human>();
+            if (human.Hauntable)
+            {
+                m_HauntableHumans.Add(other.gameObject);
+            }
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("AI"))
+        {
+            var human = other.GetComponent<Human>();
+            if (!human.Hauntable)
+            {
+                if (m_HauntableHumans.Contains(other.gameObject))
+                {
+                    m_HauntableHumans.Remove(other.gameObject);
+                }
+            }
         }
     }
 

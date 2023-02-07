@@ -59,13 +59,20 @@ public class InputHandler : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        var bgmAttenuation = CurrentHauntableObject.IsKill
-                            ? m_BgmAttenuationWhenKilling
-                            : m_BgmAttenuationWhenRooting;
-                        StartCoroutine(FmodHelper.AttenuateBgmTo(
-                            bgmAttenuation, m_BgmAttenuationTime));
+                        if (CurrentWindow.Room.HasHauntableHumans)
+                        {
+                            var bgmAttenuation = CurrentHauntableObject.IsKill
+                                ? m_BgmAttenuationWhenKilling
+                                : m_BgmAttenuationWhenRooting;
+                            StartCoroutine(FmodHelper.AttenuateBgmTo(
+                                bgmAttenuation, m_BgmAttenuationTime));
 
-                        CurrentHauntableObject.Haunt();
+                            CurrentHauntableObject.Haunt();
+                        }
+                        else
+                        {
+                            // TODO: no hauntable humans!
+                        }
                     }
                     else if (Input.GetKeyDown(KeyCode.D))
                     {
