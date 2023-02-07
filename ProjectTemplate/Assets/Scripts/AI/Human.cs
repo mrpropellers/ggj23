@@ -59,6 +59,8 @@ namespace Humans
         public bool Continue;
 
         private HumanNeed m_TaskLastFrame;
+        private NavMeshAgent m_Agent;
+        private bool m_LastPausedState;
 
         private void Awake()
         {
@@ -79,6 +81,8 @@ namespace Humans
                 m_CurrentState.Enter(isEscaping: false);
                 UIManager.Instance.HumanThought(m_HumanName, m_HumanData.FirstNeed);
             }
+
+            m_Agent = GetComponent<NavMeshAgent>();
         }
 
         public void Initialize(WaypointsDict waypoints)
@@ -99,6 +103,20 @@ namespace Humans
         {
             if (!Killed)
             {
+                if (MenuHandler.IsGamePaused && !m_LastPausedState)
+                {
+                    m_Agent.isStopped = true;
+                }
+
+                if (!MenuHandler.IsGamePaused && m_LastPausedState)
+                {
+                    m_Agent.isStopped = false;
+                }
+
+                m_LastPausedState = MenuHandler.IsGamePaused;
+
+                if (m_LastPausedState) return;
+
                 // Needs fulfilment
                 m_HumanData.UpdateNeeds();
 

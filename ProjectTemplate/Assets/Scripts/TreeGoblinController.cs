@@ -37,7 +37,7 @@ public class TreeGoblinController : MonoBehaviour
 
     private void Update()
     {
-        if (InputHandler.Instance.LookingInside)
+        if (InputHandler.Instance.LookingInside || MenuHandler.IsGamePaused)
         {
             m_DollyCart.m_Speed = 0f;
         }

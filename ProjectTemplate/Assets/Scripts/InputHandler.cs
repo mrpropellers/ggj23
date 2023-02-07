@@ -44,7 +44,7 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-        if (FreezeControls) return;
+        if (FreezeControls || MenuHandler.IsGamePaused) return;
 
         MovementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         m_MouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
