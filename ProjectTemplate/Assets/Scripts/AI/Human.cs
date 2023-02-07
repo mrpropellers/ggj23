@@ -50,6 +50,7 @@ namespace Humans
         [SerializeField]
         private HumanName m_HumanName = HumanName.Sleepyhead;
 
+        public bool Hauntable = true;
         public bool Escaped { get; set; }
         public bool Killed { get; private set; }
 
@@ -174,6 +175,7 @@ namespace Humans
 
         public void BeginHaunt(float amount, HauntType haunt)
         {
+            Hauntable = false;
             RefillNeed(haunted: true, HumanDataScriptableObject.HauntToNeed[haunt]); // Discourage npc from coming back too soon
             TaskBeforeHaunt = CurrentTask;
             HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
@@ -267,9 +269,9 @@ namespace Humans
             StartCoroutine(MoveToKill(hauntType));
         }
 
-        public void Kill(float killTime)
+        public void Kill(float killTime, HauntType hauntType)
         {
-            StartCoroutine(Deactivate(killTime));
+            StartCoroutine(Deactivate(killTime, hauntType));
             UIManager.Instance.KillHuman(m_HumanName);
             HumanManager.Instance.CheckGameOver();
         }
@@ -294,15 +296,31 @@ namespace Humans
             transform.position = goalTaskPos;
         }
 
-        private IEnumerator Deactivate(float time)
+        private IEnumerator Deactivate(float time, HauntType hauntType)
         {
+            if (hauntType == HauntType.Kitchen)
+            {
+                time -= 10f;
+            }
             yield return new WaitForSeconds(time);
             // blastoff!
             GetComponent<Animator>().enabled = false;
             var rb = GetComponent<Rigidbody>();
             rb.isKinematic = false;
             rb.useGravity = true;
-            rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
+            switch (hauntType)
+            {
+                case HauntType.LivingRoom:
+                    rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
+                    break;
+                case HauntType.Kitchen:
+                    rb.AddForce((-transform.right) * 10f , ForceMode.Impulse);
+                    break;
+                case HauntType.Bathroom:
+                case HauntType.Bedroom:
+                    gameObject.SetActive(false);
+                    break;
+            }
             this.enabled = false;
         }
 

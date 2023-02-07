@@ -83,7 +83,7 @@ namespace Humans
             m_Human.Animator.SetBool("walking", true);
             if (isEscaping) // Set to "scared" anim
             {
-                m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], true); 
+                m_Human.Animator.SetBool(NeedToAnimName[HumanNeed.Haunted], true);
             }
         }
 
@@ -100,6 +100,7 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
+            m_Human.Hauntable = true;
             m_Human.Animator.SetBool("walking", false);
         }
     }

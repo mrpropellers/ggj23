@@ -179,8 +179,7 @@ public class Room : MonoBehaviour
         {
             humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
         }
-        // TODO: tune shorten kill time
-        humanToKill.Kill(hauntLength);
+        humanToKill.Kill(hauntLength, m_HauntType);
     }
 
     private void OnTriggerEnter(Collider other)
