@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using Knife.HDRPOutline.Core;
 #if UNITY_EDITOR // for Handles.Label debugging
 using UnityEditor;
 #endif
@@ -299,6 +300,7 @@ namespace Humans
 
         private IEnumerator Deactivate(float time, HauntType hauntType)
         {
+            GetComponentInChildren<OutlineObject>().enabled = false;
             if (hauntType == HauntType.Kitchen)
             {
                 time -= 8f;
@@ -323,6 +325,7 @@ namespace Humans
                 }
             }
             this.enabled = false;
+            // TODO: turn off outline object
         }
 
         // DEBUG
