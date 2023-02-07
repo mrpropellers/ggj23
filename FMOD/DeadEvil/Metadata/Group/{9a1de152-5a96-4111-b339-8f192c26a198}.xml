@@ -4,6 +4,9 @@
 		<property name="name">
 			<value>BGMCompressed</value>
 		</property>
+		<relationship name="automators">
+			<destination>{db37fb8a-0693-41f6-b05d-1b2f58d7cfef}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{4c143af4-d657-479b-8b2d-d0923db8822a}</destination>
 		</relationship>
@@ -14,6 +17,14 @@
 			<destination>{62bca021-6c45-4ede-ada6-945f37e8ea26}</destination>
 		</relationship>
 	</object>
+	<object class="Automator" id="{db37fb8a-0693-41f6-b05d-1b2f58d7cfef}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>volume</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{39445a98-8c84-4021-b469-81820db4b754}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{4c143af4-d657-479b-8b2d-d0923db8822a}">
 		<relationship name="effects">
 			<destination>{3de88692-6ce7-47c2-b944-87edb8c49e91}</destination>
@@ -21,6 +32,15 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{2ff58157-f47b-4b43-ad16-47778e1856e0}" />
+	<object class="AutomationCurve" id="{39445a98-8c84-4021-b469-81820db4b754}">
+		<relationship name="parameter">
+			<destination>{0013bcb7-1f1c-4f86-804c-9f25d6b15b73}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{02fcb9b5-9af0-4132-b77c-0de9c42cfa5d}</destination>
+			<destination>{2a397e8f-553e-48bb-9eee-c26126989e24}</destination>
+		</relationship>
+	</object>
 	<object class="CompressorEffect" id="{3de88692-6ce7-47c2-b944-87edb8c49e91}">
 		<property name="threshold">
 			<value>-12</value>
@@ -51,6 +71,22 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{01fc4cfe-287d-441d-9a1e-4f1f4b006e0d}" />
+	<object class="AutomationPoint" id="{02fcb9b5-9af0-4132-b77c-0de9c42cfa5d}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>-80</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{2a397e8f-553e-48bb-9eee-c26126989e24}">
+		<property name="position">
+			<value>0.99293785310734461</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+	</object>
 	<object class="Automator" id="{63eb8b60-5ffb-49f4-acae-3dbd1604b5c9}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>ratio</value>

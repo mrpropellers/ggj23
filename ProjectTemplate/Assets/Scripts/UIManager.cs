@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
+using GGJ23.Audio;
 using Humans;
 using TMPro;
 using UnityEngine;
@@ -28,6 +30,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField, Range(1f, 100f)]
     private float m_FearMeterSmoothSpeed = 10f;
+
+    [SerializeField]
+    StudioEventEmitter m_NewspaperStingEmitter;
 
     private Animation m_Animation;
     private Vignette m_Vignette;
@@ -128,7 +133,10 @@ public class UIManager : MonoBehaviour
         transform.Find("Newspaper/Subheading").GetComponent<TextMeshProUGUI>().SetText(subheading);
         transform.Find("Newspaper/ArticleBody").GetComponent<TextMeshProUGUI>().SetText(body);
 
+        StartCoroutine(FmodHelper.AttenuateBgmTo(.9f, 1f));
+
         m_Animation.Play("NewspaperIn");
+        m_NewspaperStingEmitter.Play();
 
         StartCoroutine(RestartGame());
     }

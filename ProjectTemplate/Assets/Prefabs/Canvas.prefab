@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 362181451620519356}
   - component: {fileID: 362181451620519353}
   - component: {fileID: 5148264403469071279}
+  - component: {fileID: 1013947809721553504}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Volume: {fileID: 0}
   m_FearMeterSmoothSpeed: 20
+  m_NewspaperStingEmitter: {fileID: 9209558651734284293}
 --- !u!111 &362181451620519353
 Animation:
   m_ObjectHideFlags: 0
@@ -155,6 +157,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2442f6bd44658344bba474a121ff8a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1013947809721553504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362181451620519347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -416090434
+      Data2: 1128927478
+      Data3: 1842497936
+      Data4: 38072167
+    Path: event:/Title Music
+  Event: 
+  PlayEvent: 1
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &362181451661125494
 GameObject:
   m_ObjectHideFlags: 0
@@ -3256,6 +3288,7 @@ GameObject:
   - component: {fileID: 362181452719946858}
   - component: {fileID: 362181452719946868}
   - component: {fileID: 362181452719946859}
+  - component: {fileID: 9209558651734284293}
   m_Layer: 5
   m_Name: Newspaper
   m_TagString: Untagged
@@ -3327,6 +3360,36 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9209558651734284293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362181452719946857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1553248167
+      Data2: 1124221239
+      Data3: -331818821
+      Data4: 1544035999
+    Path: event:/End Game Sting
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 0
+  TriggerOnce: 0
+  Preload: 1
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &362181452791482931
 GameObject:
   m_ObjectHideFlags: 0
@@ -4257,6 +4320,7 @@ MonoBehaviour:
   m_EventSystem: {fileID: 665107739492932534}
   m_DitheringShader: {fileID: 0}
   m_StartCamera: {fileID: 0}
+  m_TitleMusic: {fileID: 1013947809721553504}
 --- !u!1 &362181453366681543
 GameObject:
   m_ObjectHideFlags: 0

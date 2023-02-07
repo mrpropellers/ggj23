@@ -16,6 +16,7 @@ namespace GGJ23.Audio
         // This straight up kills the music
         public const string PARAM_BGM_VOLUME = "BgmVolume";
         public const string PARAM_SFX_VOLUME = "SfxVolume";
+        public const string PARAM_INGAME_BGM_VOLUME = "InGameBgmVolume";
 
         static float s_CurrentAttenuateTarget;
 
@@ -50,6 +51,9 @@ namespace GGJ23.Audio
         {
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName(PARAM_IS_SNEAKING, isSneaking ? 1f : 0f);
         }
+
+        public static void TurnOnInGameMusic() =>
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName(PARAM_INGAME_BGM_VOLUME, 1f);
 
         // 0 - no attenuation
         // 1 - max attenuation (NOTE: this doesn't fully mute, just makes it very quiet)

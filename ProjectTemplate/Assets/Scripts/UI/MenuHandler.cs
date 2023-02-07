@@ -1,5 +1,6 @@
 using GGJ23.Audio;
 using System.Collections;
+using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,6 +25,9 @@ public class MenuHandler : MonoBehaviour
     [SerializeField]
     private GameObject m_StartCamera;
 
+    [SerializeField]
+    StudioEventEmitter m_TitleMusic;
+
     private void Awake()
     {
         IsGamePaused = true;
@@ -45,7 +49,7 @@ public class MenuHandler : MonoBehaviour
 
         if (IsGamePaused)
         {
-            Debug.Log(m_EventSystem.currentSelectedGameObject);
+            //Debug.Log(m_EventSystem.currentSelectedGameObject);
             if (m_EventSystem.currentSelectedGameObject == null)
             {
                 m_EventSystem.SetSelectedGameObject(m_LastSelectedObject);
@@ -67,7 +71,9 @@ public class MenuHandler : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-
+        m_TitleMusic.Stop();
+        FmodHelper.TurnOnInGameMusic();
+        StartCoroutine(FmodHelper.AttenuateBgmTo(0f, 4f));
         IsGamePaused = false;
         m_StartCamera.SetActive(false);
         // MainMenuUi.SetActive(false);
