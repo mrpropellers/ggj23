@@ -176,7 +176,6 @@ namespace Humans
         public void BeginHaunt(float amount, HauntType haunt)
         {
             Hauntable = false;
-            Debug.Log("hauntable false");
             RefillNeed(haunted: true, HumanDataScriptableObject.HauntToNeed[haunt]); // Discourage npc from coming back too soon
             TaskBeforeHaunt = CurrentTask;
             HumanManager.UpdateOccupancy(TaskBeforeHaunt, false);
@@ -301,7 +300,7 @@ namespace Humans
         {
             if (hauntType == HauntType.Kitchen)
             {
-                time -= 7f;
+                time -= 8f;
             }
             yield return new WaitForSeconds(time);
             // blastoff!

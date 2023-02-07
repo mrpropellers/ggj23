@@ -103,7 +103,6 @@ namespace Humans
             if (!isHaunted)
             {
                 m_Human.Hauntable = true;
-                Debug.Log("hauntable true");
             }
             m_Human.Animator.SetBool("walking", false);
         }
