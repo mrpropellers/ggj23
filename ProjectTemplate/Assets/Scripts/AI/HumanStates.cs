@@ -100,7 +100,11 @@ namespace Humans
         public override void Exit(bool isHaunted)
         {
             base.Exit(isHaunted);
-            m_Human.Hauntable = true;
+            if (!isHaunted)
+            {
+                m_Human.Hauntable = true;
+                Debug.Log("hauntable true");
+            }
             m_Human.Animator.SetBool("walking", false);
         }
     }

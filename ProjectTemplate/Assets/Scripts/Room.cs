@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Humans;
@@ -186,7 +187,26 @@ public class Room : MonoBehaviour
     {
         if (other.CompareTag("AI"))
         {
-            m_HauntableHumans.Add(other.gameObject);
+            var human = other.GetComponent<Human>();
+            if (human.Hauntable)
+            {
+                m_HauntableHumans.Add(other.gameObject);
+            }
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("AI"))
+        {
+            var human = other.GetComponent<Human>();
+            if (!human.Hauntable)
+            {
+                if (m_HauntableHumans.Contains(other.gameObject))
+                {
+                    m_HauntableHumans.Remove(other.gameObject);
+                }
+            }
         }
     }
 
