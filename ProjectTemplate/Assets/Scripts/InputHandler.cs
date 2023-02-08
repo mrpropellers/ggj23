@@ -86,6 +86,11 @@ public class InputHandler : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(1))
                 {
+                    if (UIManager.Instance.IsAnimatingMainMenu)
+                    {
+                        Debug.Log("Can't change the active camera or it will break the menu animation.");
+                        return;
+                    }
                     LookingInside = false;
                     FmodHelper.SetPlayerIsSneaking(true);
                     StartCoroutine(FmodHelper.AttenuateBgmTo(0f, m_BgmAttenuationTime));
@@ -108,6 +113,11 @@ public class InputHandler : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    if (UIManager.Instance.IsAnimatingMainMenu)
+                    {
+                        Debug.Log("Can't change the active camera or it will break the menu animation.");
+                        return;
+                    }
                     FmodHelper.SetPlayerIsSneaking(false);
                     StartCoroutine(
                         FmodHelper.AttenuateBgmTo(m_BgmAttenuationWhenPeeking, m_BgmAttenuationTime));

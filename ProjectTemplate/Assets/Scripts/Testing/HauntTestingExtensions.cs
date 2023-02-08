@@ -25,10 +25,6 @@ namespace GGJ23.Testing
 
             yield return new WaitForSeconds(self.m_HauntWindupTime);
             self.m_Animation.Play();
-            if (self.m_ApplyScreenShake)
-            {
-                yield return new WaitForSeconds(Hauntable.k_ScreenShakeWaitTime);
-            }
 
             yield return new WaitForSeconds(self.m_FramingCamHauntDuration);
             self.m_FramingCam.SetActive(false);

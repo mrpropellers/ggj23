@@ -10,6 +10,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public class UIManager : MonoBehaviour
 {
@@ -23,6 +24,12 @@ public class UIManager : MonoBehaviour
         { 3, "THREE" }
     };
 
+    struct HintEntry
+    {
+        internal string Hint;
+        internal float Duration;
+    }
+
     public Stopwatch GameTimeStopwatch { get; private set; }
 
     [SerializeField]
@@ -34,6 +41,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     StudioEventEmitter m_NewspaperStingEmitter;
 
+    public bool IsAnimatingMainMenu => m_Animation.isPlaying;
+
+    bool m_IsShowingHint;
+    Queue<HintEntry> m_HintQueue;
     private Animation m_Animation;
     private Animation m_HintAnimation;
     private Vignette m_Vignette;
@@ -41,6 +52,10 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI m_Hint;
     private TextMeshProUGUI m_TimeLeft;
 
+    public bool IsShowingAHint => m_IsShowingHint;
+    public bool HasShownHintTooMuchFear { get; private set; }
+    public bool HasShownHintChooseAHaunt { get; private set; }
+    public bool HasShownHintKillHaunt { get; private set; }
     public bool m_ShownHauntablePrompt { get; set; }
     public bool m_ShownHauntCompletedPrompt { get; set; }
     public bool m_ShownSpreadRootsPrompt { get; set; }
@@ -52,6 +67,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        m_HintQueue = new Queue<HintEntry>();
 
         VolumeProfile profile = m_Volume.sharedProfile;
         if (profile.TryGet(out Vignette v))
@@ -138,19 +154,13 @@ public class UIManager : MonoBehaviour
         transform.Find("Newspaper/Subheading").GetComponent<TextMeshProUGUI>().SetText(subheading);
         transform.Find("Newspaper/ArticleBody").GetComponent<TextMeshProUGUI>().SetText(body);
 
-        StartCoroutine(FmodHelper.AttenuateBgmTo(.9f, 1f));
 
         m_Animation.Play("NewspaperIn");
         m_NewspaperStingEmitter.Play();
-
-        StartCoroutine(RestartGame());
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
-    private IEnumerator RestartGame()
-    {
-        yield return new WaitForSeconds(5f);
-        SceneManager.LoadSceneAsync(0);
-    }
 
     public void KillHuman(HumanName humanName)
     {
@@ -197,35 +207,98 @@ public class UIManager : MonoBehaviour
         m_Animation.Play(inAnim ? "StatsIn" : "StatsOut");
     }
 
-    public void MenuTransitions(bool inAnim)
+    public void MenuTransitions(bool shouldTransitionIn)
     {
-        m_Animation.Play(inAnim ? "MainMenuIn" : "MainMenuOut");
+        var animationName = shouldTransitionIn ? "MainMenuIn" : "MainMenuOut";
+        m_Animation.Play(animationName);
 
-        if (m_HintRoutine != null)
+        if (m_IsShowingHint)
         {
             StopCoroutine(m_HintRoutine);
+            m_IsShowingHint = false;
             m_HintAnimation.Stop();
             m_Hint.SetText("");
         }
     }
 
-    public void ShowHint(string hint, float duration)
+    public void ShowHint(string hint, float duration, bool forceNewHint = true)
     {
-        if (m_HintRoutine != null)
+        if (m_IsShowingHint)
         {
-            StopCoroutine(m_HintRoutine);
-            m_HintAnimation.Stop();
-            m_Hint.SetText("");
+            if (forceNewHint)
+            {
+                StopCoroutine(m_HintRoutine);
+                m_HintAnimation.Stop();
+                m_HintQueue.Clear();
+                m_Hint.SetText("");
+            }
+            else
+            {
+                m_HintQueue.Enqueue(new HintEntry()
+                {
+                    Hint = hint,
+                    Duration = duration
+                });
+                return;
+            }
         }
+        m_IsShowingHint = true;
         m_HintRoutine = StartCoroutine(ShowHintAnim(hint, duration));
+    }
+
+    public void ShowHintTooMuchFear()
+    {
+        HasShownHintTooMuchFear = true;
+        ShowHint("a person scared too often may flee...", 3f, false);
+        ShowHint("pay attention to the heart monitors; hunt the calm ones.", 4f, false);
+    }
+
+    public void ShowHintKillHaunt()
+    {
+        HasShownHintKillHaunt = true;
+        var diceRoll = UnityEngine.Random.value;
+        if (diceRoll > 0.9f)
+        {
+            ShowHint("*chanting softly* roots, roots, roots, roots...", 3f);
+            ShowHint("*banging on table* ROOTS, ROOTS, ROOTS, ROOTS!!!", 3f, false);
+        }
+        else if (diceRoll > 0.85f)
+            ShowHint("what! are you doing!! in my swamp!?!?!", 3f);
+        else
+            ShowHint("maim them... mAnGlE tHeM..... KILL THEM!!", 4f);
+    }
+
+    public void ShowHintChooseAHaunt()
+    {
+        HasShownHintChooseAHaunt = true;
+        ShowHint(
+            "use [a] and [d] to choose your haunt...", 4f, true);
     }
 
     private IEnumerator ShowHintAnim(string hint, float duration)
     {
-        m_Hint.SetText(hint);
-        m_HintAnimation.Play("HintIn");
-        yield return new WaitForSeconds(duration);
-        m_HintAnimation.Play("HintOut");
+        if (m_HintAnimation.isPlaying)
+        {
+            Debug.LogWarning("Previous hint animation wasn't stopped before new one started!");
+            m_HintAnimation.Stop();
+        }
+
+        // Pack the first hint up so it looks the same as hints coming out of the queue
+        var currentHint = new HintEntry()
+        {
+            Hint = hint,
+            Duration = duration
+        };
+
+        do
+        {
+            m_Hint.SetText(currentHint.Hint);
+            m_HintAnimation.Play("HintIn");
+            yield return new WaitForSeconds(currentHint.Duration);
+            m_HintAnimation.Play("HintOut");
+            yield return new WaitUntil(() => !m_HintAnimation.isPlaying);
+        } while (m_HintQueue.TryDequeue(out currentHint));
+        m_IsShowingHint = false;
     }
 
     public void SetVignetteIntensity(float intensity, float dur, bool fadeToOriginal=false)

@@ -43,7 +43,7 @@ public class Thoughts : MonoBehaviour
 
     public void HeadEmpty()
     {
-        m_Animation.Play("CloseBubble");
+        m_Animation.PlayQueued("CloseBubble");
     }
 
     private IEnumerator NewThoughtAnim(HumanNeed need, bool escape)
@@ -78,6 +78,6 @@ public class Thoughts : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         m_Thought.sprite = toSet;
-        m_Animation.Play("OpenBubble");
+        m_Animation.PlayQueued("OpenBubble");
     }
 }

@@ -330,7 +330,7 @@
 			<value>3</value>
 		</property>
 		<property name="polyphony">
-			<value>3</value>
+			<value>2</value>
 		</property>
 		<property name="soundStealing">
 			<value>3</value>
@@ -342,7 +342,7 @@
 			<value>1</value>
 		</property>
 		<property name="spawnRate">
-			<value>40</value>
+			<value>74</value>
 		</property>
 		<property name="minimumScatterDistance">
 			<value>0</value>

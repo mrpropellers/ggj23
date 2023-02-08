@@ -270,13 +270,13 @@ namespace Humans
             StartCoroutine(MoveToKill(hauntType));
         }
 
-        public void Kill(float killTime, HauntType hauntType)
+        public void Kill(float killTime, HauntType hauntType, Hauntable activeHaunt)
         {
             HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], true);
             // TODO: recalculate goals?
             StartCoroutine(Deactivate(killTime, hauntType));
             UIManager.Instance.KillHuman(m_HumanName);
-            HumanManager.Instance.CheckGameOver();
+            HumanManager.Instance.CheckGameOver(() => activeHaunt.HauntActuallyCompletedForReal);
         }
 
         public IEnumerator MoveToKill(HauntType hauntType)
@@ -309,24 +309,26 @@ namespace Humans
             yield return new WaitForSeconds(time);
             HumanManager.UpdateOccupancy(HumanDataScriptableObject.HauntToNeed[hauntType], false);
             // blastoff!
-            if (hauntType == HauntType.Kitchen || hauntType == HauntType.LivingRoom)
-            {
-                GetComponent<Animator>().enabled = false;
-                var rb = GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.useGravity = true;
-                switch (hauntType)
-                {
-                    case HauntType.LivingRoom:
-                        rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
-                        break;
-                    case HauntType.Kitchen:
-                        rb.AddForce((-transform.right) * 10f , ForceMode.Impulse);
-                        break;
-                }
-            }
             this.enabled = false;
             // TODO: turn off outline object
+        }
+
+        // To be invoked by the Hauntable from its Animation controller
+        public void DeathFling(HauntType hauntType)
+        {
+            GetComponent<Animator>().enabled = false;
+            var rb = GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            switch (hauntType)
+            {
+                case HauntType.LivingRoom:
+                    rb.AddForce((-transform.forward + transform.up) * 10f , ForceMode.Impulse);
+                    break;
+                case HauntType.Kitchen:
+                    rb.AddForce((-transform.right) * 10f , ForceMode.Impulse);
+                    break;
+            }
         }
 
         // DEBUG

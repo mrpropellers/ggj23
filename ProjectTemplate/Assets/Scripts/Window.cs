@@ -81,5 +81,7 @@ public class Window : MonoBehaviour
         Room.LookingInRoom = false;
         m_LookCam.gameObject.SetActive(false);
         UIManager.Instance.SetVignetteIntensity(0f, 2f, true);
+        if (!UIManager.Instance.HasShownHintTooMuchFear)
+            UIManager.Instance.ShowHintTooMuchFear();
     }
 }

@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FMODUnity;
+using GGJ23.Audio;
 using Humans;
 using UnityEngine;
 
@@ -8,6 +11,8 @@ public class Room : MonoBehaviour
 {
     public bool LookingInRoom { get; set; }
     public bool HasHauntableHumans => m_HauntableHumans.Count > 0;
+    public bool HasUnlockableHaunts => !m_HauntablesUnlockOrder[^1].Unlocked;
+    public bool HasAtLeastTwoUsableHaunts => m_Hauntables.Count(h => h.Unlocked && !h.HauntCompleted) > 1;
 
     [SerializeField, Tooltip("All hauntable objects, in visual order from left to right")]
     private Hauntable[] m_Hauntables;
@@ -53,8 +58,15 @@ public class Room : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!LookingInRoom) return;
-        if (m_Growing && GameplayManager.Instance.SpendFearJuice(GameplayManager.Instance.GrowRootCost) && !m_HauntablesUnlockOrder[^1].Unlocked)
+        if (!LookingInRoom || !m_Growing) return;
+        if (!HasUnlockableHaunts)
+        {
+            Debug.Log($"No more Haunts to unlock in {name}, not growing more roots.");
+            StopGrowingRoots();
+            return;
+        }
+
+        if (GameplayManager.Instance.SpendFearJuice(GameplayManager.Instance.GrowRootCost))
         {
             for (int i = 0; i < m_HauntablesUnlockOrder.Length; i++)
             {
@@ -68,13 +80,18 @@ public class Room : MonoBehaviour
 
     public void GrowRoots()
     {
-        // TODO: Start playing SFX
+        if (m_HauntablesUnlockOrder[^1].Unlocked)
+        {
+            Debug.Log($"All hauntables in {name} are unlocked, not growing any more roots.");
+            return;
+        }
+        FmodHelper.PlayRootGrowingSound();
         m_Growing = true;
     }
 
     public void StopGrowingRoots()
     {
-        // TODO: Stop playing SFX
+        FmodHelper.StopRootGrowingSound();
         m_Growing = false;
     }
 
@@ -112,10 +129,46 @@ public class Room : MonoBehaviour
 
     public void UnlockHauntable(Hauntable unlocked)
     {
+        if (!unlocked.Unlocked)
+        {
+            Debug.LogWarning($"{unlocked.name} should already be unlocked when passed here! " +
+                $"May create extra root sounds.");
+        }
+
+        if (!UIManager.Instance.HasShownHintChooseAHaunt && HasAtLeastTwoUsableHaunts)
+        {
+            // NOTE: If they unlock a lot of haunts in one room we may queue up multiple hints, but
+            //       presumably only one will win the race, the rest should quietly exit
+            if (UIManager.Instance.IsShowingAHint)
+                StartCoroutine(WaitToShowMultiHauntHint());
+            else
+                UIManager.Instance.ShowHintChooseAHaunt();
+        }
+        else if (!UIManager.Instance.HasShownHintKillHaunt && !HasUnlockableHaunts)
+            UIManager.Instance.ShowHintKillHaunt();
+
+
         if (m_SelectedHauntable == null){
             m_SelectedHauntable = m_HauntablesLinkedList.Find(unlocked);
         }
+
+        if (m_Growing && HasUnlockableHaunts)
+        {
+            // TODO: We should attenuate out the previous emitter, if it's still active
+            FmodHelper.PlayRootGrowingSound();
+        }
     }
+
+    IEnumerator WaitToShowMultiHauntHint()
+    {
+        yield return new WaitUntil(() => !LookingInRoom ||
+            (!UIManager.Instance.IsShowingAHint && !InputHandler.Instance.FreezeControls));
+        if (!LookingInRoom || UIManager.Instance.HasShownHintChooseAHaunt || !HasAtLeastTwoUsableHaunts)
+            Debug.Log("Missed our chance to show the hint! Hopefully they got it somewhere else...");
+        else
+            UIManager.Instance.ShowHintChooseAHaunt();
+    }
+
 
     public virtual void RemoveHauntable(Hauntable completed)
     {
@@ -172,14 +225,16 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    public void BeginKillMoveHaunt(Human humanToKill, float hauntLength)
+    public void BeginKillMoveHaunt(Hauntable activeHaunt, Human humanToKill, float hauntLength)
     {
+        if (m_HauntType == HauntType.Kitchen || m_HauntType == HauntType.LivingRoom)
+            activeHaunt.SetDeathFlingType(m_HauntType);
         // Call human death anim
         if (k_HauntCharacterAnim.TryGetValue(m_HauntType, out _))
         {
             humanToKill.Animator.SetTrigger(k_HauntCharacterAnim[m_HauntType]);
         }
-        humanToKill.Kill(hauntLength, m_HauntType);
+        humanToKill.Kill(hauntLength, m_HauntType, activeHaunt);
     }
 
     private void OnTriggerEnter(Collider other)

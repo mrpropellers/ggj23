@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using Cinemachine;
+using GGJ23.Audio;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
@@ -57,15 +59,17 @@ public class GameplayManager : MonoBehaviour
         m_FearEnergy = Mathf.Clamp(m_FearEnergy + juiceToAdd, 0f, 100f);
     }
 
-    public void GameOver(int killed, int escaped)
+    public void GameOver(int killed, int escaped, Func<bool> gameActuallyOver)
     {
-        StartCoroutine(GameOverAnim(killed, escaped));
+        StartCoroutine(GameOverAnim(killed, escaped, gameActuallyOver));
     }
 
-    private IEnumerator GameOverAnim(int killed, int escaped)
+    private IEnumerator GameOverAnim(int killed, int escaped, Func<bool> gameActuallyOver)
     {
+        yield return new WaitUntil(gameActuallyOver);
         InputHandler.Instance.FreezeControls = true;
-        yield return new WaitForSeconds(10f);
+        StartCoroutine(FmodHelper.AttenuateBgmTo(1f, 0.5f));
+        //yield return new WaitForSeconds(6f);
         UIManager.Instance.ShowNewspaper(killed, escaped);
     }
 

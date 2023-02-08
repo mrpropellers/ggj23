@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using FMOD;
+using FMODUnity;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -19,6 +20,45 @@ namespace GGJ23.Audio
         public const string PARAM_INGAME_BGM_VOLUME = "InGameBgmVolume";
 
         static float s_CurrentAttenuateTarget;
+
+        static GameObject s_FmodManager;
+        static StudioEventEmitter s_RootGrowthEmitter;
+
+        static bool TryGetManager(out GameObject manager)
+        {
+            if (s_FmodManager == null)
+            {
+                var bankLoader = GameObject.FindObjectOfType<StudioBankLoader>();
+                if (bankLoader == null)
+                {
+                    manager = null;
+                    return false;
+                }
+
+                s_FmodManager = bankLoader.gameObject;
+            }
+
+            manager = s_FmodManager;
+            return true;
+        }
+
+        static bool TryGetRootEventEmitter(out StudioEventEmitter emitter)
+        {
+            if (!TryGetManager(out var manager))
+            {
+                emitter = null;
+                return false;
+            }
+
+            var hasEmitter = s_RootGrowthEmitter != null;
+            if (!hasEmitter)
+            {
+                hasEmitter = manager.TryGetComponent(out s_RootGrowthEmitter);
+            }
+
+            emitter = s_RootGrowthEmitter;
+            return hasEmitter;
+        }
 
         public static bool CheckFmodResult(string thingAttempted, RESULT result, bool isError = true)
         {
@@ -87,6 +127,28 @@ namespace GGJ23.Audio
                         FMODUnity.RuntimeManager.StudioSystem.setParameterByName(PARAM_BG_ATTENUATE, val)))
                     yield break;
             }
+        }
+
+        public static void PlayRootGrowingSound()
+        {
+            if (!TryGetRootEventEmitter(out var emitter))
+            {
+                Debug.LogWarning("Couldn't find the emitter for the Root sound.");
+                return;
+            }
+
+            emitter.Play();
+        }
+
+        public static void StopRootGrowingSound()
+        {
+            if (!TryGetRootEventEmitter(out var emitter))
+            {
+                Debug.LogWarning("Couldn't find the emitter for the Root sound.");
+                return;
+            }
+
+            emitter.Stop();
         }
     }
 }

@@ -74,7 +74,7 @@ public class HumanManager : MonoBehaviour
         }
     }
 
-    public void CheckGameOver()
+    public void CheckGameOver(Func<bool> gameActuallyOver)
     {
         int killed = 0;
         int escaped = 0;
@@ -92,7 +92,9 @@ public class HumanManager : MonoBehaviour
         }
 
         if (killed + escaped == m_Humans.Length)
-            GameplayManager.Instance.GameOver(killed, escaped);
+        {
+            GameplayManager.Instance.GameOver(killed, escaped, gameActuallyOver);
+        }
     }
 
     public void TimeUp()

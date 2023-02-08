@@ -1,9 +1,11 @@
+using System;
 using GGJ23.Audio;
 using System.Collections;
 using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuHandler : MonoBehaviour
@@ -99,12 +101,14 @@ public class MenuHandler : MonoBehaviour
 
     void Resume ()
     {
+        // Putting stopwatch first because menu animations seem prone to throwing exceptions before getting to the end
+        // of the resume function
+        UIManager.Instance.GameTimeStopwatch.Unpause();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         // MainMenuUi.SetActive(false);
         UIManager.Instance.MenuTransitions(false);
         IsGamePaused = false;
-        UIManager.Instance.GameTimeStopwatch.Unpause();
     }
 
     void Pause ()
@@ -113,12 +117,17 @@ public class MenuHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         if (!MainMenuUi.activeSelf){
+            UIManager.Instance.GameTimeStopwatch.Pause();
             GameStateText.text = "resume";
             MainMenuUi.SetActive(true);
             UIManager.Instance.MenuTransitions(true);
             IsGamePaused = true;
-            UIManager.Instance.GameTimeStopwatch.Pause();
         }
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void ExitGame ()
@@ -143,6 +152,11 @@ public class MenuHandler : MonoBehaviour
     {
         IsDitheringEnabled = !IsDitheringEnabled;
         m_DitheringShader.SetActive(IsDitheringEnabled);
+    }
+
+    public void ToggleFullscreen(Toggle checkbox)
+    {
+        Screen.fullScreen = checkbox.isOn;
     }
 
     #endregion

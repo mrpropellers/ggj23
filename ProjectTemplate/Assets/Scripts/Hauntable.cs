@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GGJ23.Audio;
+using Humans;
 using UnityEngine;
 
 public class Hauntable : MonoBehaviour
@@ -15,6 +16,7 @@ public class Hauntable : MonoBehaviour
     public float RootGrowthAmount { get; private set; }
 
     public bool HauntCompleted { get; internal set; }
+    public bool HauntActuallyCompletedForReal { get; private set; }
 
     [SerializeField]
     private GrowingRoot[] m_Roots;
@@ -30,9 +32,6 @@ public class Hauntable : MonoBehaviour
 
     [SerializeField]
     private bool m_IsKillMove;
-
-    [SerializeField]
-    internal bool m_ApplyScreenShake;
 
     [SerializeField]
     private Material[] m_MatsToSwap;
@@ -51,6 +50,9 @@ public class Hauntable : MonoBehaviour
     private bool m_Hovering;
 
     public bool IsKill => m_IsKillMove;
+
+    HauntType m_DeathFlingType;
+    Human m_HumanBeingKilled;
 
     private void Awake()
     {
@@ -93,6 +95,15 @@ public class Hauntable : MonoBehaviour
 
         m_Hovering = false;
     }
+
+    // Call from the Animation timeline, not code
+    public void DoScreenShake() => GameplayManager.Instance.ScreenShake();
+
+    // NOTE: This is very fragile, lol. If anything changes about order of operations in kill move code, this will
+    //       probably break.
+    public void SetDeathFlingType(HauntType hauntType) => m_DeathFlingType = hauntType;
+    // Now we have a public method to give to the animator, though...
+    public void PerformDeathFling() => m_HumanBeingKilled.DeathFling(m_DeathFlingType);
 
     public void GrowRoots(float amount)
     {
@@ -157,15 +168,15 @@ public class Hauntable : MonoBehaviour
         if (m_IsKillMove)
         {
             human = InputHandler.Instance.CurrentWindow.Room.PrepareKillMoveHaunt(transform);
+            m_HumanBeingKilled = human;
         }
 
         // Wait for camera to get to its place
         yield return new WaitForSeconds(m_HauntWindupTime);
-        GameplayManager.Instance.AddFearJuice(Spookiness);
 
         if (m_IsKillMove)
         {
-            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(human, m_FramingCamHauntDuration);
+            InputHandler.Instance.CurrentWindow.Room.BeginKillMoveHaunt(this, human, m_FramingCamHauntDuration);
             if (m_KillHelper != null) // if bed or toilet kill
             {
                 m_KillHelper.TriggerKill();
@@ -181,27 +192,23 @@ public class Hauntable : MonoBehaviour
             m_Animation.Play();
         }
 
-        if (m_ApplyScreenShake)
-        {
-            yield return new WaitForSeconds(k_ScreenShakeWaitTime);
-            GameplayManager.Instance.ScreenShake();
-        }
-
         // BUG? Should you subtract previous wait durations from this number?
         yield return new WaitForSeconds(dur);
 
         m_FramingCam.SetActive(false);
         InputHandler.Instance.FreezeControls = false;
+        GameplayManager.Instance.AddFearJuice(Spookiness);
         if (m_LightToEnable != null)
             m_LightToEnable.SetActive(true);
 
         if (!UIManager.Instance.m_ShownHauntCompletedPrompt)
         {
             UIManager.Instance.m_ShownHauntCompletedPrompt = true;
-            UIManager.Instance.ShowHint("you scared them... keep haunting to end their life", 8);
-
-            yield return new WaitForSeconds(3f);
-            UIManager.Instance.ShowHint("when you're done here, [right click] to leave...", 8);
+            UIManager.Instance.ShowHint("you scared them, earning you some of their precious fear juice.", 4);
+            UIManager.Instance.ShowHint("use fear juice to grow more roots, and so on...", 3, false);
+            UIManager.Instance.ShowHint("when you're done here, [right click] to leave.", 4, false);
         }
+
+        HauntActuallyCompletedForReal = true;
     }
 }
