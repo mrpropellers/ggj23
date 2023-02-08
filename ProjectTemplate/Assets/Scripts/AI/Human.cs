@@ -375,6 +375,7 @@ namespace Humans
         {
             yield return new WaitForSeconds(3f);
             GameplayManager.Instance.NPCFollowCam.GetComponent<CinemachineVirtualCamera>().Follow = transform;
+            GameplayManager.Instance.NPCFollowCam.GetComponent<CinemachineVirtualCamera>().LookAt = transform;
             GameplayManager.Instance.NPCFollowCam.SetActive(true);
             yield return new WaitForSeconds(3f);
             GameplayManager.Instance.NPCFollowCam.SetActive(false);

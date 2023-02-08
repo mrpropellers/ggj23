@@ -107,6 +107,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowNewspaper(int killed, int escaped)
     {
+        GetComponentInChildren<MenuHandler>().UpdateSelectedButton(transform.Find("Newspaper/Restart").gameObject);
+
         string headline = "";
         string subheading = "When Will the Murders End?";
         string body = "";
