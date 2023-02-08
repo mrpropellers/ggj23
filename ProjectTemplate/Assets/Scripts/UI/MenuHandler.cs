@@ -32,6 +32,7 @@ public class MenuHandler : MonoBehaviour
     StudioEventEmitter m_TitleMusic;
 
     private bool m_IsGameStarted;
+    private GameObject m_LastSelectedButton;
 
     private void Awake()
     {
@@ -63,7 +64,19 @@ public class MenuHandler : MonoBehaviour
             {
                 m_LastSelectedObject = m_EventSystem.currentSelectedGameObject;
             }
+
+            if (m_EventSystem.currentSelectedGameObject != m_LastSelectedButton && m_EventSystem.currentSelectedGameObject.TryGetComponent(out Button btn))
+            {
+                RuntimeManager.PlayOneShot("event:/UI/UI Hover");
+            }
+
+            m_LastSelectedButton = m_EventSystem.currentSelectedGameObject;
         }
+    }
+
+    public void PlayButtonSelectNoise()
+    {
+        RuntimeManager.PlayOneShot("event:/UI/UI Open-Select");
     }
 
     public void UpdateSelectedButton(GameObject newButton)
@@ -127,7 +140,7 @@ public class MenuHandler : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     public void ExitGame ()
